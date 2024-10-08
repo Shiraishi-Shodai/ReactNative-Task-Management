@@ -8,6 +8,7 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
+  // tabやStackの詳しい説明https://reffect.co.jp/react/expo-router
   return (
     <Tabs
       screenOptions={{
@@ -22,6 +23,18 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "home" : "home-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="add-task"
+        options={{
+          title: "Add Task",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "add-circle" : "add-circle-outline"}
               color={color}
             />
           ),

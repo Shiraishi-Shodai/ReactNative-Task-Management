@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
-import Task from "./Task";
+import TaskBar from "./TaskBar";
 
 function TaskList() {
   // TODO: 5つ目のタスクは白枠の...とする
@@ -8,11 +8,12 @@ function TaskList() {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
+        <TaskBar />
+        <TaskBar />
+        <TaskBar />
+        <TaskBar />
+        <TaskBar />
+        <TaskBar />
       </ScrollView>
     </View>
   );
