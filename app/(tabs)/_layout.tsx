@@ -29,7 +29,20 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="add-task"
+        name="home/editTask"
+        options={{
+          title: "edit",
+          href: null,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "home" : "home-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="addTask/index"
         options={{
           title: "Add Task",
           tabBarIcon: ({ color, focused }) => (
@@ -41,7 +54,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="explore/index"
         options={{
           title: "Explore",
           tabBarIcon: ({ color, focused }) => (

@@ -32,10 +32,12 @@
       [
         "expo-font",
         {
-          "fonts": [
-            "@/assets/fonts/NNotoSansJP-Regular.ttf",
-            "@/assets/fonts/SpaceMono-Regular.ttf"
-          ]
+          "Noto-Sans-JP": {
+            "Noto-Sans-JP": "./assets/fonts/NotoSansJP-Regular.ttf"
+          },
+          "SpaceMono": {
+            "SpaceMono": "./assets/fonts/SpaceMono-Regular.ttf"
+          }
         }
       ]
     ],

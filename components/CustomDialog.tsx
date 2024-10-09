@@ -1,4 +1,3 @@
-import { colors } from "@mui/material";
 import React, { ReactElement, useState } from "react";
 import {
   Modal,
@@ -9,6 +8,7 @@ import {
   Image,
   TouchableWithoutFeedback,
 } from "react-native";
+import { Link } from "expo-router";
 
 interface CustomDialogProps {
   modalVisible: boolean;
@@ -18,6 +18,8 @@ export default function CustomDialog({
   modalVisible,
   setModalVisible,
 }: CustomDialogProps): ReactElement {
+  // TODO: COMPLETEDボタンを押したらタスクの状態を完了にする
+  // TODO: DELETEボタンを押したらタスクを削除する
   return (
     <Modal
       animationType="fade"
@@ -28,10 +30,12 @@ export default function CustomDialog({
       <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
         <View style={styles.container}>
           <View style={styles.modalView}>
-            <Image
-              style={styles.editImg}
-              source={require("@/assets/images/edit.png")}
-            />
+            <Link href="/home/editTask" style={styles.editImgLink}>
+              <Image
+                style={styles.editImg}
+                source={require("@/assets/images/edit.png")}
+              />
+            </Link>
             <View style={styles.modalMainView}>
               <Text style={styles.taskNameText}>
                 ReactNativeの基礎文法を学ぶ
@@ -44,7 +48,7 @@ export default function CustomDialog({
                 onPress={() => {}}
               >
                 <Text style={[styles.buttonsText, styles.completedText]}>
-                  completed
+                  COMPLETED
                 </Text>
               </Pressable>
               <Pressable
@@ -52,7 +56,7 @@ export default function CustomDialog({
                 onPress={() => {}}
               >
                 <Text style={[styles.buttonsText, styles.deleteText]}>
-                  delete
+                  DELETE
                 </Text>
               </Pressable>
             </View>
@@ -87,10 +91,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  editImg: {
-    width: 45,
-    height: 45,
+  editImgLink: {
     alignSelf: "flex-end",
+    height: 60,
+    paddingRight: "4%",
+  },
+  editImg: {
+    width: 40,
+    height: 40,
+    alignItems: "center",
   },
 
   completedDeleteButtonView: {

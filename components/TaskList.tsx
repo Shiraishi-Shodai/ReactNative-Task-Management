@@ -3,8 +3,6 @@ import { View, StyleSheet, ScrollView } from "react-native";
 import TaskBar from "./TaskBar";
 
 function TaskList() {
-  // TODO: 5つ目のタスクは白枠の...とする
-  //   TODO: タスクリストをスクロール可能にする
   return (
     <View style={styles.container}>
       <ScrollView>

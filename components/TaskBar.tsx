@@ -9,8 +9,7 @@ interface TaskProps {
 
 function TaskBar() {
   const [modalVisible, setModalVisible] = useState(false);
-  // TODO: タスクをタップしたら、以下の情報をアラート表示
-  // ・タスク名・開始時間・編集ボタン・完了ボタン・削除ボタン
+
   return (
     <>
       <Pressable
