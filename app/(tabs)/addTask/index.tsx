@@ -3,6 +3,12 @@ import React, { useState } from "react";
 import { Text, View, StyleSheet, Button } from "react-native";
 
 const AddTask = () => {
+  // TODO: プラスボタンを押すと、タブを非表示にしてフォームを表示する
+  // TODO: フォームのバリデーションチェックを行う
+  // TODO: エラーメッセージの表示
+  // TODO: Saveボタンを押すとFirebaseにやることを入力
+  // TODO: Cancelボタンを押すと、タブを再表示する
+
   return (
     <View style={styles.container}>
       <View style={styles.taskNameView}>
