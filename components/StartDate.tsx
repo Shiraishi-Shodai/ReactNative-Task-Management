@@ -1,25 +1,41 @@
-import React, { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { Pressable, Text, View, StyleSheet } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePicker, {
+  DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
 
-function StartDate() {
-  const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState(new Date());
+interface StartDateProps {
+  date: Date;
+  setDate: React.Dispatch<React.SetStateAction<Date>>;
+  time: Date;
+  setTime: React.Dispatch<React.SetStateAction<Date>>;
+}
+function StartDate({
+  date,
+  setDate,
+  time,
+  setTime,
+}: StartDateProps): ReactElement {
   const [showDate, setShowDate] = useState(false);
   const [showTime, setShowTime] = useState(false);
 
-  const timeOptions: Intl.DateTimeFormatOptions = {
-    hour: "2-digit",
-    minute: "2-digit",
-  };
-
-  const onDateChange = (e, selectedDate) => {
-    setDate(selectedDate);
+  const onDateChange = (
+    e: DateTimePickerEvent,
+    selectedDate: Date | undefined
+  ) => {
+    if (selectedDate) {
+      setDate(selectedDate);
+    }
     setShowDate(false);
   };
 
-  const onTimeChange = (e, selectedTime) => {
-    setTime(selectedTime);
+  const onTimeChange = (
+    e: DateTimePickerEvent,
+    selectedTime: Date | undefined
+  ) => {
+    if (selectedTime) {
+      setTime(selectedTime);
+    }
     setShowTime(false);
   };
 
@@ -47,11 +63,6 @@ function StartDate() {
         >
           <Text style={styles.selectText}>時間を指定</Text>
         </Pressable>
-      </View>
-      <View style={styles.selectedTimeView}>
-        <Text style={styles.selectedTimeText}>{`${date.toLocaleDateString(
-          "ja-JP"
-        )}  ${time.toLocaleTimeString("ja-JP", timeOptions)}`}</Text>
       </View>
 
       {showDate && (
@@ -97,13 +108,7 @@ const styles = StyleSheet.create({
     fontFamily: "Noto-Sans-JP",
     fontSize: 13,
   },
-  selectedTimeView: {
-    alignItems: "center",
-  },
-  selectedTimeText: {
-    fontFamily: "Noto-Sans-JP",
-    fontSize: 18,
-  },
+
   dateButton: {
     backgroundColor: "red",
   },
