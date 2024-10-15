@@ -1,5 +1,5 @@
 import StartDate from "@/components/StartDate";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Text,
   View,
@@ -13,6 +13,7 @@ import { taskSchema } from "@/lib/form_yup";
 import { Task } from "@/classies/Task";
 import { setTask } from "@/lib/TaskDAO";
 import uuid from "react-native-uuid";
+import { useFocusEffect } from "expo-router";
 
 const AddTask = () => {
   // 日本時間を返す
@@ -22,8 +23,23 @@ const AddTask = () => {
     return JST;
   };
 
-  const [date, setDate] = useState(getJST());
-  const [time, setTime] = useState(getJST());
+  // dateとtimeの更新
+  const changeDateTime = () => {
+    const now = getJST();
+    setDate(now);
+    setTime(now);
+  };
+
+  const now = getJST();
+  const [date, setDate] = useState(now);
+  const [time, setTime] = useState(now);
+
+  // このタブがフォーカスされたらstateのdateとtimeを現在時刻に設定
+  useFocusEffect(
+    useCallback(() => {
+      changeDateTime();
+    }, [])
+  );
 
   const timeOptions: Intl.DateTimeFormatOptions = {
     hour: "2-digit",
@@ -150,8 +166,7 @@ const AddTask = () => {
               <Pressable
                 style={[styles.registerResetButton, styles.resetButton]}
                 onPress={() => {
-                  setDate(getJST());
-                  setTime(getJST());
+                  changeDateTime();
                   resetForm();
                 }}
               >
