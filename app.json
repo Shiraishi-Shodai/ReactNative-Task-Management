@@ -13,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.school.androidapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -44,7 +45,9 @@
     "experiments": {
       "typedRoutes": true
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "extra": {
       "eas": {
         "projectId": "94ce89a7-73da-4591-8437-8e5eab5b32a1"
