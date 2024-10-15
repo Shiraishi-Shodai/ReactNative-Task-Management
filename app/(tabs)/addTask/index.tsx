@@ -11,7 +11,7 @@ import {
 import { Formik } from "formik";
 import { taskSchema } from "@/lib/form_yup";
 import { Task } from "@/classies/Task";
-import { setTask } from "@/lib/TaskDAO";
+import { addTask } from "@/lib/TaskDAO";
 import uuid from "react-native-uuid";
 import { useFocusEffect } from "expo-router";
 
@@ -68,7 +68,7 @@ const AddTask = () => {
             start_date
           );
 
-          setTask(task);
+          addTask(task);
           formkikActions.setSubmitting(false);
           formkikActions.resetForm();
           Alert.alert("Resisterd a task");
@@ -147,22 +147,22 @@ const AddTask = () => {
               style={{ flexDirection: "row", justifyContent: "space-around" }}
             >
               <Pressable
-                style={[styles.registerResetButton, styles.registerButton]}
+                style={[styles.addResetButton, styles.addButton]}
                 onPress={() => handleSubmit()}
               >
-                <Text style={[styles.registerResetText, styles.text]}>
-                  Register a task
+                <Text style={[styles.addResetText, styles.text]}>
+                  Add a task
                 </Text>
               </Pressable>
 
               <Pressable
-                style={[styles.registerResetButton, styles.resetButton]}
+                style={[styles.addResetButton, styles.resetButton]}
                 onPress={() => {
                   changeDateTime();
                   resetForm();
                 }}
               >
-                <Text style={[styles.registerResetText, styles.text]}>
+                <Text style={[styles.addResetText, styles.text]}>
                   Reset Form
                 </Text>
               </Pressable>
@@ -220,15 +220,15 @@ const styles = StyleSheet.create({
     color: "red",
     fontSize: 20,
   },
-  registerResetButton: {
+  addResetButton: {
     width: "45%",
   },
-  registerResetText: {
+  addResetText: {
     fontFamily: "Noto-Sans-JP",
     fontSize: 20,
     textAlign: "center",
   },
-  registerButton: {
+  addButton: {
     backgroundColor: "#22C55E",
   },
   resetButton: {
