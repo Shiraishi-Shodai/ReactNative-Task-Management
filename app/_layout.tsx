@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -33,23 +34,25 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: "#f4511e",
-          },
-        }}
-      >
-        <Stack.Screen
-          name="(tabs)"
-          options={{
-            headerShown: true,
-            title: "TaskMan",
-            headerTitleAlign: "center",
+      <GestureHandlerRootView>
+        <Stack
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: "#f4511e",
+            },
           }}
-        />
-        <Stack.Screen name="+not-found" />
-      </Stack>
+        >
+          <Stack.Screen
+            name="(tabs)"
+            options={{
+              headerShown: true,
+              title: "TaskMan",
+              headerTitleAlign: "center",
+            }}
+          />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+      </GestureHandlerRootView>
     </ThemeProvider>
   );
 }

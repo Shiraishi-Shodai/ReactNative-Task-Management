@@ -41,16 +41,8 @@ const AddTask = () => {
     }, [])
   );
 
-  const timeOptions: Intl.DateTimeFormatOptions = {
-    hour: "2-digit",
-    minute: "2-digit",
-  };
-
   return (
     <View style={styles.container}>
-      <View style={styles.titleView}>
-        <Text style={styles.titleText}>Register a task</Text>
-      </View>
       <Formik
         initialValues={{ name: "", location: "", detail: "" }}
         validationSchema={taskSchema}
@@ -93,51 +85,18 @@ const AddTask = () => {
         }) => (
           <View style={styles.textInputViews}>
             <View style={styles.textInputContainers}>
-              <View style={styles.textInputCommon}>
+              <View style={styles.taskNameView}>
                 <TextInput
                   placeholder="Task Name"
+                  placeholderTextColor="#fff"
                   onChangeText={handleChange("name")}
                   onBlur={handleBlur("name")}
                   value={values.name}
-                  style={styles.taskNameText}
+                  style={[styles.taskNameText, styles.text]}
                 />
               </View>
               {touched.name && errors.name && (
-                <Text style={{ color: "red" }}>{errors.name}</Text>
-              )}
-            </View>
-
-            <View style={styles.textInputContainers}>
-              <View style={styles.textInputCommon}>
-                <TextInput
-                  style={styles.locationText}
-                  placeholder="Location"
-                  onChangeText={handleChange("location")}
-                  onBlur={handleBlur("location")}
-                  value={values.location}
-                />
-              </View>
-              {touched.location && errors.location && (
-                <Text style={{ color: "red" }}>{errors.location}</Text>
-              )}
-            </View>
-
-            <View style={styles.textInputContainers}>
-              <View style={styles.textInputCommon}>
-                <TextInput
-                  placeholder="detail"
-                  onChangeText={handleChange("detail")}
-                  onBlur={handleBlur("detail")}
-                  value={values.detail}
-                  multiline={true}
-                  blurOnSubmit={true} // エンターキーを押すとフォーカスが外れるようにする(multilineをtrueにするとデフォルトでfalseになる)
-                  numberOfLines={6}
-                  textAlignVertical="top"
-                  style={styles.detailText}
-                />
-              </View>
-              {touched.detail && errors.detail && (
-                <Text style={{ color: "red" }}>{errors.detail}</Text>
+                <Text style={styles.errorText}>{errors.name}</Text>
               )}
             </View>
 
@@ -147,10 +106,41 @@ const AddTask = () => {
               time={time}
               setTime={setTime}
             />
-            <View style={styles.selectedTimeView}>
-              <Text style={styles.selectedTimeText}>{`${date.toLocaleDateString(
-                "ja-JP"
-              )}  ${time.toLocaleTimeString("ja-JP", timeOptions)}`}</Text>
+
+            <View style={styles.textInputContainers}>
+              <View style={styles.locationDetailView}>
+                <TextInput
+                  style={[styles.locationText, styles.text]}
+                  placeholder="Location"
+                  placeholderTextColor="#fff"
+                  onChangeText={handleChange("location")}
+                  onBlur={handleBlur("location")}
+                  value={values.location}
+                />
+              </View>
+              {touched.location && errors.location && (
+                <Text style={styles.errorText}>{errors.location}</Text>
+              )}
+            </View>
+
+            <View style={styles.textInputContainers}>
+              <View style={[styles.locationDetailView, styles.detailView]}>
+                <TextInput
+                  placeholder="detail"
+                  placeholderTextColor="#fff"
+                  onChangeText={handleChange("detail")}
+                  onBlur={handleBlur("detail")}
+                  value={values.detail}
+                  multiline={true}
+                  blurOnSubmit={true} // エンターキーを押すとフォーカスが外れるようにする(multilineをtrueにするとデフォルトでfalseになる)
+                  numberOfLines={20}
+                  textAlignVertical="top"
+                  style={[styles.detailText, styles.text]}
+                />
+              </View>
+              {touched.detail && errors.detail && (
+                <Text style={styles.errorText}>{errors.detail}</Text>
+              )}
             </View>
 
             <View
@@ -160,7 +150,9 @@ const AddTask = () => {
                 style={[styles.registerResetButton, styles.registerButton]}
                 onPress={() => handleSubmit()}
               >
-                <Text style={styles.registerResetText}>Register a task</Text>
+                <Text style={[styles.registerResetText, styles.text]}>
+                  Register a task
+                </Text>
               </Pressable>
 
               <Pressable
@@ -170,7 +162,9 @@ const AddTask = () => {
                   resetForm();
                 }}
               >
-                <Text style={styles.registerResetText}>Reset Form</Text>
+                <Text style={[styles.registerResetText, styles.text]}>
+                  Reset Form
+                </Text>
               </Pressable>
             </View>
           </View>
@@ -181,62 +175,58 @@ const AddTask = () => {
 };
 
 const styles = StyleSheet.create({
+  text: {
+    color: "#fff",
+  },
   container: {
     flex: 1,
     backgroundColor: "#151718",
     justifyContent: "center",
     alignItems: "center",
   },
-  titleView: {
-    justifyContent: "center",
-    marginBottom: 40,
-  },
-  titleText: {
-    color: "#fff",
-    fontSize: 50,
-  },
   textInputViews: {
-    width: "80%",
-    borderWidth: 1,
-    padding: 10,
-    justifyContent: "center",
-    backgroundColor: "#fff",
+    width: "95%",
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    justifyContent: "flex-start",
   },
   textInputContainers: {
     marginBottom: 20,
   },
-  textInputCommon: {
-    backgroundColor: "#fff",
-    borderWidth: 2,
+  taskNameView: {
+    borderBottomWidth: 1, // 下のボーダーのみ表示
+    borderBottomColor: "#fff",
+  },
+  locationDetailView: {
+    borderWidth: 1, // 下のボーダーのみ表示
+    borderColor: "#fff",
+  },
+  detailView: {
+    borderRadius: 10,
   },
   taskNameText: {
     fontFamily: "Noto-Snas-JP",
-    fontSize: 30,
+    fontSize: 50,
   },
   locationText: {
     fontFamily: "Noto-Snas-JP",
-    fontSize: 20,
+    fontSize: 30,
   },
   detailText: {
-    height: 100,
+    height: 250,
     fontSize: 20,
   },
-  selectedTimeView: {
-    alignItems: "center",
-  },
-  selectedTimeText: {
-    fontFamily: "Noto-Sans-JP",
-    fontSize: 18,
-    backgroundColor: "#fff",
+  errorText: {
+    color: "red",
+    fontSize: 20,
   },
   registerResetButton: {
     width: "45%",
   },
   registerResetText: {
     fontFamily: "Noto-Sans-JP",
-    fontSize: 18,
+    fontSize: 20,
     textAlign: "center",
-    color: "#fff",
   },
   registerButton: {
     backgroundColor: "#22C55E",
