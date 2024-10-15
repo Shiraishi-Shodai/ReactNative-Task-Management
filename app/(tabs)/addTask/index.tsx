@@ -15,10 +15,16 @@ import { setTask } from "@/lib/TaskDAO";
 import uuid from "react-native-uuid";
 
 const AddTask = () => {
-  const [date, setDate] = useState<Date>(new Date());
-  const [time, setTime] = useState<Date>(new Date());
+  // 日本時間を返す
+  const getJST = (): Date => {
+    const JST = new Date();
+    JST.setHours(JST.getHours() + 9);
+    return JST;
+  };
 
-  // FIXME: 使用する時間を日本時間に調整
+  const [date, setDate] = useState(getJST());
+  const [time, setTime] = useState(getJST());
+
   const timeOptions: Intl.DateTimeFormatOptions = {
     hour: "2-digit",
     minute: "2-digit",
@@ -34,7 +40,7 @@ const AddTask = () => {
         validationSchema={taskSchema}
         onSubmit={(values, formkikActions) => {
           const task_id = String(uuid.v4());
-          // TODO: person_idにログイン中のユーザーのperson_idを代入する
+          // FIXME: person_idにログイン中のユーザーのperson_idを代入する
           const person_id = "user1";
           const { name, location, detail } = values;
           const start_date = new Date(
@@ -144,8 +150,8 @@ const AddTask = () => {
               <Pressable
                 style={[styles.registerResetButton, styles.resetButton]}
                 onPress={() => {
-                  setDate(new Date());
-                  setTime(new Date());
+                  setDate(getJST());
+                  setTime(getJST());
                   resetForm();
                 }}
               >
