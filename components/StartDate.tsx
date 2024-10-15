@@ -50,17 +50,11 @@ function StartDate({
   return (
     <View style={styles.container}>
       <View style={styles.selectButtonsView}>
-        <Pressable
-          style={[styles.dateButton, styles.selectButtons]}
-          onPress={onShowDate}
-        >
+        <Pressable style={[styles.selectButtons]} onPress={onShowDate}>
           <Text style={styles.selectText}>日付を指定</Text>
         </Pressable>
 
-        <Pressable
-          style={[styles.timeButton, styles.selectButtons]}
-          onPress={onShowTime}
-        >
+        <Pressable style={[styles.selectButtons]} onPress={onShowTime}>
           <Text style={styles.selectText}>時間を指定</Text>
         </Pressable>
       </View>
@@ -93,27 +87,20 @@ function StartDate({
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
+    justifyContent: "center",
   },
   selectButtonsView: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "50%",
   },
   selectButtons: {
     borderWidth: 1,
     paddingHorizontal: 10,
-    backgroundColor: "#0d99ff",
+    backgroundColor: "silver",
   },
   selectText: {
     fontFamily: "Noto-Sans-JP",
     fontSize: 13,
-  },
-
-  dateButton: {
-    backgroundColor: "red",
-  },
-  timeButton: {
-    backgroundColor: "blue",
   },
 });
 

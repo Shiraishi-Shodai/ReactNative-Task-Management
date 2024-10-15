@@ -1,19 +1,24 @@
 import StartDate from "@/components/StartDate";
 import React, { useState } from "react";
-import { Text, View, StyleSheet, TextInput, Pressable } from "react-native";
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  Pressable,
+  Alert,
+} from "react-native";
+import { Formik } from "formik";
 import { taskSchema } from "@/lib/form_yup";
+import { Task } from "@/classies/Task";
+import { setTask } from "@/lib/TaskDAO";
+import uuid from "react-native-uuid";
 
 const AddTask = () => {
-  // FIXME: プラスボタンを押すと、タブを非表示にしてフォームを表示する
-  // TODO: フォームのバリデーションチェックを行う
-  // TODO: エラーメッセージの表示
-  // TODO: Saveボタンを押すとFirebaseにやることを入力
-  // TODO: Cancelボタンを押すと、タブを再表示する
-  // TODO: ユーザーIDを取得し、Form送信時に追加
+  const [date, setDate] = useState<Date>(new Date());
+  const [time, setTime] = useState<Date>(new Date());
 
-  const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState(new Date());
+  // FIXME: 使用する時間を日本時間に調整
   const timeOptions: Intl.DateTimeFormatOptions = {
     hour: "2-digit",
     minute: "2-digit",
@@ -21,69 +26,135 @@ const AddTask = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.titleView}>
+        <Text style={styles.titleText}>Register a task</Text>
+      </View>
       <Formik
-        initialValues={{ text: "", location: "", detail: "" }}
+        initialValues={{ name: "", location: "", detail: "" }}
         validationSchema={taskSchema}
-        onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
-          setSubmitting(false);
+        onSubmit={(values, formkikActions) => {
+          const task_id = String(uuid.v4());
+          // TODO: person_idにログイン中のユーザーのperson_idを代入する
+          const person_id = "user1";
+          const { name, location, detail } = values;
+          const start_date = new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate(),
+            time.getHours(),
+            time.getMinutes()
+          );
+
+          const task = new Task(
+            task_id,
+            person_id,
+            name,
+            location,
+            detail,
+            start_date
+          );
+
+          setTask(task);
+          formkikActions.setSubmitting(false);
+          formkikActions.resetForm();
+          Alert.alert("Resisterd a task");
         }}
       >
         {({
           handleChange,
           handleBlur, // フォームからフォーカスが外れた時にtouchedの値を更新する
           handleSubmit,
+          resetForm,
           values,
           errors,
           touched, // ユーザーが一度でも触れたフィールドの情報を保持し、エラーメッセージの表示条件として利用される
         }) => (
-          <View>
-            <TextInput
-              placeholder="Task Name"
-              onChangeText={handleChange("text")}
-              onBlur={handleBlur("text")}
-              value={values.text}
-              style={{ borderBottomWidth: 1, marginBottom: 10 }}
-            />
-            {touched.text && errors.text && (
-              <Text style={{ color: "red" }}>{errors.text}</Text>
-            )}
+          <View style={styles.textInputViews}>
+            <View style={styles.textInputContainers}>
+              <View style={styles.textInputCommon}>
+                <TextInput
+                  placeholder="Task Name"
+                  onChangeText={handleChange("name")}
+                  onBlur={handleBlur("name")}
+                  value={values.name}
+                  style={styles.taskNameText}
+                />
+              </View>
+              {touched.name && errors.name && (
+                <Text style={{ color: "red" }}>{errors.name}</Text>
+              )}
+            </View>
 
-            <TextInput
-              placeholder="Location"
-              onChangeText={handleChange("location")}
-              onBlur={handleBlur("location")}
-              value={values.location}
-              style={{ borderBottomWidth: 1, marginBottom: 10 }}
-            />
-            {touched.location && errors.location && (
-              <Text style={{ color: "red" }}>{errors.location}</Text>
-            )}
+            <View style={styles.textInputContainers}>
+              <View style={styles.textInputCommon}>
+                <TextInput
+                  style={styles.locationText}
+                  placeholder="Location"
+                  onChangeText={handleChange("location")}
+                  onBlur={handleBlur("location")}
+                  value={values.location}
+                />
+              </View>
+              {touched.location && errors.location && (
+                <Text style={{ color: "red" }}>{errors.location}</Text>
+              )}
+            </View>
 
-            <TextInput
-              placeholder="detail"
-              onChangeText={handleChange("detail")}
-              onBlur={handleBlur("detail")}
-              value={values.detail}
-              style={{ borderBottomWidth: 1, marginBottom: 10 }}
-            />
-            {touched.detail && errors.detail && (
-              <Text style={{ color: "red" }}>{errors.detail}</Text>
-            )}
+            <View style={styles.textInputContainers}>
+              <View style={styles.textInputCommon}>
+                <TextInput
+                  placeholder="detail"
+                  onChangeText={handleChange("detail")}
+                  onBlur={handleBlur("detail")}
+                  value={values.detail}
+                  multiline={true}
+                  blurOnSubmit={true} // エンターキーを押すとフォーカスが外れるようにする(multilineをtrueにするとデフォルトでfalseになる)
+                  numberOfLines={6}
+                  textAlignVertical="top"
+                  style={styles.detailText}
+                />
+              </View>
+              {touched.detail && errors.detail && (
+                <Text style={{ color: "red" }}>{errors.detail}</Text>
+              )}
+            </View>
 
-            <Pressable onPress={() => handleSubmit()}>
-              <Text>Save</Text>
-            </Pressable>
+            <StartDate
+              date={date}
+              setDate={setDate}
+              time={time}
+              setTime={setTime}
+            />
+            <View style={styles.selectedTimeView}>
+              <Text style={styles.selectedTimeText}>{`${date.toLocaleDateString(
+                "ja-JP"
+              )}  ${time.toLocaleTimeString("ja-JP", timeOptions)}`}</Text>
+            </View>
+
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-around" }}
+            >
+              <Pressable
+                style={[styles.registerResetButton, styles.registerButton]}
+                onPress={() => handleSubmit()}
+              >
+                <Text style={styles.registerResetText}>Register a task</Text>
+              </Pressable>
+
+              <Pressable
+                style={[styles.registerResetButton, styles.resetButton]}
+                onPress={() => {
+                  setDate(new Date());
+                  setTime(new Date());
+                  resetForm();
+                }}
+              >
+                <Text style={styles.registerResetText}>Reset Form</Text>
+              </Pressable>
+            </View>
           </View>
         )}
       </Formik>
-
-      <StartDate date={date} setDate={setDate} time={time} setTime={setTime} />
-      <View style={styles.selectedTimeView}>
-        <Text style={styles.selectedTimeText}>{`${date.toLocaleDateString(
-          "ja-JP"
-        )}  ${time.toLocaleTimeString("ja-JP", timeOptions)}`}</Text>
-      </View>
     </View>
   );
 };
@@ -91,17 +162,43 @@ const AddTask = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "#151718",
+    backgroundColor: "#151718",
     justifyContent: "center",
+    alignItems: "center",
   },
-  taskNameView: {
+  titleView: {
+    justifyContent: "center",
+    marginBottom: 40,
+  },
+  titleText: {
+    color: "#fff",
+    fontSize: 50,
+  },
+  textInputViews: {
+    width: "80%",
+    borderWidth: 1,
+    padding: 10,
+    justifyContent: "center",
     backgroundColor: "#fff",
-    paddingVertical: 20,
+  },
+  textInputContainers: {
+    marginBottom: 20,
+  },
+  textInputCommon: {
+    backgroundColor: "#fff",
+    borderWidth: 2,
   },
   taskNameText: {
     fontFamily: "Noto-Snas-JP",
-    fontSize: 25,
-    textAlign: "center",
+    fontSize: 30,
+  },
+  locationText: {
+    fontFamily: "Noto-Snas-JP",
+    fontSize: 20,
+  },
+  detailText: {
+    height: 100,
+    fontSize: 20,
   },
   selectedTimeView: {
     alignItems: "center",
@@ -109,6 +206,22 @@ const styles = StyleSheet.create({
   selectedTimeText: {
     fontFamily: "Noto-Sans-JP",
     fontSize: 18,
+    backgroundColor: "#fff",
+  },
+  registerResetButton: {
+    width: "45%",
+  },
+  registerResetText: {
+    fontFamily: "Noto-Sans-JP",
+    fontSize: 18,
+    textAlign: "center",
+    color: "#fff",
+  },
+  registerButton: {
+    backgroundColor: "#22C55E",
+  },
+  resetButton: {
+    backgroundColor: "silver",
   },
 });
 
