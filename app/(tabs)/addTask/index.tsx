@@ -46,6 +46,8 @@ const AddTask = () => {
       <Formik
         initialValues={{ name: "", location: "", detail: "" }}
         validationSchema={taskSchema}
+        validateOnBlur={false} // カーソルが離れた時にバリデーションを行わない
+        validateOnChange={false} // 値が変更された時にバリデーションを行わない
         onSubmit={(values, formkikActions) => {
           const task_id = String(uuid.v4());
           // FIXME: person_idにログイン中のユーザーのperson_idを代入する
