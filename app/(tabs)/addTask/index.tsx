@@ -59,7 +59,7 @@ const AddTask = () => {
             date.getDate(),
             time.getHours(),
             time.getMinutes()
-          );
+          ).getTime();
 
           const task = new Task(
             task_id,

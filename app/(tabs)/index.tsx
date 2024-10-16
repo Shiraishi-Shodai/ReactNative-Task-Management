@@ -3,14 +3,21 @@ import {
   GoogleSignin,
   GoogleSigninButton,
 } from "@react-native-google-signin/google-signin";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 
 import UserIcon from "@/components/UserIcon";
 import TaskList from "@/components/TaskList";
+import { getTodaysTasks } from "@/lib/PersonDAO";
+import { useFocusEffect } from "expo-router";
 
 export default function HomeScreen() {
   // TODO: 今日のタスク一覧をFirebaseから取得(それぞれのタスクはTaskクラスの型情報で取得)
+  useFocusEffect(
+    useCallback(() => {
+      getTodaysTasks();
+    }, [])
+  );
 
   return (
     <View style={styles.container}>

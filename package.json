@@ -18,6 +18,8 @@
     "@expo/vector-icons": "^14.0.2",
     "@mui/material": "^6.1.2",
     "@react-native-community/datetimepicker": "8.0.1",
+    "@react-native-firebase/app": "^21.0.0",
+    "@react-native-firebase/database": "^21.0.0",
     "@react-native-google-signin/google-signin": "^13.1.0",
     "@react-navigation/native": "^6.0.2",
     "expo": "~51.0.28",

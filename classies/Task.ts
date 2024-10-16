@@ -5,7 +5,7 @@ export class Task {
   private _location: string;
   private _detail: string;
   private _state: boolean;
-  private _start_date: Date;
+  private _start_date: number;
 
   public get id(): string {
     return this._id;
@@ -43,10 +43,10 @@ export class Task {
   public set state(value: boolean) {
     this._state = value;
   }
-  public get start_date(): Date {
+  public get start_date(): number {
     return this._start_date;
   }
-  public set start_date(value: Date) {
+  public set start_date(value: number) {
     this._start_date = value;
   }
 
@@ -56,7 +56,7 @@ export class Task {
     name: string,
     location: string,
     detail: string,
-    start_date: Date
+    start_date: number
   ) {
     this._id = id;
     this._person_id = person_id;
