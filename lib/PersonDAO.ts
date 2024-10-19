@@ -29,8 +29,8 @@ export const getTodaysTasks = () => {
       .database()
       .ref(`${person_id}/`)
       .orderByChild("start_date")
-      //   .startAt(startTimeStamp)
-      //   .endAt(endTimeStamp)
+      .startAt(startTimeStamp)
+      .endAt(endTimeStamp)
       .on("value", (snapshot) => {
         console.log(snapshot.val());
       });

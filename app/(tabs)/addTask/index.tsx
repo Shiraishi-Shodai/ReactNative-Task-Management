@@ -150,7 +150,10 @@ const AddTask = () => {
             >
               <Pressable
                 style={[styles.addResetButton, styles.addButton]}
-                onPress={() => handleSubmit()}
+                onPress={() => {
+                  changeDateTime();
+                  handleSubmit();
+                }}
               >
                 <Text style={[styles.addResetText, styles.text]}>
                   Add a task
