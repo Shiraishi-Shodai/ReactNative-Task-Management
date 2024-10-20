@@ -51,7 +51,7 @@ const AddTask = () => {
         onSubmit={(values, formkikActions) => {
           const task_id = String(uuid.v4());
           // FIXME: person_idにログイン中のユーザーのperson_idを代入する
-          const person_id = "user1";
+          const person_id = "person1";
           const { name, location, detail } = values;
           const start_date = new Date(
             date.getFullYear(),
@@ -151,8 +151,8 @@ const AddTask = () => {
               <Pressable
                 style={[styles.addResetButton, styles.addButton]}
                 onPress={() => {
-                  changeDateTime();
                   handleSubmit();
+                  changeDateTime();
                 }}
               >
                 <Text style={[styles.addResetText, styles.text]}>
@@ -163,8 +163,8 @@ const AddTask = () => {
               <Pressable
                 style={[styles.addResetButton, styles.resetButton]}
                 onPress={() => {
-                  changeDateTime();
                   resetForm();
+                  changeDateTime();
                 }}
               >
                 <Text style={[styles.addResetText, styles.text]}>

@@ -5,7 +5,7 @@ import "@react-native-firebase/database"; // Realtime Database用
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-export const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyC3PUrDna886qU8OarTaTrXHNkNdw0Hi9I",
   authDomain: "tutorial-3d280.firebaseapp.com",
   databaseURL: "https://tutorial-3d280-default-rtdb.firebaseio.com",
@@ -15,3 +15,10 @@ export const firebaseConfig = {
   appId: "1:332801672964:web:62a5f9641cf258c9d73251",
   measurementId: "G-X5EL2LRZ08",
 };
+
+import { firebase, FirebaseApp } from "@react-native-firebase/database";
+export const fb = (
+  !firebase.apps.length
+    ? firebase.initializeApp(firebaseConfig)
+    : firebase.app()
+) as FirebaseApp;

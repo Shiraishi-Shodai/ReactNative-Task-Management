@@ -24,7 +24,7 @@ export default function HomeScreen() {
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Today's Progress</Text>
       </View>
-      <UserIcon />
+      {/* <UserIcon /> */}
 
       {/* TODO: 今日のタスク一覧を表示 */}
       <TaskList />
