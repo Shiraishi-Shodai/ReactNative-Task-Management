@@ -13,13 +13,16 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-        headerShown: false,
+        headerShown: true,
+        headerTitleAlign: "center",
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
+          headerShown: true,
+          headerStyle: { backgroundColor: "#888888" },
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "home" : "home-outline"}
@@ -29,22 +32,11 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="home/editTask"
-        options={{
-          title: "edit",
-          href: null,
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "home" : "home-outline"}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="addTask/index"
+        name="addTask"
         options={{
           title: "Add Task",
+          headerShown: true,
+          headerStyle: { backgroundColor: "#888888" },
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "add-circle" : "add-circle-outline"}
@@ -55,9 +47,11 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="explore/index"
+        name="explore"
         options={{
           title: "Explore",
+          headerShown: true,
+          headerStyle: { backgroundColor: "#888888" },
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "document-text" : "document-text-outline"}

@@ -9,7 +9,7 @@ import { StatusBar } from "expo-status-bar";
 import UserIcon from "@/components/UserIcon";
 import TaskList from "@/components/TaskList";
 import { getTodaysTasks } from "@/lib/PersonDAO";
-import { useFocusEffect } from "expo-router";
+import { Link, Stack, useFocusEffect } from "expo-router";
 
 export default function HomeScreen() {
   // TODO: 今日のタスク一覧をFirebaseから取得(それぞれのタスクはTaskクラスの型情報で取得)
@@ -21,11 +21,6 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Today's Progress</Text>
-      </View>
-      {/* <UserIcon /> */}
-
       {/* TODO: 今日のタスク一覧を表示 */}
       <TaskList />
       <StatusBar style="auto" />
@@ -39,13 +34,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#151718",
     alignItems: "center",
     justifyContent: "center",
-  },
-  titleContainer: {
-    marginBottom: 10,
-  },
-  title: {
-    color: "#ECEDE1",
-    fontFamily: "Noto-Sans-JP",
-    fontSize: 40,
   },
 });

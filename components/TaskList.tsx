@@ -10,10 +10,8 @@ import TaskBar from "./TaskBar";
 import { SwipeListView } from "react-native-swipe-list-view";
 
 function TaskList() {
-  // FIXME: react-native-swipe-list-viewで書き換え
   // FIXME: データベースから取得したデータを使用してリストを作成
-  // FIXME: CLOSEをEDITに変更する
-  // FIXME: リストをタップすると、リストの詳細を表示するように変更
+  // FIXME: リストをタップすると、リストの詳細を表示し、編集できるように変更
   // DOCS: SwipeListView https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/SwipeListView.md
   // DOCS: SWIPERow      https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/SwipeRow.md
 
