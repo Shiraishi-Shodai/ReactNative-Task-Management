@@ -3,6 +3,7 @@ import { fb } from "@/lib/firebase";
 import { getJST } from "./JST";
 
 // FIXME: 引数にperson_idを取るように変更する
+// ログイン中のユーザーの今日のタスクをすべて取得する
 export const getTodaysTasks = async (): Promise<Task[] | undefined> => {
   const person_id = "person1";
   const today = getJST();
@@ -39,5 +40,20 @@ export const getTodaysTasks = async (): Promise<Task[] | undefined> => {
     }
   } catch (error) {
     console.error("データ取得エラー:", error);
+  }
+};
+
+// 指定したidのタスクを削除
+export const removeTask = async (id: string): Promise<void> => {
+  try {
+    const taskRef = fb.database().ref("tasks");
+    taskRef
+      .child(id)
+      .remove()
+      .then(() => {
+        console.log(`${id}のタスクを削除しました`);
+      });
+  } catch (error) {
+    console.error("データ削除エラー:", error);
   }
 };

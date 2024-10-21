@@ -9,31 +9,25 @@ import {
 } from "react-native";
 import { RowMap, SwipeListView } from "react-native-swipe-list-view";
 import { useFocusEffect } from "expo-router";
-import { getTodaysTasks } from "@/lib/PersonDAO";
+import { getTodaysTasks, removeTask } from "@/lib/PersonDAO";
 import { Task } from "@/classies/Task";
 
 function TaskList() {
-  // FIXME: データベースから取得したデータを使用してリストを作成
   // FIXME: リストをタップすると、リストの詳細を表示し、編集できるように変更
+  // FIXME: 削除ボタンを押すと、Firebaseから削除されるようにする
   // TODO: 今日のタスク一覧をFirebaseから取得(それぞれのタスクはTaskクラスの型情報で取得)
   // DOCS: SwipeListView https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/SwipeListView.md
   // DOCS: SWIPERow      https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/SwipeRow.md
 
-  const [listData, setListData] = useState(
-    Array(10)
-      .fill("")
-      .map((_, i) => ({ key: `${i}`, text: `Item ${i + 1}` }))
-  );
-
   const [taskList, setTaskList] = useState<Task[]>();
+
+  const fetchTasks = async () => {
+    const data = await getTodaysTasks(); // 非同期関数の結果を待つ
+    setTaskList(data || []);
+  };
 
   useFocusEffect(
     useCallback(() => {
-      const fetchTasks = async () => {
-        const data = await getTodaysTasks(); // 非同期関数の結果を待つ
-        setTaskList(data || []);
-      };
-
       fetchTasks(); // 非同期関数を呼び出す
     }, [])
   );
@@ -46,10 +40,8 @@ function TaskList() {
 
   const deleteRow = (rowMap: RowMap<Task>, rowKey: string) => {
     closeRow(rowMap, rowKey);
-    const newData = [...listData];
-    const prevIndex = listData.findIndex((item) => item.key === rowKey);
-    newData.splice(prevIndex, 1);
-    setListData(newData);
+    removeTask(rowKey); // rowKeyのタスクを削除
+    fetchTasks(); // 今日のタスクを取得しなおす
   };
   const onRowDidOpen = (rowKey: string) => {
     console.log("This row opened", rowKey);
@@ -109,7 +101,7 @@ function TaskList() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "purple",
+    backgroundColor: "#151718",
     flex: 1,
     width: "100%",
   },
@@ -117,7 +109,6 @@ const styles = StyleSheet.create({
     color: "#FFF",
   },
   rowFront: {
-    // alignItems: "center",
     backgroundColor: "#CCC",
     borderBottomColor: "black",
     borderBottomWidth: 1,
