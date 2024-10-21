@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     color: "#FFF",
   },
   rowFront: {
-    alignItems: "center",
+    // alignItems: "center",
     backgroundColor: "#CCC",
     borderBottomColor: "black",
     borderBottomWidth: 1,

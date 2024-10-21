@@ -14,15 +14,9 @@ import { Task } from "@/classies/Task";
 import { addTask } from "@/lib/TaskDAO";
 import uuid from "react-native-uuid";
 import { useFocusEffect } from "expo-router";
+import { getJST } from "@/lib/JST";
 
 const AddTask = () => {
-  // 日本時間を返す
-  const getJST = (): Date => {
-    const JST = new Date();
-    JST.setHours(JST.getHours() + 9);
-    return JST;
-  };
-
   // dateとtimeの更新
   const changeDateTime = () => {
     const now = getJST();
@@ -48,6 +42,7 @@ const AddTask = () => {
         validationSchema={taskSchema}
         validateOnBlur={false} // カーソルが離れた時にバリデーションを行わない
         validateOnChange={false} // 値が変更された時にバリデーションを行わない
+        // バリデーションが成功した後の処理
         onSubmit={(values, formkikActions) => {
           const task_id = String(uuid.v4());
           // FIXME: person_idにログイン中のユーザーのperson_idを代入する
@@ -69,8 +64,8 @@ const AddTask = () => {
             detail,
             start_date
           );
-
           addTask(task);
+          changeDateTime();
           formkikActions.setSubmitting(false);
           formkikActions.resetForm();
           Alert.alert("Resisterd a task");
@@ -151,8 +146,7 @@ const AddTask = () => {
               <Pressable
                 style={[styles.addResetButton, styles.addButton]}
                 onPress={() => {
-                  handleSubmit();
-                  changeDateTime();
+                  handleSubmit(); // バリデーションチェック
                 }}
               >
                 <Text style={[styles.addResetText, styles.text]}>

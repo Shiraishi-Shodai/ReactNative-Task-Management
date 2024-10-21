@@ -69,7 +69,7 @@ function StartDate({
           onPressIn={() => setIsHoveredDate(true)}
           onPressOut={() => setIsHoveredDate(false)}
         >
-          <Text style={styles.selectText}>
+          <Text testID="dataId" style={styles.selectText}>
             {date.toLocaleDateString("ja-JP")}
           </Text>
         </TouchableOpacity>
@@ -83,7 +83,7 @@ function StartDate({
           onPressIn={() => setIsHoveredTime(true)}
           onPressOut={() => setIsHoveredTime(false)}
         >
-          <Text style={styles.selectText}>
+          <Text testID="timeId" style={styles.selectText}>
             {time.toLocaleTimeString("ja-JP", timeOptions)}
           </Text>
         </TouchableOpacity>
@@ -92,7 +92,7 @@ function StartDate({
       {showDate && (
         <DateTimePicker
           mode={"date"}
-          value={date || new Date()}
+          value={date}
           onChange={onDateChange}
           display="spinner"
           is24Hour={true}
