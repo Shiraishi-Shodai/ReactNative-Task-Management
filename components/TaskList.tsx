@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   View,
   StyleSheet,
   Text,
   TouchableOpacity,
   TouchableHighlight,
+  ListRenderItemInfo,
 } from "react-native";
-import TaskBar from "./TaskBar";
-import { SwipeListView } from "react-native-swipe-list-view";
+import { RowMap, SwipeListView } from "react-native-swipe-list-view";
+import { useFocusEffect } from "expo-router";
+import { getTodaysTasks } from "@/lib/PersonDAO";
+import { Task } from "@/classies/Task";
 
 function TaskList() {
   // FIXME: データベースから取得したデータを使用してリストを作成
   // FIXME: リストをタップすると、リストの詳細を表示し、編集できるように変更
+  // TODO: 今日のタスク一覧をFirebaseから取得(それぞれのタスクはTaskクラスの型情報で取得)
   // DOCS: SwipeListView https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/SwipeListView.md
   // DOCS: SWIPERow      https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/SwipeRow.md
 
@@ -21,47 +25,63 @@ function TaskList() {
       .map((_, i) => ({ key: `${i}`, text: `Item ${i + 1}` }))
   );
 
-  const closeRow = (rowMap, rowKey) => {
+  const [taskList, setTaskList] = useState<Task[]>();
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchTasks = async () => {
+        const data = await getTodaysTasks(); // 非同期関数の結果を待つ
+        setTaskList(data || []);
+      };
+
+      fetchTasks(); // 非同期関数を呼び出す
+    }, [])
+  );
+
+  const closeRow = (rowMap: RowMap<Task>, rowKey: string) => {
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }
   };
 
-  const deleteRow = (rowMap, rowKey) => {
+  const deleteRow = (rowMap: RowMap<Task>, rowKey: string) => {
     closeRow(rowMap, rowKey);
     const newData = [...listData];
     const prevIndex = listData.findIndex((item) => item.key === rowKey);
     newData.splice(prevIndex, 1);
     setListData(newData);
   };
-  const onRowDidOpen = (rowKey) => {
+  const onRowDidOpen = (rowKey: string) => {
     console.log("This row opened", rowKey);
   };
 
-  const renderItem = (data) => (
+  const renderItem = ({ item }: ListRenderItemInfo<Task>) => (
     <TouchableHighlight
       onPress={() => console.log("You touched me")}
       style={styles.rowFront}
       underlayColor={"#AAA"}
     >
       <View>
-        <Text>I am {data.item.text} in a SwipeListView</Text>
+        <Text>{item.name}</Text>
       </View>
     </TouchableHighlight>
   );
 
-  const renderHiddenItem = (data, rowMap) => (
+  const renderHiddenItem = (
+    data: ListRenderItemInfo<Task>,
+    rowMap: RowMap<Task>
+  ) => (
     <View style={styles.rowBack}>
       <Text>Left</Text>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
-        onPress={() => closeRow(rowMap, data.item.key)}
+        onPress={() => closeRow(rowMap, data.item.id)}
       >
         <Text style={styles.backTextWhite}>Close</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
-        onPress={() => deleteRow(rowMap, data.item.key)}
+        onPress={() => deleteRow(rowMap, data.item.id)}
       >
         <Text style={styles.backTextWhite}>Delete</Text>
       </TouchableOpacity>
@@ -71,7 +91,8 @@ function TaskList() {
   return (
     <View style={styles.container}>
       <SwipeListView
-        data={listData}
+        data={taskList}
+        keyExtractor={(item) => item.id} // 各アイテムに識別するために使用するキーを設定
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
         leftOpenValue={75} // 行を左に開くためのTranslateXの値（正の数）

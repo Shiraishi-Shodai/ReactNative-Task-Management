@@ -2,9 +2,7 @@ import { Task } from "@/classies/Task";
 import { fb } from "@/lib/firebase";
 import { getJST } from "./JST";
 
-// TODO: ユーザーIDを受け取り、今日のタスク一覧を取得
 // FIXME: 引数にperson_idを取るように変更する
-// FIXME: 今日のタスクのみ取得するようにする
 export const getTodaysTasks = async (): Promise<Task[] | undefined> => {
   const person_id = "person1";
   const today = getJST();
