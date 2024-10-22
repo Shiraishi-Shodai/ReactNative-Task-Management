@@ -1,5 +1,5 @@
 import { Task } from "@/classies/Task";
-import { fb } from "@/lib/firebase";
+import database from "@react-native-firebase/database";
 import { getJST } from "./JST";
 
 // FIXME: 引数にperson_idを取るように変更する
@@ -15,7 +15,7 @@ export const getTodaysTasks = async (): Promise<Task[] | undefined> => {
   const endTimeStamp = tomorrow.getTime() - 1;
 
   try {
-    const taskRef = fb.database().ref("tasks");
+    const taskRef = database().ref("tasks");
     const snapshot = await taskRef
       .orderByChild("person_id")
       .equalTo(person_id)
@@ -43,10 +43,28 @@ export const getTodaysTasks = async (): Promise<Task[] | undefined> => {
   }
 };
 
+// // 新しいタスクを追加
+export const addTask = async (task: Task) => {
+  // FIXME: ユーザーIDにログインしているユーザーIDを設定
+  const person_id = "person1";
+  await database()
+    .ref(`tasks/${task.id}`)
+    .set({
+      person_id: person_id,
+      name: task.name,
+      location: task.location,
+      detail: task.detail,
+      state: task.state,
+      start_date: task.start_date,
+    })
+    .then(() => console.log("登録しました"))
+    .catch((err) => console.error(err));
+};
+
 // 指定したidのタスクを削除
 export const removeTask = async (id: string): Promise<void> => {
   try {
-    const taskRef = fb.database().ref("tasks");
+    const taskRef = database().ref("tasks");
     taskRef
       .child(id)
       .remove()

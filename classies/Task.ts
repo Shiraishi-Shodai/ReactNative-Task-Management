@@ -67,6 +67,8 @@ export class Task {
     this._start_date = start_date;
   }
 
-  // リマインド送信
+  // TODO: リマインド送信
   public sendRemind(): void {}
+
+  // TODO: タスクの完了・未完了
 }

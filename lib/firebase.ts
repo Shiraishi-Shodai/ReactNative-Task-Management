@@ -17,8 +17,6 @@ const firebaseConfig = {
 };
 
 import { firebase, FirebaseApp } from "@react-native-firebase/database";
-export const fb = (
-  !firebase.apps.length
-    ? firebase.initializeApp(firebaseConfig)
-    : firebase.app()
-) as FirebaseApp;
+(!firebase.apps.length
+  ? firebase.initializeApp(firebaseConfig)
+  : firebase.app()) as FirebaseApp;

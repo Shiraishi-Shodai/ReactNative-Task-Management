@@ -11,10 +11,10 @@ import {
 import { Formik } from "formik";
 import { taskSchema } from "@/lib/form_yup";
 import { Task } from "@/classies/Task";
-import { addTask } from "@/lib/TaskDAO";
 import uuid from "react-native-uuid";
 import { useFocusEffect } from "expo-router";
 import { getJST } from "@/lib/JST";
+import { addTask } from "@/lib/PersonDAO";
 
 // FIXME: 不要なコンポーネントのレンダリングを修正する(日付や時計のボタンを押すと不要なレンダリングが発生している)
 
