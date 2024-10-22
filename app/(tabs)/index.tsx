@@ -6,11 +6,11 @@ import {
 import { StatusBar } from "expo-status-bar";
 
 import TaskList from "@/components/TaskList";
+import { Link } from "expo-router";
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      {/* TODO: 今日のタスク一覧を表示 */}
       <TaskList />
       <StatusBar style="auto" />
     </View>

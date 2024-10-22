@@ -16,6 +16,8 @@ import uuid from "react-native-uuid";
 import { useFocusEffect } from "expo-router";
 import { getJST } from "@/lib/JST";
 
+// FIXME: 不要なコンポーネントのレンダリングを修正する(日付や時計のボタンを押すと不要なレンダリングが発生している)
+
 const AddTask = () => {
   // dateとtimeの更新
   const changeDateTime = () => {

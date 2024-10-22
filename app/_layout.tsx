@@ -49,6 +49,14 @@ export default function RootLayout() {
               headerTitleAlign: "center",
             }}
           />
+          <Stack.Screen
+            name="(stacks)"
+            options={{
+              headerShown: false,
+              presentation: "modal", // モーダル表示にする場合
+              animation: "slide_from_right",
+            }}
+          />
           <Stack.Screen name="+not-found" />
         </Stack>
       </GestureHandlerRootView>

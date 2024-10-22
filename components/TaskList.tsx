@@ -8,23 +8,21 @@ import {
   ListRenderItemInfo,
 } from "react-native";
 import { RowMap, SwipeListView } from "react-native-swipe-list-view";
-import { useFocusEffect } from "expo-router";
+import { Link, useFocusEffect } from "expo-router";
 import { getTodaysTasks, removeTask } from "@/lib/PersonDAO";
 import { Task } from "@/classies/Task";
 
 function TaskList() {
   // FIXME: リストをタップすると、リストの詳細を表示し、編集できるように変更
-  // FIXME: 削除ボタンを押すと、Firebaseから削除されるようにする
-  // TODO: 今日のタスク一覧をFirebaseから取得(それぞれのタスクはTaskクラスの型情報で取得)
   // DOCS: SwipeListView https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/SwipeListView.md
   // DOCS: SWIPERow      https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/SwipeRow.md
 
   const [taskList, setTaskList] = useState<Task[]>();
 
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
     const data = await getTodaysTasks(); // 非同期関数の結果を待つ
     setTaskList(data || []);
-  };
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -54,7 +52,15 @@ function TaskList() {
       underlayColor={"#AAA"}
     >
       <View>
-        <Text>{item.name}</Text>
+        <Link
+          href={{
+            pathname: "/EditTask",
+            params: { item: JSON.stringify(item) },
+          }}
+          style={{ color: "white" }}
+        >
+          <Text>{item.name}</Text>
+        </Link>
       </View>
     </TouchableHighlight>
   );
