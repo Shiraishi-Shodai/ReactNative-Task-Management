@@ -16,7 +16,10 @@ const firebaseConfig = {
   measurementId: "G-X5EL2LRZ08",
 };
 
-import { firebase, FirebaseApp } from "@react-native-firebase/database";
+import firebase from "@react-native-firebase/app";
+import { FirebaseApp } from "@react-native-firebase/database";
 (!firebase.apps.length
   ? firebase.initializeApp(firebaseConfig)
   : firebase.app()) as FirebaseApp;
+
+console.log("firebaseを初期化");

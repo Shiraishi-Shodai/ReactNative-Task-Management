@@ -37,6 +37,7 @@ export default function TabLayout() {
           title: "Add Task",
           headerShown: true,
           headerStyle: { backgroundColor: "#888888" },
+          tabBarStyle: { display: "none" }, // このタブを選択されたとき、下部のタブバーを非表示にする
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "add-circle" : "add-circle-outline"}

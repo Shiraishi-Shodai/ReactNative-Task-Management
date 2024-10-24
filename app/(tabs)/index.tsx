@@ -6,7 +6,7 @@ import {
 import { StatusBar } from "expo-status-bar";
 
 import TaskList from "@/components/TaskList";
-import { Link } from "expo-router";
+import "@/lib/firebase"; // firebaseをindex.tsxで初期化
 
 export default function HomeScreen() {
   return (
