@@ -11,18 +11,14 @@ import {
 import { Formik } from "formik";
 import { taskSchema } from "@/lib/form_yup";
 import { Task } from "@/classies/Task";
-import { addTask } from "@/lib/TaskDAO";
 import uuid from "react-native-uuid";
 import { useFocusEffect } from "expo-router";
+import { getJST } from "@/lib/JST";
+import { addTask } from "@/lib/PersonDAO";
+
+// FIXME: 不要なコンポーネントのレンダリングを修正する(日付や時計のボタンを押すと不要なレンダリングが発生している)
 
 const AddTask = () => {
-  // 日本時間を返す
-  const getJST = (): Date => {
-    const JST = new Date();
-    JST.setHours(JST.getHours() + 9);
-    return JST;
-  };
-
   // dateとtimeの更新
   const changeDateTime = () => {
     const now = getJST();
@@ -46,10 +42,13 @@ const AddTask = () => {
       <Formik
         initialValues={{ name: "", location: "", detail: "" }}
         validationSchema={taskSchema}
+        validateOnBlur={false} // カーソルが離れた時にバリデーションを行わない
+        validateOnChange={false} // 値が変更された時にバリデーションを行わない
+        // バリデーションが成功した後の処理
         onSubmit={(values, formkikActions) => {
           const task_id = String(uuid.v4());
           // FIXME: person_idにログイン中のユーザーのperson_idを代入する
-          const person_id = "user1";
+          const person_id = "person1";
           const { name, location, detail } = values;
           const start_date = new Date(
             date.getFullYear(),
@@ -57,7 +56,7 @@ const AddTask = () => {
             date.getDate(),
             time.getHours(),
             time.getMinutes()
-          );
+          ).getTime();
 
           const task = new Task(
             task_id,
@@ -67,8 +66,8 @@ const AddTask = () => {
             detail,
             start_date
           );
-
           addTask(task);
+          changeDateTime();
           formkikActions.setSubmitting(false);
           formkikActions.resetForm();
           Alert.alert("Resisterd a task");
@@ -148,7 +147,9 @@ const AddTask = () => {
             >
               <Pressable
                 style={[styles.addResetButton, styles.addButton]}
-                onPress={() => handleSubmit()}
+                onPress={() => {
+                  handleSubmit(); // バリデーションチェック
+                }}
               >
                 <Text style={[styles.addResetText, styles.text]}>
                   Add a task
@@ -158,8 +159,8 @@ const AddTask = () => {
               <Pressable
                 style={[styles.addResetButton, styles.resetButton]}
                 onPress={() => {
-                  changeDateTime();
                   resetForm();
+                  changeDateTime();
                 }}
               >
                 <Text style={[styles.addResetText, styles.text]}>

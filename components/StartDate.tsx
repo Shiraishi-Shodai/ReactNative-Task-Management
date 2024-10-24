@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useCallback, useState } from "react";
 import { Pressable, Text, View, StyleSheet } from "react-native";
 import DateTimePicker, {
   DateTimePickerEvent,
@@ -11,43 +11,39 @@ interface StartDateProps {
   time: Date;
   setTime: React.Dispatch<React.SetStateAction<Date>>;
 }
-function StartDate({
+const StartDate = ({
   date,
   setDate,
   time,
   setTime,
-}: StartDateProps): ReactElement {
+}: StartDateProps): ReactElement => {
   const timeOptions: Intl.DateTimeFormatOptions = {
     hour: "2-digit",
     minute: "2-digit",
   };
 
-  // ホバーのスタイルを管理するためのuseState
-  const [isHoveredDate, setIsHoveredDate] = useState(false);
-  const [isHoveredTime, setIsHoveredTime] = useState(false);
-
   const [showDate, setShowDate] = useState(false);
   const [showTime, setShowTime] = useState(false);
 
-  const onDateChange = (
-    e: DateTimePickerEvent,
-    selectedDate: Date | undefined
-  ) => {
-    if (selectedDate) {
-      setDate(selectedDate);
-    }
-    setShowDate(false);
-  };
+  const onDateChange = useCallback(
+    (e: DateTimePickerEvent, selectedDate: Date | undefined) => {
+      if (selectedDate) {
+        setDate(selectedDate);
+      }
+      setShowDate(false);
+    },
+    [setDate]
+  );
 
-  const onTimeChange = (
-    e: DateTimePickerEvent,
-    selectedTime: Date | undefined
-  ) => {
-    if (selectedTime) {
-      setTime(selectedTime);
-    }
-    setShowTime(false);
-  };
+  const onTimeChange = useCallback(
+    (e: DateTimePickerEvent, selectedTime: Date | undefined) => {
+      if (selectedTime) {
+        setTime(selectedTime);
+      }
+      setShowTime(false);
+    },
+    [setTime]
+  );
 
   const onShowDate = () => {
     setShowDate(true);
@@ -60,30 +56,14 @@ function StartDate({
   return (
     <View style={styles.container}>
       <View style={styles.selectButtonsView}>
-        <TouchableOpacity
-          style={[
-            styles.selectButtons,
-            isHoveredDate && styles.selectButtonsHover,
-          ]}
-          onPress={onShowDate}
-          onPressIn={() => setIsHoveredDate(true)}
-          onPressOut={() => setIsHoveredDate(false)}
-        >
-          <Text style={styles.selectText}>
+        <TouchableOpacity style={[styles.selectButtons]} onPress={onShowDate}>
+          <Text testID="dataId" style={styles.selectText}>
             {date.toLocaleDateString("ja-JP")}
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[
-            styles.selectButtons,
-            isHoveredTime && styles.selectButtonsHover,
-          ]}
-          onPress={onShowTime}
-          onPressIn={() => setIsHoveredTime(true)}
-          onPressOut={() => setIsHoveredTime(false)}
-        >
-          <Text style={styles.selectText}>
+        <TouchableOpacity style={[styles.selectButtons]} onPress={onShowTime}>
+          <Text testID="timeId" style={styles.selectText}>
             {time.toLocaleTimeString("ja-JP", timeOptions)}
           </Text>
         </TouchableOpacity>
@@ -92,7 +72,7 @@ function StartDate({
       {showDate && (
         <DateTimePicker
           mode={"date"}
-          value={date || new Date()}
+          value={date}
           onChange={onDateChange}
           display="spinner"
           is24Hour={true}
@@ -112,7 +92,7 @@ function StartDate({
       )}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

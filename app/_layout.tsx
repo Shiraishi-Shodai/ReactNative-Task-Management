@@ -38,16 +38,23 @@ export default function RootLayout() {
         <Stack
           screenOptions={{
             headerStyle: {
-              backgroundColor: "#f4511e",
+              // backgroundColor: "gray",
             },
           }}
         >
           <Stack.Screen
             name="(tabs)"
             options={{
-              headerShown: true,
-              title: "TaskMan",
+              headerShown: false,
               headerTitleAlign: "center",
+            }}
+          />
+          <Stack.Screen
+            name="(stacks)"
+            options={{
+              headerShown: false,
+              presentation: "modal", // モーダル表示にする場合
+              animation: "slide_from_right",
             }}
           />
           <Stack.Screen name="+not-found" />

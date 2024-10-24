@@ -1,7 +1,5 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getDatabase } from "@firebase/database";
+// // Import the functions you need from the SDKs you need
+import "@react-native-firebase/database"; // Realtime Database用
 // Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -18,7 +16,10 @@ const firebaseConfig = {
   measurementId: "G-X5EL2LRZ08",
 };
 
-// Initialize Firebase
-export const app = initializeApp(firebaseConfig);
-export const db = getDatabase(app);
-// const analytics = getAnalytics(app);
+import firebase from "@react-native-firebase/app";
+import { FirebaseApp } from "@react-native-firebase/database";
+(!firebase.apps.length
+  ? firebase.initializeApp(firebaseConfig)
+  : firebase.app()) as FirebaseApp;
+
+console.log("firebaseを初期化");

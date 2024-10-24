@@ -1,50 +1,32 @@
-# Welcome to your Expo app 👋
+# Task Man
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is task management application
+This Android application was created with Duoring as a motif
 
-## Get started
+## 1. Overview
 
-1. Install dependencies
+This application aims to help you set and accomplish small IT-related tasks every day, so that you can steadily acquire knowledge and skills and grow as an engineer without overworking yourself!
 
-   ```bash
-   npm install
-   ```
+## 2. Back ground
 
-2. Start the app
+When I was a first-year student at a vocational school, I enjoyed studying every day and feeling that I was growing, but recently I have been spending less and less time studying, and I feel that I am not growing enough, so I wanted to create my own system to improve this situation.
 
-   ```bash
-    npx expo start
-   ```
+## 3. Requirement
 
-In the output, you'll find options to open the app in a
+- You can set tasks that you want to accomplish.
+- Fields to be entered when setting tasks.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+  - Task name
+  - Task detail
+  - Task start time
+  - Task execution location
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- Pressing the Done button marks the task as completed (it can also be reset to Unfinished).
+- **Number of days with at least one task completed consecutively displayed on the phone's home screen**
+- Sends notifications (sentences designed by AI to encourage task completion) at 9:00, 13:00, 18:00, and 21:00 when a set task is not completed.
+- When a task is not set as of 7:00 AM, a notification is sent every 2 hours reporting its principal.
+  Use JST for time.
 
-## Get a fresh project
+## 4. execution environment
 
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Android OS only now
