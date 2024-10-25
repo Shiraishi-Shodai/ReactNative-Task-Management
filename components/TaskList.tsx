@@ -107,7 +107,6 @@ function TaskList() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#151718",
     flex: 1,
     width: "100%",
   },
