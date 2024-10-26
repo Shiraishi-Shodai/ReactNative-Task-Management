@@ -30,7 +30,7 @@ const AddTaskFormWrapper = () => {
   );
 
   // タスクを追加する関数
-  const handleSubmit = (
+  const handleSubmit = async (
     values: taskFormValues,
     formikActions: FormikActions
   ) => {
@@ -53,7 +53,7 @@ const AddTaskFormWrapper = () => {
       detail as string,
       start_date
     );
-    addTask(task);
+    await addTask(task);
     changeDateTime();
     formikActions.setSubmitting(false);
     formikActions.resetForm();

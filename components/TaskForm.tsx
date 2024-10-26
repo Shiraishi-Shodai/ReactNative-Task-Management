@@ -6,7 +6,7 @@ import ReusableTextInput from "./ReusableTextInput";
 import StartDate from "./StartDate";
 import { FormikActions, taskFormValues } from "@/types";
 import { ObjectSchema } from "yup";
-import AddResetButton from "./AddResetButton";
+import TaskFormButton from "./TaskFromButton";
 
 type OnSubmit = (values: taskFormValues, formikActions: FormikActions) => void;
 type changeDateTime = () => void;
@@ -96,7 +96,7 @@ const TaskForm = ({
             }}
           />
           <View style={styles.buttonContainer}>
-            <AddResetButton
+            <TaskFormButton
               bgcolor="#fff"
               onPress={() => {
                 handleSubmit();
@@ -104,7 +104,7 @@ const TaskForm = ({
               name={buttonText}
             />
 
-            <AddResetButton
+            <TaskFormButton
               bgcolor="#fff"
               onPress={() => {
                 resetForm();
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   },
   taskNameText: {
     fontFamily: "Noto-Snas-JP",
-    fontSize: 50,
+    fontSize: 40,
   },
   locationText: {
     fontFamily: "Noto-Snas-JP",
