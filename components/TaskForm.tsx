@@ -19,6 +19,7 @@ interface TaskFormProps {
   setDate: React.Dispatch<React.SetStateAction<Date>>;
   time: Date;
   setTime: React.Dispatch<React.SetStateAction<Date>>;
+  buttonText: string;
 }
 const TaskForm = ({
   initialValues,
@@ -29,6 +30,7 @@ const TaskForm = ({
   setDate,
   time,
   setTime,
+  buttonText,
 }: TaskFormProps) => {
   return (
     <Formik
@@ -99,7 +101,7 @@ const TaskForm = ({
               onPress={() => {
                 handleSubmit();
               }}
-              name="Add a task"
+              name={buttonText}
             />
 
             <AddResetButton

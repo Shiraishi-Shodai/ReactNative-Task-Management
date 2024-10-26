@@ -1,17 +1,16 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import { taskSchema } from "@/lib/form_yup";
 import { Task } from "@/classies/Task";
-import uuid from "react-native-uuid";
-import { useFocusEffect } from "expo-router";
 import { getJST } from "@/lib/JST";
-import { addTask } from "@/lib/PersonDAO";
+import { edtiTask } from "@/lib/PersonDAO";
 import TaskForm from "@/components/TaskForm";
 import { FormikActions, taskFormValues } from "@/types";
 
-// FIXME: 不要なコンポーネントのレンダリングを修正する(日付や時計のボタンを押すと不要なレンダリングが発生している)
-
-const TaskFormWrapper = () => {
+interface EditTaskFormWrapperProps {
+  currentTask: Task;
+}
+const EditTaskFormWrapper = ({ currentTask }: EditTaskFormWrapperProps) => {
   // dateとtimeの更新
   const changeDateTime = () => {
     const now = getJST();
@@ -19,23 +18,16 @@ const TaskFormWrapper = () => {
     setTime(now);
   };
 
-  const now = getJST();
+  // 保存済みのタイムスタンプからDateインスタンスを生成
+  const now = new Date(currentTask.start_date);
   const [date, setDate] = useState(now);
   const [time, setTime] = useState(now);
 
-  // このタブがフォーカスされたらstateのdateとtimeを現在時刻に設定
-  useFocusEffect(
-    useCallback(() => {
-      changeDateTime();
-    }, [])
-  );
-
+  // タスクを追加する関数
   const handleSubmit = (
     values: taskFormValues,
     formikActions: FormikActions
   ) => {
-    const task_id = String(uuid.v4());
-    const person_id = "person1"; // FIXME: ログインユーザーのIDに置き換える
     const { name, location, detail } = values;
     const start_date = new Date(
       date.getFullYear(),
@@ -46,24 +38,27 @@ const TaskFormWrapper = () => {
     ).getTime();
 
     const task: Task = new Task(
-      task_id,
-      person_id,
+      currentTask.id,
+      currentTask.person_id,
       name,
       location as string,
       detail as string,
       start_date
     );
-    addTask(task);
-    changeDateTime();
+    edtiTask(task);
     formikActions.setSubmitting(false);
     formikActions.resetForm();
-    Alert.alert("Task Registered");
+    Alert.alert("Task Edited");
   };
 
   return (
     <View style={styles.container}>
       <TaskForm
-        initialValues={{ name: "", location: "", detail: "" }}
+        initialValues={{
+          name: currentTask.name,
+          location: currentTask.location,
+          detail: currentTask.detail,
+        }}
         validationSchema={taskSchema}
         onSubmit={handleSubmit}
         changeDateTime={changeDateTime}
@@ -71,6 +66,7 @@ const TaskFormWrapper = () => {
         setDate={setDate}
         time={time}
         setTime={setTime}
+        buttonText="Edit a task"
       />
     </View>
   );
@@ -84,4 +80,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TaskFormWrapper;
+export default EditTaskFormWrapper;
