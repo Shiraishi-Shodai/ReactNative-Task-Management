@@ -26,11 +26,21 @@ export const getTodaysTasks = async (): Promise<Task[] | undefined> => {
       // 本日の日付の範囲内のタスクを絞り込み
       const todayTasks: Task[] = Object.keys(tasks)
         .map((key) => {
-          return { id: key, ...tasks[key] };
+          const { person_id, name, location, detail, state, start_date } =
+            tasks[key];
+          return new Task(
+            key,
+            person_id,
+            name,
+            location,
+            detail,
+            start_date,
+            state
+          );
         })
         .filter(
           (task: Task) =>
-            task.start_date >= startTimeStamp && task.start_date < endTimeStamp
+            task.start_date >= startTimeStamp && task.start_date <= endTimeStamp
         );
 
       return todayTasks;

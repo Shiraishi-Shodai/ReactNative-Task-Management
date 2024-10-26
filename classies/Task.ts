@@ -58,8 +58,8 @@ export class Task {
     name: string,
     location: string,
     detail: string,
-    state: boolean | undefined,
-    start_date: number
+    start_date: number,
+    state?: boolean
   ) {
     this._id = id;
     this._person_id = person_id;

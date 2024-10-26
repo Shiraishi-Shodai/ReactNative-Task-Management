@@ -30,6 +30,7 @@ function TaskList() {
     }, [])
   );
 
+  // complete・uncompletedが押されたとき実行する関数
   const closeRow = async (rowMap: RowMap<Task>, rowKey: string) => {
     const { id, person_id, name, location, detail, state, start_date } =
       rowMap[rowKey].props.item!;
@@ -39,8 +40,8 @@ function TaskList() {
       name,
       location,
       detail,
-      state,
-      start_date
+      start_date,
+      state
     );
     await task.toggleState();
     if (rowMap[rowKey]) {
@@ -49,6 +50,7 @@ function TaskList() {
     fetchTasks();
   };
 
+  // deleteが押されたときに実行する関数
   const deleteRow = (rowMap: RowMap<Task>, rowKey: string) => {
     closeRow(rowMap, rowKey);
     removeTask(rowKey); // rowKeyのタスクを削除
@@ -58,6 +60,7 @@ function TaskList() {
     console.log("This row opened", rowKey);
   };
 
+  // 行のレイアウトを指定(前側)
   const renderItem = ({ item }: ListRenderItemInfo<Task>) => (
     <TouchableHighlight
       onPress={() => console.log("You touched me")}
@@ -71,14 +74,22 @@ function TaskList() {
             pathname: "/EditTask",
             params: { item: JSON.stringify(item) },
           }}
-          style={[{ color: "white" }]}
+          style={{ paddingLeft: 20 }}
         >
-          <Text style={{ fontSize: 40, color: "black" }}>{item.name}</Text>
+          <Text
+            style={{
+              fontSize: 40,
+              color: "black",
+            }}
+          >
+            {item.name}
+          </Text>
         </Link>
       </View>
     </TouchableHighlight>
   );
 
+  // 行のレイアウトを指定(後ろ側)
   const renderHiddenItem = (
     data: ListRenderItemInfo<Task>,
     rowMap: RowMap<Task>
@@ -110,7 +121,7 @@ function TaskList() {
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
         leftOpenValue={75} // 行を左に開くためのTranslateXの値（正の数）
-        rightOpenValue={-150} // 行を右に開くためのTranslateXの値（負の数）
+        rightOpenValue={-170} // 行を右に開くためのTranslateXの値（負の数）
         previewRowKey={"0"} // このキーを持つ行は、リストがスワイプ可能であることを示すために、スライドアウトプレビューを行うべきである。
         previewOpenValue={-150} // アプリ起動時にスワイプするピクセル数を指定
         previewOpenDelay={3000} // アプリ起動時にスワイプが可能なことを知らせるアニメーションを開始するまでの遅延時間
@@ -137,7 +148,7 @@ const styles = StyleSheet.create({
     height: 100,
   },
   completedRowFront: {
-    backgroundColor: "rgba(0,0,0,0.8)",
+    backgroundColor: "gray",
   },
   completedLine: {
     backgroundColor: "blue", // 線の色
@@ -145,6 +156,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 28,
     width: "100%",
+    justifyContent: "center",
   },
   rowBack: {
     alignItems: "center",
@@ -160,11 +172,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     position: "absolute",
     top: 0,
-    width: 75,
+    width: 85,
   },
   backRightBtnLeft: {
     backgroundColor: "blue",
-    right: 75,
+    right: 85,
   },
   backRightBtnRight: {
     backgroundColor: "red",
