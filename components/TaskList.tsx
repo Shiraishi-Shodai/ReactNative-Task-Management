@@ -1,22 +1,13 @@
 import React, { useCallback, useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableHighlight,
-  ListRenderItemInfo,
-} from "react-native";
+import { View, StyleSheet, ListRenderItemInfo } from "react-native";
 import { RowMap, SwipeListView } from "react-native-swipe-list-view";
-import { Link, useFocusEffect } from "expo-router";
-import { getTodaysTasks, removeTask } from "@/lib/PersonDAO";
+import { useFocusEffect } from "expo-router";
+import { getTodaysTasks } from "@/lib/PersonDAO";
 import { Task } from "@/classies/Task";
+import RenderItem from "./RenderItem";
+import RenderHiddenItem from "./RenderHiddenItem";
 
 function TaskList() {
-  // FIXME: リストをタップすると、リストの詳細を表示し、編集できるように変更
-  // DOCS: SwipeListView https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/SwipeListView.md
-  // DOCS: SWIPERow      https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/SwipeRow.md
-
   const [taskList, setTaskList] = useState<Task[]>();
 
   const fetchTasks = useCallback(async () => {
@@ -30,88 +21,20 @@ function TaskList() {
     }, [])
   );
 
-  // complete・uncompletedが押されたとき実行する関数
-  const closeRow = async (rowMap: RowMap<Task>, rowKey: string) => {
-    const { id, person_id, name, location, detail, state, start_date } =
-      rowMap[rowKey].props.item!;
-    const task: Task = new Task(
-      id,
-      person_id,
-      name,
-      location,
-      detail,
-      start_date,
-      state
-    );
-    await task.toggleState();
-    if (rowMap[rowKey]) {
-      rowMap[rowKey].closeRow();
-    }
-    fetchTasks();
-  };
-
-  // deleteが押されたときに実行する関数
-  const deleteRow = (rowMap: RowMap<Task>, rowKey: string) => {
-    closeRow(rowMap, rowKey);
-    removeTask(rowKey); // rowKeyのタスクを削除
-    fetchTasks(); // 今日のタスクを取得しなおす
-  };
   const onRowDidOpen = (rowKey: string) => {
     console.log("This row opened", rowKey);
   };
 
   // 行のレイアウトを指定(前側)
   const renderItem = ({ item }: ListRenderItemInfo<Task>) => (
-    <TouchableHighlight
-      onPress={() => console.log("You touched me")}
-      style={[styles.rowFront, item.state && styles.completedRowFront]}
-      underlayColor={"#AAA"}
-    >
-      <View>
-        {item.state && <View style={styles.completedLine} />}
-        <Link
-          href={{
-            pathname: "/EditTask",
-            params: { item: JSON.stringify(item) },
-          }}
-          style={{ paddingLeft: 20 }}
-        >
-          <Text
-            style={{
-              fontSize: 40,
-              color: "black",
-            }}
-          >
-            {item.name}
-          </Text>
-        </Link>
-      </View>
-    </TouchableHighlight>
+    <RenderItem item={item} />
   );
 
   // 行のレイアウトを指定(後ろ側)
   const renderHiddenItem = (
     data: ListRenderItemInfo<Task>,
     rowMap: RowMap<Task>
-  ) => (
-    <View style={styles.rowBack}>
-      <Text>Left</Text>
-      <TouchableOpacity
-        style={[styles.backRightBtn, styles.backRightBtnLeft]}
-        onPress={() => closeRow(rowMap, data.item.id)}
-      >
-        <Text style={styles.backTextWhite}>
-          {data.item.state ? "uncompleted" : "complete"}
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.backRightBtn, styles.backRightBtnRight]}
-        onPress={() => deleteRow(rowMap, data.item.id)}
-      >
-        <Text style={styles.backTextWhite}>Delete</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  ) => <RenderHiddenItem data={data} rowMap={rowMap} fetchTasks={fetchTasks} />;
 
   return (
     <View style={styles.container}>
@@ -136,51 +59,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-  },
-  backTextWhite: {
-    color: "#FFF",
-  },
-  rowFront: {
-    backgroundColor: "#CCC",
-    borderBottomColor: "black",
-    borderBottomWidth: 1,
-    justifyContent: "center",
-    height: 100,
-  },
-  completedRowFront: {
-    backgroundColor: "gray",
-  },
-  completedLine: {
-    backgroundColor: "blue", // 線の色
-    borderWidth: 1,
-    position: "absolute",
-    top: 28,
-    width: "100%",
-    justifyContent: "center",
-  },
-  rowBack: {
-    alignItems: "center",
-    backgroundColor: "#DDD",
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingLeft: 200,
-  },
-  backRightBtn: {
-    alignItems: "center",
-    bottom: 0,
-    justifyContent: "center",
-    position: "absolute",
-    top: 0,
-    width: 85,
-  },
-  backRightBtnLeft: {
-    backgroundColor: "blue",
-    right: 85,
-  },
-  backRightBtnRight: {
-    backgroundColor: "red",
-    right: 0,
   },
 });
 
