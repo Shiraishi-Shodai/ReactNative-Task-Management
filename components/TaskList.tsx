@@ -30,10 +30,23 @@ function TaskList() {
     }, [])
   );
 
-  const closeRow = (rowMap: RowMap<Task>, rowKey: string) => {
+  const closeRow = async (rowMap: RowMap<Task>, rowKey: string) => {
+    const { id, person_id, name, location, detail, state, start_date } =
+      rowMap[rowKey].props.item!;
+    const task: Task = new Task(
+      id,
+      person_id,
+      name,
+      location,
+      detail,
+      state,
+      start_date
+    );
+    await task.toggleState();
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }
+    fetchTasks();
   };
 
   const deleteRow = (rowMap: RowMap<Task>, rowKey: string) => {
@@ -48,18 +61,19 @@ function TaskList() {
   const renderItem = ({ item }: ListRenderItemInfo<Task>) => (
     <TouchableHighlight
       onPress={() => console.log("You touched me")}
-      style={styles.rowFront}
+      style={[styles.rowFront, item.state && styles.completedRowFront]}
       underlayColor={"#AAA"}
     >
       <View>
+        {item.state && <View style={styles.completedLine} />}
         <Link
           href={{
             pathname: "/EditTask",
             params: { item: JSON.stringify(item) },
           }}
-          style={{ color: "white" }}
+          style={[{ color: "white" }]}
         >
-          <Text>{item.name}</Text>
+          <Text style={{ fontSize: 40, color: "black" }}>{item.name}</Text>
         </Link>
       </View>
     </TouchableHighlight>
@@ -75,7 +89,9 @@ function TaskList() {
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
         onPress={() => closeRow(rowMap, data.item.id)}
       >
-        <Text style={styles.backTextWhite}>Close</Text>
+        <Text style={styles.backTextWhite}>
+          {data.item.state ? "uncompleted" : "complete"}
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
@@ -119,6 +135,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     justifyContent: "center",
     height: 100,
+  },
+  completedRowFront: {
+    backgroundColor: "rgba(0,0,0,0.8)",
+  },
+  completedLine: {
+    backgroundColor: "blue", // 線の色
+    borderWidth: 1,
+    position: "absolute",
+    top: 28,
+    width: "100%",
   },
   rowBack: {
     alignItems: "center",
