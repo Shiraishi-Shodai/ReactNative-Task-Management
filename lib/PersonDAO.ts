@@ -71,6 +71,20 @@ export const addTask = async (task: Task) => {
     .catch((err) => console.error(err));
 };
 
+// タスクの編集
+export const edtiTask = async (task: Task) => {
+  try {
+    const taskRef = database().ref(`tasks/${task.id}/`);
+    await taskRef.update({
+      name: task.name,
+      location: task.location,
+      detail: task.detail,
+    });
+  } catch (e) {
+    console.error(`タスク編集エラー: ${e}`);
+  }
+};
+
 // 指定したidのタスクを削除
 export const removeTask = async (id: string): Promise<void> => {
   try {
