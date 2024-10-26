@@ -1,3 +1,5 @@
+import database from "@react-native-firebase/database";
+
 export class Task {
   private _id: string;
   private _person_id: string;
@@ -56,14 +58,15 @@ export class Task {
     name: string,
     location: string,
     detail: string,
-    start_date: number
+    start_date: number,
+    state?: boolean
   ) {
     this._id = id;
     this._person_id = person_id;
     this._name = name;
     this._location = location;
     this._detail = detail;
-    this._state = false;
+    this._state = state ?? false;
     this._start_date = start_date;
   }
 
@@ -71,4 +74,14 @@ export class Task {
   public sendRemind(): void {}
 
   // TODO: タスクの完了・未完了
+  public toggleState = async (): Promise<void> => {
+    try {
+      const taskRef = database().ref(`tasks/${this._id}`);
+      const snapshot = await taskRef.once("value");
+      const currentState: boolean = snapshot.val().state;
+      await taskRef.update({ state: !currentState });
+    } catch (e) {
+      console.log(`データ更新エラー : ${e}`);
+    }
+  };
 }

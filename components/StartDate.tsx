@@ -115,7 +115,6 @@ const styles = StyleSheet.create({
   selectText: {
     fontFamily: "Noto-Sans-JP",
     fontSize: 20,
-    color: "#fff",
   },
 });
 
