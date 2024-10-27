@@ -27,6 +27,14 @@ When I was a first-year student at a vocational school, I enjoyed studying every
 - When a task is not set as of 7:00 AM, a notification is sent every 2 hours reporting its principal.
   Use JST for time.
 
+### Permission
+
+[OAuth2.0](https://auth0.com/jp/intro-to-iam/what-is-oauth-2)
+[JWT](https://developer.mamezou-tech.com/blogs/2022/12/08/jwt-auth/#jws%E3%81%AE%E6%A4%9C%E8%A8%BC)
+
+**key store の発行**
+keytool -genkey -v -keystore debug.keystore -alias androiddebugkey -storepass android -keypass android -keyalg RSA -validity 10000
+
 ## 4. execution environment
 
 Android OS only now

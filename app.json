@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "task-management-app",
-    "slug": "task-management-app",
+    "slug": "taskman",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -11,10 +11,6 @@
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.school.androidapp"
     },
     "android": {
       "googleServicesFile": "./google-services.json",
@@ -47,11 +43,14 @@
     "experiments": {
       "typedRoutes": true
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "extra": {
       "eas": {
-        "projectId": "94ce89a7-73da-4591-8437-8e5eab5b32a1"
+        "projectId": "5763f89d-5fe6-47f9-923d-b48dbab91741"
       }
-    }
+    },
+    "owner": "shota2"
   }
 }

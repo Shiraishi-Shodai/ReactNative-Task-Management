@@ -1,41 +1,42 @@
 {
   "project_info": {
-    "project_number": "388533406260",
-    "project_id": "devproject-8f5ab",
-    "storage_bucket": "devproject-8f5ab.appspot.com"
+    "project_number": "332801672964",
+    "firebase_url": "https://tutorial-3d280-default-rtdb.firebaseio.com",
+    "project_id": "tutorial-3d280",
+    "storage_bucket": "tutorial-3d280.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:388533406260:android:00e009fc579a3f526a1861",
+        "mobilesdk_app_id": "1:332801672964:android:cf818c243d8794e5d73251",
         "android_client_info": {
           "package_name": "com.school.androidapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "388533406260-1fihqm9v74kler2usddgg504883ptn1n.apps.googleusercontent.com",
+          "client_id": "332801672964-dtolu13pk01o9kk0febp55tlgavpffes.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.school.androidapp",
-            "certificate_hash": "9c1026665a866e634c1c97c67d486a6c0e8b9b73"
+            "certificate_hash": "b1e4a20e32c9c41b3ab66c10b30fda1526153c2c"
           }
         },
         {
-          "client_id": "388533406260-7i6t4v3cuahnmq6cgp1m6cgfmfl1mqgh.apps.googleusercontent.com",
+          "client_id": "332801672964-vij8mve9ig5b487b097duvu5vhe3glme.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBNSQkqv1cTmYV0DSEipz24Z9Er4AxoYvo"
+          "current_key": "AIzaSyAHyc8gTOtPnzfGIMtBN7Es9KvwrmX1Qvo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "388533406260-7i6t4v3cuahnmq6cgp1m6cgfmfl1mqgh.apps.googleusercontent.com",
+              "client_id": "332801672964-vij8mve9ig5b487b097duvu5vhe3glme.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
