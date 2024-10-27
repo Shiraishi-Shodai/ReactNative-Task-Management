@@ -13,7 +13,6 @@ interface EditTaskFormWrapperProps {
 }
 const EditTaskFormWrapper = ({ currentTask }: EditTaskFormWrapperProps) => {
   const navigation = useNavigation();
-  const indexUrl: string = "/(tabs)";
 
   // dateとtimeの更新
   const changeDateTime = () => {
