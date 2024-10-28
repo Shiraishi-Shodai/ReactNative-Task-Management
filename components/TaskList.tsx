@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { View, StyleSheet, ListRenderItemInfo } from "react-native";
+import { View, StyleSheet, ListRenderItemInfo, Text } from "react-native";
 import { RowMap, SwipeListView } from "react-native-swipe-list-view";
 import { useFocusEffect } from "expo-router";
 import { getTodaysTasks } from "@/lib/PersonDAO";
@@ -8,7 +8,7 @@ import RenderItem from "./RenderItem";
 import RenderHiddenItem from "./RenderHiddenItem";
 
 function TaskList() {
-  const [taskList, setTaskList] = useState<Task[]>();
+  const [taskList, setTaskList] = useState<Task[]>([]);
 
   const fetchTasks = useCallback(async () => {
     const data = await getTodaysTasks(); // 非同期関数の結果を待つ

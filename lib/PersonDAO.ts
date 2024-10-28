@@ -42,7 +42,6 @@ export const getTodaysTasks = async (): Promise<Task[] | undefined> => {
           (task: Task) =>
             task.start_date >= startTimeStamp && task.start_date <= endTimeStamp
         );
-
       return todayTasks;
     } else {
       console.log("タスクが見つかりませんでした");

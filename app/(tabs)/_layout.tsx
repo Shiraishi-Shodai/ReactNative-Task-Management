@@ -1,9 +1,9 @@
 import { Tabs } from "expo-router";
 import React from "react";
-
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import LoginIcon from "@/components/LoginIcon";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -21,6 +21,13 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Home",
+          headerTitleAlign: "center", // タイトルを中央に配置
+          headerRight: () => <LoginIcon />, // 右端にアイコンを表示
+          headerRightContainerStyle: {
+            paddingRight: 10,
+            paddingBottom: 10,
+            borderRadius: 200,
+          },
           headerShown: true,
           headerStyle: { backgroundColor: "#888888" },
           tabBarStyle: { display: "flex" },
