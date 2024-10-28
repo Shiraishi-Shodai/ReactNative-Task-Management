@@ -26,7 +26,6 @@ export default function TabLayout() {
           headerRightContainerStyle: {
             paddingRight: 10,
             paddingBottom: 10,
-            borderRadius: 200,
           },
           headerShown: true,
           headerStyle: { backgroundColor: "#888888" },

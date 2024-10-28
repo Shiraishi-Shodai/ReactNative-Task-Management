@@ -15,6 +15,7 @@ const userIconstyles = StyleSheet.create({
   iconSize: {
     width: 50,
     height: 50,
+    borderRadius: 200,
   },
 });
 export default LoginIcon;

@@ -3,13 +3,15 @@ import { View, StyleSheet, Alert } from "react-native";
 import { taskSchema } from "@/lib/form_yup";
 import { Task } from "@/classies/Task";
 import uuid from "react-native-uuid";
-import { useFocusEffect } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { getJST } from "@/lib/JST";
 import { addTask } from "@/lib/PersonDAO";
 import TaskForm from "@/components/TaskForm";
 import { FormikActions, taskFormValues } from "@/types";
 
 const AddTaskFormWrapper = () => {
+  const router = useRouter();
+
   // dateとtimeの更新
   const changeDateTime = () => {
     const now = getJST();
@@ -57,7 +59,12 @@ const AddTaskFormWrapper = () => {
     changeDateTime();
     formikActions.setSubmitting(false);
     formikActions.resetForm();
-    Alert.alert("Task Registered");
+    Alert.alert("Add a taskl", "Return to Home.", [
+      {
+        text: "OK",
+        onPress: () => router.navigate("/(tabs)/"), // ホームタブに戻る
+      },
+    ]);
   };
 
   return (

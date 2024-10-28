@@ -6,13 +6,13 @@ import { getJST } from "@/lib/JST";
 import { edtiTask } from "@/lib/PersonDAO";
 import TaskForm from "@/components/TaskForm";
 import { FormikActions, taskFormValues } from "@/types";
-import { useNavigation } from "expo-router";
+import { useRouter } from "expo-router";
 
 interface EditTaskFormWrapperProps {
   currentTask: Task;
 }
 const EditTaskFormWrapper = ({ currentTask }: EditTaskFormWrapperProps) => {
-  const navigation = useNavigation();
+  const router = useRouter();
 
   // dateとtimeの更新
   const changeDateTime = () => {
@@ -54,7 +54,7 @@ const EditTaskFormWrapper = ({ currentTask }: EditTaskFormWrapperProps) => {
     Alert.alert("Edited a taskl", "Return to Home.", [
       {
         text: "OK",
-        onPress: () => navigation.goBack(), // ホームタブに戻る
+        onPress: () => router.navigate("/(tabs)/"), // ホームタブに戻る
       },
     ]);
   };
