@@ -35,7 +35,7 @@ const Login = () => {
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
       // 証明書を使ってサインイン
-      auth().signInWithCredential(googleCredential);
+      await auth().signInWithCredential(googleCredential);
       //   ホーム画面に移動
       router.navigate("/(tabs)/");
     } catch (e) {

@@ -2,7 +2,7 @@ import React from "react";
 import { Pressable, Text, View } from "react-native";
 import auth from "@react-native-firebase/auth";
 
-const SignOutButton = () => {
+const LogOutButton = () => {
   const signOut = () => {
     auth()
       .signOut()
@@ -15,10 +15,10 @@ const SignOutButton = () => {
   return (
     <View style={{ backgroundColor: "blue" }}>
       <Pressable onPress={signOut}>
-        <Text>Explore</Text>
+        <Text>Logout</Text>
       </Pressable>
     </View>
   );
 };
 
-export default SignOutButton;
+export default LogOutButton;

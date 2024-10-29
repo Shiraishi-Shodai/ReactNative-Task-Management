@@ -1,17 +1,15 @@
 import React, { useContext, useEffect } from "react";
 import { AuthContext } from "@/components/AuthProvider";
-import Login from "@/app/(stacks)";
-import { useRouter } from "expo-router";
+import Login from "@/app/Login";
 
 // https://www.freecodecamp.org/news/higher-order-components-in-react/
 function WithAuth(WrappedComponent: any) {
   return function (props: any) {
     const { user } = useContext(AuthContext);
-    const router = useRouter();
+    console.log("Hello" + user?.displayName);
 
     if (!user) {
-      router.navigate("/(stacks)/");
-      return <Login />;
+      return <Login {...props} />;
     }
 
     return <WrappedComponent {...props} />;

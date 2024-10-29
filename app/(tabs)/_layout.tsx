@@ -1,12 +1,19 @@
-import { Tabs } from "expo-router";
-import React from "react";
+import { Redirect, Tabs } from "expo-router";
+import React, { useContext } from "react";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import LoginIcon from "@/components/LoginIcon";
+import { AuthContext } from "@/components/AuthProvider";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const { user } = useContext(AuthContext);
+
+  // ユーザーがログイン中でなければ、ログイン画面にリダイレクト
+  if (user == null) {
+    return <Redirect href="/login" />;
+  }
 
   // tabやStackの詳しい説明https://reffect.co.jp/react/expo-router
   return (

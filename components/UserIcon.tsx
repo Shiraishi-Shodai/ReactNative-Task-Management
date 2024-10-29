@@ -15,7 +15,7 @@ const UserIcon = ({ style }: UserIconProps) => {
     <View style={styles.iconContainer}>
       <Image
         source={
-          user.photoURL
+          user
             ? { uri: user.photoURL }
             : require("@/assets/images/react-logo.png")
         }

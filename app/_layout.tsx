@@ -6,12 +6,12 @@ import {
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import AuthProvider, { AuthContext } from "@/components/AuthProvider";
+import AuthProvider from "@/components/AuthProvider";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -42,6 +42,7 @@ export default function RootLayout() {
               headerStyle: {
                 // backgroundColor: "gray",
               },
+              headerShown: false,
             }}
           >
             <Stack.Screen
@@ -59,6 +60,7 @@ export default function RootLayout() {
                 animation: "slide_from_right",
               }}
             />
+
             <Stack.Screen name="+not-found" />
           </Stack>
         </GestureHandlerRootView>
