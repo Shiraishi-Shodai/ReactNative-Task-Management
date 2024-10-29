@@ -25,8 +25,8 @@ const Login = () => {
       const userInfo: SignInSuccessResponse | CancelledResponse =
         await GoogleSignin.signIn();
 
-      if ("cancelled" in userInfo) {
-        throw new Error("GoogleSign in cancelled");
+      if ("cancelled" == userInfo.type) {
+        return;
       }
       // Get the users ID token(ID tokenはクライアントアプリがユーザーIDを使用するためのもの)
       const { idToken } = await GoogleSignin.getTokens();

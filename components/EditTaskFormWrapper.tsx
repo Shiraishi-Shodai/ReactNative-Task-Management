@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import { taskSchema } from "@/lib/form_yup";
 import { Task } from "@/classies/Task";
-import { getJST } from "@/lib/JST";
 import { edtiTask } from "@/lib/PersonDAO";
 import TaskForm from "@/components/TaskForm";
 import { FormikActions, taskFormValues } from "@/types";
@@ -16,7 +15,7 @@ const EditTaskFormWrapper = ({ currentTask }: EditTaskFormWrapperProps) => {
 
   // dateとtimeの更新
   const changeDateTime = () => {
-    const now = getJST();
+    const now = new Date();
     setDate(now);
     setTime(now);
   };

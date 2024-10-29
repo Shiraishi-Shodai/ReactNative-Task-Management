@@ -13,9 +13,9 @@ const LogOutButton = () => {
   };
 
   return (
-    <View style={{ backgroundColor: "blue" }}>
+    <View style={{ backgroundColor: "black" }}>
       <Pressable onPress={signOut}>
-        <Text>Logout</Text>
+        <Text style={{ color: "#fff" }}>Logout</Text>
       </Pressable>
     </View>
   );
