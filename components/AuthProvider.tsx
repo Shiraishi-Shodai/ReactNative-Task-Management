@@ -22,6 +22,9 @@ interface AuthProviderProps {
 }
 
 function AuthProvider({ children }: AuthProviderProps) {
+  // 初期値はnullを明示的に設定
+  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+
   // アプリ起動時にGoogleSigninに必要な設定を読み込む
   useEffect(() => {
     GoogleSignin.configure({
@@ -37,9 +40,6 @@ function AuthProvider({ children }: AuthProviderProps) {
     // auth().onAuthStateChangedは監視し続けるリスナーを返す。ここではコンポーネントが表示されなくなったときにリスナーを解除している
     return () => subscriber(); // リスナーをクリーンアップ
   }, []);
-
-  // 初期値はnullを明示的に設定
-  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
 
   // ユーザの状態が変わったときに呼び出される関数
   const onAuthStateChanged = (user: FirebaseAuthTypes.User | null) => {

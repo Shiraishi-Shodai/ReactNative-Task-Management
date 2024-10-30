@@ -16,30 +16,40 @@ const Login = () => {
   //   サインアップボタンが押されたとき
   async function onGoogleButtonPress() {
     try {
+      const oldUser = GoogleSignin.getCurrentUser();
+
+      if (oldUser) {
+        if (oldUser.idToken) {
+          await GoogleSignin.clearCachedAccessToken(oldUser.idToken);
+        }
+      }
+
       // デバイスがGoogle Playを利用できるか確認
       await GoogleSignin.hasPlayServices({
         showPlayServicesUpdateDialog: true,
       });
 
-      // ユーザーがアプリケーションにサインインするためのモーダルを表示
+      // Googleサインイン画面を表示し、ユーザーにサインインしてもらいます。これにより、idToken が取得されます。
       const userInfo: SignInSuccessResponse | CancelledResponse =
         await GoogleSignin.signIn();
 
+      // キャンセルされたら何もせずにこの関数を抜ける
       if ("cancelled" == userInfo.type) {
         return;
       }
-      // Get the users ID token(ID tokenはクライアントアプリがユーザーIDを使用するためのもの)
+      // ユーザー情報などを暗号化したJWT取得
       const { idToken } = await GoogleSignin.getTokens();
 
-      // ID tokenを使ってGoogle証明書を発行
+      // Googleの idToken を使って、Firebaseに認証用の資格情報を作成します。
+      // AuthCredentialオブジェクトを取得.AuthCredentialは、様々な認証プロバイダ（Google、Facebook、メール/パスワードなど）からの認証情報を統一的に扱うためのオブジェクト
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
-      // 証明書を使ってサインイン
+      //FirebaseにGoogle認証情報を使ってログインします。この際、Firebaseユーザーオブジェクト (userCredential.user) を取得できます。
       await auth().signInWithCredential(googleCredential);
       //   ホーム画面に移動
       router.navigate("/(tabs)/");
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      console.log(e.code, e.message);
     }
   }
 
