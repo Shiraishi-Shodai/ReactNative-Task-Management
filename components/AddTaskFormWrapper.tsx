@@ -3,22 +3,23 @@ import { View, StyleSheet, Alert } from "react-native";
 import { taskSchema } from "@/lib/form_yup";
 import { Task } from "@/classies/Task";
 import uuid from "react-native-uuid";
-import { useFocusEffect } from "expo-router";
-import { getJST } from "@/lib/JST";
+import { useFocusEffect, useRouter } from "expo-router";
 import { addTask } from "@/lib/PersonDAO";
 import TaskForm from "@/components/TaskForm";
 import { FormikActions, taskFormValues } from "@/types";
 
 const AddTaskFormWrapper = () => {
+  const router = useRouter();
+
   // dateとtimeの更新
   const changeDateTime = () => {
-    const now = getJST();
+    const now = new Date();
     setDate(now);
     setTime(now);
   };
 
   // 編集時は保存済みのタイムスタンプからDateインスタンスを生成
-  const now = getJST();
+  const now = new Date();
   const [date, setDate] = useState(now);
   const [time, setTime] = useState(now);
 
@@ -30,7 +31,7 @@ const AddTaskFormWrapper = () => {
   );
 
   // タスクを追加する関数
-  const handleSubmit = (
+  const handleSubmit = async (
     values: taskFormValues,
     formikActions: FormikActions
   ) => {
@@ -53,11 +54,16 @@ const AddTaskFormWrapper = () => {
       detail as string,
       start_date
     );
-    addTask(task);
+    await addTask(task);
     changeDateTime();
     formikActions.setSubmitting(false);
     formikActions.resetForm();
-    Alert.alert("Task Registered");
+    Alert.alert("Add a taskl", "Return to Home.", [
+      {
+        text: "OK",
+        onPress: () => router.navigate("/(tabs)/"), // ホームタブに戻る
+      },
+    ]);
   };
 
   return (

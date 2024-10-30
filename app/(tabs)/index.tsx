@@ -1,21 +1,22 @@
-import { StyleSheet, View } from "react-native";
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-} from "@react-native-google-signin/google-signin";
+import { StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
-
 import TaskList from "@/components/TaskList";
 import "@/lib/firebase"; // firebaseをindex.tsxで初期化
+// import { useContext } from "react";
+// import { AuthContext } from "@/components/AuthProvider";
 
-export default function HomeScreen() {
+const HomeScreen = () => {
+  // const { user } = useContext(AuthContext);
+
   return (
     <View style={styles.container}>
       <TaskList />
-      <StatusBar style="auto" />
+      <StatusBar />
     </View>
   );
-}
+};
+
+export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {

@@ -3,11 +3,15 @@ import React from "react";
 
 export default function StackLayout() {
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        headerShown: true,
+      }}
+    >
       <Stack.Screen
-        name="EditTask"
+        name="editTask"
         options={{
-          headerTitle: "タスクの編集",
+          headerTitle: "Edit Task Scree",
           headerStyle: {
             backgroundColor: "#888888",
           },

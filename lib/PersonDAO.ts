@@ -1,12 +1,11 @@
 import { Task } from "@/classies/Task";
 import database from "@react-native-firebase/database";
-import { getJST } from "./JST";
 
 // FIXME: 引数にperson_idを取るように変更する
 // ログイン中のユーザーの今日のタスクをすべて取得する
 export const getTodaysTasks = async (): Promise<Task[] | undefined> => {
   const person_id = "person1";
-  const today = getJST();
+  const today = new Date();
   today.setHours(0, 0, 0, 0);
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
@@ -41,8 +40,8 @@ export const getTodaysTasks = async (): Promise<Task[] | undefined> => {
         .filter(
           (task: Task) =>
             task.start_date >= startTimeStamp && task.start_date <= endTimeStamp
-        );
-
+        )
+        .sort((a, b) => a.start_date - b.start_date);
       return todayTasks;
     } else {
       console.log("タスクが見つかりませんでした");

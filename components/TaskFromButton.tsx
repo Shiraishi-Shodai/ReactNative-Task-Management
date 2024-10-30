@@ -6,13 +6,13 @@ import {
   Text,
 } from "react-native";
 
-interface AddResetButtonProps {
+interface TaskFormProps {
   name: string;
   bgcolor: string;
   onPress: (event: GestureResponderEvent) => void;
 }
 
-const AddResetButton = ({ bgcolor, onPress, name }: AddResetButtonProps) => {
+const TaskForm = ({ bgcolor, onPress, name }: TaskFormProps) => {
   return (
     <Pressable
       style={[{ backgroundColor: bgcolor }, styles.addResetView]}
@@ -23,7 +23,7 @@ const AddResetButton = ({ bgcolor, onPress, name }: AddResetButtonProps) => {
   );
 };
 
-export default AddResetButton;
+export default TaskForm;
 
 const styles = StyleSheet.create({
   addResetView: {

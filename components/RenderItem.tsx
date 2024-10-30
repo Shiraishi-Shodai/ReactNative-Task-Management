@@ -17,7 +17,7 @@ const RenderItem = ({ item }: RenderItemProps) => {
         {item.state && <View style={styles.completedLine} />}
         <Link
           href={{
-            pathname: "/EditTask",
+            pathname: "/editTask",
             params: { item: JSON.stringify(item) },
           }}
           style={{ paddingLeft: 20 }}

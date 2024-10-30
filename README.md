@@ -25,7 +25,15 @@ When I was a first-year student at a vocational school, I enjoyed studying every
 - **Number of days with at least one task completed consecutively displayed on the phone's home screen**
 - Sends notifications (sentences designed by AI to encourage task completion) at 9:00, 13:00, 18:00, and 21:00 when a set task is not completed.
 - When a task is not set as of 7:00 AM, a notification is sent every 2 hours reporting its principal.
-  Use JST for time.
+  Clock uses the default time zone of the Android device.
+
+### Permission
+
+[OAuth2.0](https://auth0.com/jp/intro-to-iam/what-is-oauth-2)
+[JWT](https://developer.mamezou-tech.com/blogs/2022/12/08/jwt-auth/#jws%E3%81%AE%E6%A4%9C%E8%A8%BC)
+
+**key store の発行**
+keytool -genkey -v -keystore debug.keystore -alias androiddebugkey -storepass android -keypass android -keyalg RSA -validity 10000
 
 ## 4. execution environment
 

@@ -1,12 +1,9 @@
+import LogOutButton from "@/components/LogoutButton";
 import React from "react";
 import { Text, View } from "react-native";
 
 function Explore() {
-  return (
-    <View>
-      <Text>Explore</Text>
-    </View>
-  );
+  return <LogOutButton />;
 }
 
 export default Explore;
