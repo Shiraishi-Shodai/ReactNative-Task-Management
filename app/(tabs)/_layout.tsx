@@ -32,7 +32,7 @@ export default function TabLayout() {
           headerRight: () => <LoginIcon />, // 右端にアイコンを表示
           headerRightContainerStyle: {
             paddingRight: 10,
-            paddingBottom: 10,
+            // paddingBottom: 10,
           },
           headerShown: true,
           headerStyle: { backgroundColor: "#888888" },

@@ -1,9 +1,12 @@
 import React from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import auth from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
-const LogOutButton = () => {
+interface LogOutButtonProps {
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const LogOutButton = ({ setIsVisible }: LogOutButtonProps) => {
   const signOut = async () => {
     try {
       const oldUser = GoogleSignin.getCurrentUser();
@@ -12,9 +15,9 @@ const LogOutButton = () => {
 
       if (oldUser.idToken) {
         await GoogleSignin.clearCachedAccessToken(oldUser.idToken);
-        console.log("idToken : " + oldUser.idToken + "を削除しました");
       }
 
+      setIsVisible(false);
       await auth().signOut();
       await GoogleSignin.signOut();
     } catch (e: any) {
@@ -23,12 +26,24 @@ const LogOutButton = () => {
   };
 
   return (
-    <View style={{ backgroundColor: "black" }}>
-      <Pressable onPress={signOut}>
-        <Text style={{ color: "#fff" }}>Logout</Text>
-      </Pressable>
-    </View>
+    <Pressable style={styles.button} onPress={signOut}>
+      <Text style={styles.buttonText}>Log Out</Text>
+    </Pressable>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: "#0c0d0e",
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+});
 
 export default LogOutButton;
