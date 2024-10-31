@@ -47,7 +47,6 @@ export class User {
 
   // ログイン中のユーザーの今日のタスクをすべて取得する
   public getTodaysTasks = async (): Promise<Task[] | undefined> => {
-    const person_id = this.id;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const tomorrow = new Date(today);
@@ -59,8 +58,8 @@ export class User {
     try {
       const taskRef = database().ref("tasks");
       const snapshot = await taskRef
-        .orderByChild("person_id")
-        .equalTo(person_id)
+        .orderByChild("user_id")
+        .equalTo(this.id)
         .once("value");
       const tasks = snapshot.val();
 
@@ -68,22 +67,16 @@ export class User {
         // 本日の日付の範囲内のタスクを絞り込み
         const todayTasks: Task[] = Object.keys(tasks)
           .map((key) => {
-            const { person_id, name, location, detail, state, start_date } =
+            const { user_id, name, location, detail, state, start_date } =
               tasks[key];
-
-            // UTC+0からローカルのタイムゾーンに変換
-            const local_start_date = toZonedTime(
-              new Date(start_date),
-              "UTC"
-            ).getTime();
 
             return new Task(
               key,
-              person_id,
+              user_id,
               name,
               location,
               detail,
-              local_start_date,
+              start_date,
               state
             );
           })
@@ -103,33 +96,31 @@ export class User {
     }
   };
 
-  // // 新しいタスクを追加
+  // 新しいタスクを追加
   public addTask = async (task: Task) => {
-    const person_id = this.id;
-    await database()
-      .ref(`tasks/${task.id}`)
-      .set({
-        person_id: person_id,
+    try {
+      const taskRef = database().ref(`tasks/${task.id}`);
+      await taskRef.set({
+        user_id: this.id,
         name: task.name,
         location: task.location,
         detail: task.detail,
         state: task.state,
         start_date: task.start_date,
-      })
-      .then(() => console.log("登録しました"))
-      .catch((err) => console.error(err));
+      });
+
+      console.log("登録しました");
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   // 指定したidのタスクを削除
   public removeTask = async (id: string): Promise<void> => {
     try {
       const taskRef = database().ref("tasks");
-      taskRef
-        .child(id)
-        .remove()
-        .then(() => {
-          console.log(`${id}のタスクを削除しました`);
-        });
+      taskRef.child(id).remove();
+      console.log(`${id}のタスクを削除しました`);
     } catch (error) {
       console.error("データ削除エラー:", error);
     }

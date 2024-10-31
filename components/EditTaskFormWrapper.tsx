@@ -31,15 +31,13 @@ const EditTaskFormWrapper = ({ currentTask }: EditTaskFormWrapperProps) => {
     formikActions: FormikActions
   ) => {
     const { name, location, detail } = values;
-    const local_start_date = new Date(
+    const start_date = new Date(
       date.getFullYear(),
       date.getMonth(),
       date.getDate(),
       time.getHours(),
       time.getMinutes()
-    );
-
-    const start_date = toZonedTime(local_start_date, "UTC").getTime();
+    ).getTime();
 
     await currentTask.edtiTask(name, start_date, location, detail);
 

@@ -18,6 +18,7 @@ const StartDate = ({
   setTime,
 }: StartDateProps): ReactElement => {
   const timeOptions: Intl.DateTimeFormatOptions = {
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     hour: "2-digit",
     minute: "2-digit",
   };
@@ -58,7 +59,9 @@ const StartDate = ({
       <View style={styles.selectButtonsView}>
         <TouchableOpacity style={[styles.selectButtons]} onPress={onShowDate}>
           <Text testID="dataId" style={styles.selectText}>
-            {date.toLocaleDateString("ja-JP")}
+            {date.toLocaleDateString("ja-JP", {
+              timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            })}
           </Text>
         </TouchableOpacity>
 
