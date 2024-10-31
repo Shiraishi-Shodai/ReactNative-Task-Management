@@ -1,3 +1,4 @@
+import { toZonedTime } from "date-fns-tz";
 import { Task } from "./Task";
 import database from "@react-native-firebase/database";
 
@@ -69,13 +70,20 @@ export class User {
           .map((key) => {
             const { person_id, name, location, detail, state, start_date } =
               tasks[key];
+
+            // UTC+0からローカルのタイムゾーンに変換
+            const local_start_date = toZonedTime(
+              new Date(start_date),
+              "UTC"
+            ).getTime();
+
             return new Task(
               key,
               person_id,
               name,
               location,
               detail,
-              start_date,
+              local_start_date,
               state
             );
           })
@@ -97,7 +105,6 @@ export class User {
 
   // // 新しいタスクを追加
   public addTask = async (task: Task) => {
-    // FIXME: ユーザーIDにログインしているユーザーIDを設定
     const person_id = this.id;
     await database()
       .ref(`tasks/${task.id}`)

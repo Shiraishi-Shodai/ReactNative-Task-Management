@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import { taskSchema } from "@/lib/form_yup";
 import { Task } from "@/classies/Task";
-import { edtiTask } from "@/lib/PersonDAO";
 import TaskForm from "@/components/TaskForm";
 import { FormikActions, taskFormValues } from "@/types";
 import { useRouter } from "expo-router";
+import { toZonedTime } from "date-fns-tz";
 
 interface EditTaskFormWrapperProps {
   currentTask: Task;
@@ -31,13 +31,15 @@ const EditTaskFormWrapper = ({ currentTask }: EditTaskFormWrapperProps) => {
     formikActions: FormikActions
   ) => {
     const { name, location, detail } = values;
-    const start_date = new Date(
+    const local_start_date = new Date(
       date.getFullYear(),
       date.getMonth(),
       date.getDate(),
       time.getHours(),
       time.getMinutes()
-    ).getTime();
+    );
+
+    const start_date = toZonedTime(local_start_date, "UTC").getTime();
 
     await currentTask.edtiTask(name, start_date, location, detail);
 

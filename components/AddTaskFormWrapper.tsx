@@ -8,6 +8,7 @@ import TaskForm from "@/components/TaskForm";
 import { FormikActions, taskFormValues } from "@/types";
 import { AuthContext } from "./AuthProvider";
 import { User } from "@/classies/User";
+import { format, toZonedTime } from "date-fns-tz";
 
 const AddTaskFormWrapper = () => {
   const router = useRouter();
@@ -20,7 +21,6 @@ const AddTaskFormWrapper = () => {
     setTime(now);
   };
 
-  // 編集時は保存済みのタイムスタンプからDateインスタンスを生成
   const now = new Date();
   const [date, setDate] = useState(now);
   const [time, setTime] = useState(now);
@@ -40,13 +40,17 @@ const AddTaskFormWrapper = () => {
     const task_id = String(uuid.v4());
     const person_id = user.id;
     const { name, location, detail } = values;
-    const start_date = new Date(
+
+    // サーバーに送信する時間はUTC+0に統一する
+    const local_start_date = new Date(
       date.getFullYear(),
       date.getMonth(),
       date.getDate(),
       time.getHours(),
       time.getMinutes()
-    ).getTime();
+    );
+
+    const start_date = toZonedTime(local_start_date, "UTC").getTime();
 
     const task: Task = new Task(
       task_id,
