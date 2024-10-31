@@ -1,5 +1,5 @@
 import { Task } from "@/classies/Task";
-import React from "react";
+import React, { useContext } from "react";
 import {
   ListRenderItemInfo,
   StyleSheet,
@@ -8,7 +8,8 @@ import {
   View,
 } from "react-native";
 import { RowMap } from "react-native-swipe-list-view";
-import { removeTask } from "@/lib/PersonDAO";
+import { AuthContext } from "./AuthProvider";
+import { User } from "@/classies/User";
 interface RenderHiddenItemProps {
   data: ListRenderItemInfo<Task>;
   rowMap: RowMap<Task>;
@@ -20,6 +21,7 @@ const RenderHiddenItem = ({
   rowMap,
   fetchTasks,
 }: RenderHiddenItemProps) => {
+  const { user }: { user: User } = useContext(AuthContext) as { user: User };
   // complete・uncompletedが押されたとき実行する関数
   const closeRow = async (rowMap: RowMap<Task>, rowKey: string) => {
     const { id, person_id, name, location, detail, state, start_date } =
@@ -41,10 +43,10 @@ const RenderHiddenItem = ({
   };
 
   // deleteが押されたときに実行する関数
-  const deleteRow = (rowMap: RowMap<Task>, rowKey: string) => {
+  const deleteRow = async (rowMap: RowMap<Task>, rowKey: string) => {
     closeRow(rowMap, rowKey);
-    removeTask(rowKey); // rowKeyのタスクを削除
-    fetchTasks(); // 今日のタスクを取得しなおす
+    await user.removeTask(rowKey); // rowKeyのタスクを削除
+    await fetchTasks(); // 今日のタスクを取得しなおす
   };
 
   return (

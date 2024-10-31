@@ -39,23 +39,12 @@ const EditTaskFormWrapper = ({ currentTask }: EditTaskFormWrapperProps) => {
       time.getMinutes()
     ).getTime();
 
-    const task: Task = new Task(
-      currentTask.id,
-      currentTask.person_id,
-      name,
-      location as string,
-      detail as string,
-      start_date
-    );
-    await edtiTask(task);
+    await currentTask.edtiTask(name, start_date, location, detail);
+
     formikActions.setSubmitting(false);
     formikActions.resetForm();
-    Alert.alert("Edited a taskl", "Return to Home.", [
-      {
-        text: "OK",
-        onPress: () => router.navigate("/(tabs)/"), // ホームタブに戻る
-      },
-    ]);
+
+    router.navigate("/(tabs)/"); // ホームタブに戻る
   };
   return (
     <View style={styles.container}>

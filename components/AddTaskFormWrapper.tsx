@@ -1,15 +1,17 @@
-import React, { useCallback, useState } from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import React, { useCallback, useContext, useState } from "react";
+import { View, StyleSheet } from "react-native";
 import { taskSchema } from "@/lib/form_yup";
 import { Task } from "@/classies/Task";
 import uuid from "react-native-uuid";
 import { useFocusEffect, useRouter } from "expo-router";
-import { addTask } from "@/lib/PersonDAO";
 import TaskForm from "@/components/TaskForm";
 import { FormikActions, taskFormValues } from "@/types";
+import { AuthContext } from "./AuthProvider";
+import { User } from "@/classies/User";
 
 const AddTaskFormWrapper = () => {
   const router = useRouter();
+  const { user }: { user: User } = useContext(AuthContext) as { user: User };
 
   // dateとtimeの更新
   const changeDateTime = () => {
@@ -36,7 +38,7 @@ const AddTaskFormWrapper = () => {
     formikActions: FormikActions
   ) => {
     const task_id = String(uuid.v4());
-    const person_id = "person1"; // FIXME: ログインユーザーのIDに置き換える
+    const person_id = user.id;
     const { name, location, detail } = values;
     const start_date = new Date(
       date.getFullYear(),
@@ -50,20 +52,16 @@ const AddTaskFormWrapper = () => {
       task_id,
       person_id,
       name,
-      location as string,
-      detail as string,
+      location,
+      detail,
       start_date
     );
-    await addTask(task);
+    await user.addTask(task);
     changeDateTime();
     formikActions.setSubmitting(false);
     formikActions.resetForm();
-    Alert.alert("Add a taskl", "Return to Home.", [
-      {
-        text: "OK",
-        onPress: () => router.navigate("/(tabs)/"), // ホームタブに戻る
-      },
-    ]);
+
+    router.navigate("/(tabs)/"); // ホームタブに戻る
   };
 
   return (

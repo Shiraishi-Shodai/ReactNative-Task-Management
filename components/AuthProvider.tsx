@@ -1,17 +1,18 @@
 import React, { createContext, useState, ReactNode, useEffect } from "react";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import { User } from "@/classies/User";
 
 // ユーザーとセット関数を管理するための型を定義
 export interface AuthContextType {
-  user: FirebaseAuthTypes.User | null;
-  setUser: React.Dispatch<React.SetStateAction<FirebaseAuthTypes.User | null>>;
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 // デフォルトコンテキスト
 const defaultState = {
   user: null,
-  setUser: (user: FirebaseAuthTypes.User | null) => {},
+  setUser: (user: User | null) => {},
 } as AuthContextType;
 
 // Contextを作成
@@ -23,7 +24,7 @@ interface AuthProviderProps {
 
 function AuthProvider({ children }: AuthProviderProps) {
   // 初期値はnullを明示的に設定
-  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   // アプリ起動時にGoogleSigninに必要な設定を読み込む
   useEffect(() => {
@@ -41,9 +42,15 @@ function AuthProvider({ children }: AuthProviderProps) {
     return () => subscriber(); // リスナーをクリーンアップ
   }, []);
 
-  // ユーザの状態が変わったときに呼び出される関数
+  // ユーザの状態が変わったときに呼び出される関数：引数がnullの時はnullそうでない時は、UserクラスをsetUserでセットする
   const onAuthStateChanged = (user: FirebaseAuthTypes.User | null) => {
-    setUser(user);
+    if (user == null) {
+      setUser(user);
+    } else {
+      const { uid, displayName, photoURL, email } = user;
+      const appUser = new User(uid, displayName, photoURL, email);
+      setUser(appUser);
+    }
   };
 
   return (
