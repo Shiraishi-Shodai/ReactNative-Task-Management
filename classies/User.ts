@@ -125,4 +125,31 @@ export class User {
       console.error("データ削除エラー:", error);
     }
   };
+
+  // 自分自身が既に存在するか
+  public isAlreadyExist = async (): Promise<any> => {
+    try {
+      const userRef = database().ref(`users/${this.id}`);
+      const snapshot = await userRef.once("value");
+      const res = snapshot.val();
+      console.log(`検索結果: ${snapshot.exists()}`);
+      return res;
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  public subscribe = async (): Promise<void> => {
+    try {
+      const userRef = database().ref(`users/${this.id}/`);
+      await userRef.set({
+        displayName: this.displayName,
+        photoURL: this.photoURL,
+        email: this.email,
+      });
+      console.log("ユーザーを登録しました");
+    } catch (e) {
+      console.log(e);
+    }
+  };
 }

@@ -24,11 +24,11 @@ const RenderHiddenItem = ({
   const { user }: { user: User } = useContext(AuthContext) as { user: User };
   // complete・uncompletedが押されたとき実行する関数
   const closeRow = async (rowMap: RowMap<Task>, rowKey: string) => {
-    const { id, person_id, name, location, detail, state, start_date } =
+    const { id, user_id, name, location, detail, state, start_date } =
       rowMap[rowKey].props.item!;
     const task: Task = new Task(
       id,
-      person_id,
+      user_id,
       name,
       location,
       detail,

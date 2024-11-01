@@ -2,6 +2,7 @@ import React, { createContext, useState, ReactNode, useEffect } from "react";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { User } from "@/classies/User";
+import { useRouter } from "expo-router";
 
 // ユーザーとセット関数を管理するための型を定義
 export interface AuthContextType {
@@ -25,6 +26,7 @@ interface AuthProviderProps {
 function AuthProvider({ children }: AuthProviderProps) {
   // 初期値はnullを明示的に設定
   const [user, setUser] = useState<User | null>(null);
+  const router = useRouter();
 
   // アプリ起動時にGoogleSigninに必要な設定を読み込む
   useEffect(() => {
@@ -37,19 +39,25 @@ function AuthProvider({ children }: AuthProviderProps) {
 
     // onAuthStateChanged というメソッドがあり、 ユーザの現在の認証状態をサブスクライブして、その状態が変化したときにイベントを受け取ることができる
     // サインアウトに成功すると、onAuthStateChangedリスナーはuserパラメータをNULL値としてイベントをトリガーする。
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     // auth().onAuthStateChangedは監視し続けるリスナーを返す。ここではコンポーネントが表示されなくなったときにリスナーを解除している
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return () => subscriber(); // リスナーをクリーンアップ
   }, []);
 
   // ユーザの状態が変わったときに呼び出される関数：引数がnullの時はnullそうでない時は、UserクラスをsetUserでセットする
-  const onAuthStateChanged = (user: FirebaseAuthTypes.User | null) => {
+  const onAuthStateChanged = async (user: FirebaseAuthTypes.User | null) => {
     if (user == null) {
       setUser(user);
     } else {
       const { uid, displayName, photoURL, email } = user;
-      const appUser = new User(uid, displayName, photoURL, email);
+      const appUser: User = new User(uid, displayName, photoURL, email);
       setUser(appUser);
+
+      const isExist: any = await appUser.isAlreadyExist();
+      if (isExist == null) await appUser.subscribe();
+
+      //   ホーム画面に移動
+      router.navigate("/(tabs)/");
     }
   };
 

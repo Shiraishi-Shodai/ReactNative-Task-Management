@@ -7,12 +7,9 @@ import {
   SignInSuccessResponse,
 } from "@react-native-google-signin/google-signin";
 import auth from "@react-native-firebase/auth";
-import { useRouter } from "expo-router";
 import { StyleSheet } from "react-native";
 
 const Login = () => {
-  const router = useRouter();
-
   //   サインアップボタンが押されたとき
   async function onGoogleButtonPress() {
     try {
@@ -46,8 +43,6 @@ const Login = () => {
 
       //FirebaseにGoogle認証情報を使ってログインします。この際、Firebaseユーザーオブジェクト (userCredential.user) を取得できます。
       await auth().signInWithCredential(googleCredential);
-      //   ホーム画面に移動
-      router.navigate("/(tabs)/");
     } catch (e: any) {
       console.log(e.code, e.message);
     }
