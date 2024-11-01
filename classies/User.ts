@@ -48,49 +48,25 @@ export class User {
   // ログイン中のユーザーの今日のタスクをすべて取得する
   public getTodaysTasks = async (): Promise<Task[] | undefined> => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-
-    const startTimeStamp = today.getTime();
-    const endTimeStamp = tomorrow.getTime() - 1;
 
     try {
-      const taskRef = database().ref("tasks");
-      const snapshot = await taskRef
-        .orderByChild("user_id")
-        .equalTo(this.id)
-        .once("value");
-      const tasks = snapshot.val();
+      // 今日のタスクのタスクidを取得
+      const taskRef = database().ref(
+        `user_task/${this.id}/${today.getFullYear()}/${
+          today.getMonth() + 1
+        }/${today.getDate()}`
+      );
 
-      if (tasks) {
-        // 本日の日付の範囲内のタスクを絞り込み
-        const todayTasks: Task[] = Object.keys(tasks)
-          .map((key) => {
-            const { user_id, name, location, detail, state, start_date } =
-              tasks[key];
+      const snapshot = await taskRef.once("value");
+      const todayTasks = snapshot.val();
 
-            return new Task(
-              key,
-              user_id,
-              name,
-              location,
-              detail,
-              start_date,
-              state
-            );
-          })
-          .filter(
-            (task: Task) =>
-              task.start_date >= startTimeStamp &&
-              task.start_date <= endTimeStamp
-          )
-          .sort((a, b) => a.start_date - b.start_date);
-        return todayTasks;
-      } else {
+      if (todayTasks == null) {
         console.log("タスクが見つかりませんでした");
         return [];
       }
+
+      const todayTaskIds = Object.keys(todayTasks);
+      // todayTaskIdsを使って、該当するタスク一覧を取得する
     } catch (error) {
       console.error("データ取得エラー:", error);
     }
@@ -98,16 +74,24 @@ export class User {
 
   // 新しいタスクを追加
   public addTask = async (task: Task) => {
+    const d = new Date(task.start_date);
+
     try {
-      const taskRef = database().ref(`tasks/${task.id}`);
-      await taskRef.set({
-        user_id: this.id,
-        name: task.name,
-        location: task.location,
-        detail: task.detail,
-        state: task.state,
-        start_date: task.start_date,
-      });
+      const updateObject = {
+        [`tasks/${task.id}/`]: {
+          user_id: this.id,
+          name: task.name,
+          location: task.location,
+          detail: task.detail,
+          state: task.state,
+          start_date: task.start_date,
+        },
+        [`user_task/${this.id}/${d.getFullYear()}/${
+          d.getMonth() + 1
+        }/${d.getDate()}/${task.id}/`]: true,
+      };
+
+      await database().ref("/").update(updateObject);
 
       console.log("登録しました");
     } catch (e) {
