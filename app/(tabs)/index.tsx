@@ -2,13 +2,16 @@ import { StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import TaskList from "@/components/TaskList";
 import "@/lib/firebase"; // firebaseをindex.tsxで初期化
+import { useState } from "react";
+import TaskDatePicker from "@/components/TaskDatePicker";
 
 const HomeScreen = () => {
-  // const { user } = useContext(AuthContext);
+  const [pickDate, setPickDate] = useState<Date>(new Date());
 
   return (
     <View style={styles.container}>
-      <TaskList />
+      <TaskDatePicker pickDate={pickDate} setDate={setPickDate} />
+      <TaskList pickDate={pickDate} />
       <StatusBar />
     </View>
   );

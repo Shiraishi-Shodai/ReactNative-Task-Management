@@ -46,15 +46,15 @@ export class User {
   }
 
   // ログイン中のユーザーの今日のタスクをすべて取得する
-  public getTodaysTasks = async (): Promise<Task[] | undefined> => {
-    const today = new Date();
-
+  public getTodaysTasks = async (
+    pickDate: Date
+  ): Promise<Task[] | undefined> => {
     try {
       // 今日のタスクのタスクidを取得
       const taskRef = database().ref(
-        `user_tasks/${this.id}/${today.getFullYear()}/${
-          today.getMonth() + 1
-        }/${today.getDate()}`
+        `user_tasks/${this.id}/${pickDate.getFullYear()}/${
+          pickDate.getMonth() + 1
+        }/${pickDate.getDate()}`
       );
 
       const snapshot = await taskRef.once("value");

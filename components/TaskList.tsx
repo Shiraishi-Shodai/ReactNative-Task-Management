@@ -8,19 +8,23 @@ import RenderHiddenItem from "./RenderHiddenItem";
 import { User } from "@/classies/User";
 import { AuthContext } from "./AuthProvider";
 
-function TaskList() {
+interface TaskListProps {
+  pickDate: Date;
+}
+
+function TaskList({ pickDate }: TaskListProps) {
   const [taskList, setTaskList] = useState<Task[]>([]);
   const { user }: { user: User } = useContext(AuthContext) as { user: User };
 
   const fetchTasks = useCallback(async () => {
-    const data = await user.getTodaysTasks(); // 非同期関数の結果を待つ
+    const data = await user.getTodaysTasks(pickDate); // 非同期関数の結果を待つ
     setTaskList(data || []);
-  }, []);
+  }, [pickDate]);
 
   useFocusEffect(
     useCallback(() => {
       fetchTasks(); // 非同期関数を呼び出す
-    }, [])
+    }, [pickDate])
   );
 
   const onRowDidOpen = (rowKey: string) => {
@@ -40,7 +44,6 @@ function TaskList() {
 
   return (
     <View style={styles.container}>
-      <Text>Hello today's tasks</Text>
       <SwipeListView
         data={taskList}
         keyExtractor={(item) => item.id} // 各アイテムに識別するために使用するキーを設定
