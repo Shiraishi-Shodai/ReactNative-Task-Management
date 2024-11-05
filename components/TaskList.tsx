@@ -52,7 +52,7 @@ function TaskList({ pickDate }: TaskListProps) {
         leftOpenValue={75} // 行を左に開くためのTranslateXの値（正の数）
         rightOpenValue={-170} // 行を右に開くためのTranslateXの値（負の数）
         previewRowKey={"0"} // このキーを持つ行は、リストがスワイプ可能であることを示すために、スライドアウトプレビューを行うべきである。
-        previewOpenValue={-150} // アプリ起動時にスワイプするピクセル数を指定
+        previewOpenValue={-500} // アプリ起動時にスワイプするピクセル数を指定
         previewOpenDelay={3000} // アプリ起動時にスワイプが可能なことを知らせるアニメーションを開始するまでの遅延時間
         onRowDidOpen={onRowDidOpen} // スワイプした行がアニメーションで開いたときに呼び出される
         disableRightSwipe={true} // 右にスワイプできないようにする
@@ -64,7 +64,7 @@ function TaskList({ pickDate }: TaskListProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: "100%",
+    width: "90%",
   },
 });
 

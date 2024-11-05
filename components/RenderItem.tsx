@@ -13,7 +13,7 @@ const RenderItem = ({ item }: RenderItemProps) => {
       style={[styles.rowFront, item.state && styles.completedRowFront]}
       underlayColor={"#AAA"}
     >
-      <View>
+      <View style={{ alignItems: "center" }}>
         {item.state && <View style={styles.completedLine} />}
         <Link
           href={{
@@ -51,11 +51,12 @@ const styles = StyleSheet.create({
     backgroundColor: "gray",
   },
   completedLine: {
-    backgroundColor: "blue", // 線の色
+    backgroundColor: "#000", // 線の色
+    borderColor: "#000",
     borderWidth: 1,
     position: "absolute",
     top: "50%",
-    width: "100%",
+    width: "85%",
     justifyContent: "center",
   },
 });
