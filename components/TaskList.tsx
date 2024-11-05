@@ -40,6 +40,7 @@ function TaskList() {
 
   return (
     <View style={styles.container}>
+      <Text>Hello today's tasks</Text>
       <SwipeListView
         data={taskList}
         keyExtractor={(item) => item.id} // 各アイテムに識別するために使用するキーを設定

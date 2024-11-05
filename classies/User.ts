@@ -134,19 +134,17 @@ export class User {
     const d = new Date(start_date);
 
     try {
-      const taskRef = database().ref("tasks");
-      const userTaskRef = database().ref(
-        `user_tasks/${this.id}/${d.getFullYear()}/${
-          d.getMonth() + 1
-        }/${d.getDate()}`
-      );
+      const taskRef = `tasks/${id}`;
+      const userTaskRef = `user_tasks/${this.id}/${d.getFullYear()}/${
+        d.getMonth() + 1
+      }/${d.getDate()}/${id}`;
 
-      // Promise allで該当するデータを削除(子データが存在しなくなると、親データも自動で削除される)
-      await Promise.all([
-        taskRef.child(id).remove(),
-        userTaskRef.child(id).remove(),
-      ]);
+      const updateObject = {
+        [taskRef]: null,
+        [userTaskRef]: null,
+      };
 
+      await database().ref("/").update(updateObject);
       console.log(`${id}のタスクを削除しました`);
     } catch (error) {
       console.error("データ削除エラー:", error);

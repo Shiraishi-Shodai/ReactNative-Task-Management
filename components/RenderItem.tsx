@@ -20,7 +20,10 @@ const RenderItem = ({ item }: RenderItemProps) => {
             pathname: "/editTask",
             params: { item: JSON.stringify(item) },
           }}
-          style={{ paddingLeft: 20 }}
+          style={{
+            paddingLeft: 20,
+            textAlign: "left",
+          }}
         >
           <Text
             adjustsFontSizeToFit
@@ -51,7 +54,7 @@ const styles = StyleSheet.create({
     backgroundColor: "blue", // 線の色
     borderWidth: 1,
     position: "absolute",
-    top: 28,
+    top: "50%",
     width: "100%",
     justifyContent: "center",
   },
