@@ -10,13 +10,15 @@ interface TaskFormProps {
   name: string;
   bgcolor: string;
   onPress: (event: GestureResponderEvent) => void;
+  disabled: boolean;
 }
 
-const TaskForm = ({ bgcolor, onPress, name }: TaskFormProps) => {
+const TaskForm = ({ bgcolor, onPress, name, disabled }: TaskFormProps) => {
   return (
     <Pressable
       style={[{ backgroundColor: bgcolor }, styles.addResetView]}
       onPress={onPress}
+      disabled={disabled}
     >
       <Text style={styles.addResetText}>{name}</Text>
     </Pressable>

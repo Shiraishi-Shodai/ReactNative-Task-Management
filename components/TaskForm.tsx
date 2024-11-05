@@ -1,5 +1,5 @@
 // TaskForm.tsx
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, Pressable, Text, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import ReusableTextInput from "./ReusableTextInput";
@@ -32,6 +32,10 @@ const TaskForm = ({
   setTime,
   buttonText,
 }: TaskFormProps) => {
+  const [disabled, setDisabled] = useState<boolean>(false);
+  // このコンポーネントを表示する度に、disabledをfalseに設定する
+  useEffect(useCallback(() => setDisabled(false), []));
+
   return (
     <Formik
       initialValues={initialValues}
@@ -99,18 +103,22 @@ const TaskForm = ({
             <TaskFormButton
               bgcolor="#fff"
               onPress={() => {
+                setDisabled(true);
                 handleSubmit();
               }}
               name={buttonText}
+              disabled={disabled}
             />
 
             <TaskFormButton
               bgcolor="#fff"
               onPress={() => {
+                setDisabled(true);
                 resetForm();
                 changeDateTime();
               }}
               name="Reset Form"
+              disabled={disabled}
             />
           </View>
         </View>
