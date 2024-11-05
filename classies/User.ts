@@ -1,6 +1,6 @@
 import { toZonedTime } from "date-fns-tz";
 import { Task } from "./Task";
-import database from "@react-native-firebase/database";
+import database, { firebase } from "@react-native-firebase/database";
 
 export class User {
   private _id: string;
@@ -52,21 +52,51 @@ export class User {
     try {
       // 今日のタスクのタスクidを取得
       const taskRef = database().ref(
-        `user_task/${this.id}/${today.getFullYear()}/${
+        `user_tasks/${this.id}/${today.getFullYear()}/${
           today.getMonth() + 1
         }/${today.getDate()}`
       );
 
       const snapshot = await taskRef.once("value");
-      const todayTasks = snapshot.val();
 
-      if (todayTasks == null) {
+      if (!snapshot.exists()) {
         console.log("タスクが見つかりませんでした");
         return [];
       }
 
-      const todayTaskIds = Object.keys(todayTasks);
+      const todayTasksNum = snapshot.val();
+      const todayTaskIds = Object.keys(todayTasksNum);
       // todayTaskIdsを使って、該当するタスク一覧を取得する
+      const todayTasks: Task[] = [];
+
+      // Promise allで処理する非同期処理を配列にする
+      const promises = todayTaskIds.map(async (id) => {
+        return await database().ref(`tasks/${id}`).once("value");
+      });
+
+      // 非同期処理を一度に実行
+      const snapshots = await Promise.all(promises);
+
+      // 取得したデータからタスクインスタンスを生成し、todayTasks配列に追加
+      for (let i = 0; i < todayTaskIds.length; i++) {
+        const id = todayTaskIds[i];
+        const { user_id, name, location, detail, start_date, state } =
+          snapshots[i].val();
+        const task: Task = new Task(
+          id,
+          user_id,
+          name,
+          location,
+          detail,
+          start_date,
+          state
+        );
+        todayTasks.push(task);
+      }
+
+      // タスクの開始時間が早い順に並び替え
+      todayTasks.sort((a, b) => a.start_date - b.start_date);
+      return todayTasks;
     } catch (error) {
       console.error("データ取得エラー:", error);
     }
@@ -75,7 +105,7 @@ export class User {
   // 新しいタスクを追加
   public addTask = async (task: Task) => {
     const d = new Date(task.start_date);
-
+    console.log(task.start_date);
     try {
       const updateObject = {
         [`tasks/${task.id}/`]: {
@@ -86,7 +116,7 @@ export class User {
           state: task.state,
           start_date: task.start_date,
         },
-        [`user_task/${this.id}/${d.getFullYear()}/${
+        [`user_tasks/${this.id}/${d.getFullYear()}/${
           d.getMonth() + 1
         }/${d.getDate()}/${task.id}/`]: true,
       };
@@ -100,10 +130,23 @@ export class User {
   };
 
   // 指定したidのタスクを削除
-  public removeTask = async (id: string): Promise<void> => {
+  public removeTask = async (id: string, start_date: number): Promise<void> => {
+    const d = new Date(start_date);
+
     try {
       const taskRef = database().ref("tasks");
-      taskRef.child(id).remove();
+      const userTaskRef = database().ref(
+        `user_tasks/${this.id}/${d.getFullYear()}/${
+          d.getMonth() + 1
+        }/${d.getDate()}`
+      );
+
+      // Promise allで該当するデータを削除(子データが存在しなくなると、親データも自動で削除される)
+      await Promise.all([
+        taskRef.child(id).remove(),
+        userTaskRef.child(id).remove(),
+      ]);
+
       console.log(`${id}のタスクを削除しました`);
     } catch (error) {
       console.error("データ削除エラー:", error);

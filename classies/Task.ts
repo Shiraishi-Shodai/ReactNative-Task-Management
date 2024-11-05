@@ -79,6 +79,11 @@ export class Task {
   ) => {
     try {
       const taskRef = database().ref(`tasks/${this.id}/`);
+      const snapshot = await taskRef.once("value");
+      if (!snapshot.exists()) {
+        console.log("タスクが見つかりませんでした");
+        throw new Error("task not found");
+      }
       await taskRef.update({
         user_id: this.user_id,
         name: name,
@@ -99,6 +104,10 @@ export class Task {
     try {
       const taskRef = database().ref(`tasks/${this._id}`);
       const snapshot = await taskRef.once("value");
+      if (!snapshot.exists()) {
+        console.log("タスクが見つかりませんでした");
+        throw new Error("task not found");
+      }
       const currentState: boolean = snapshot.val().state;
       await taskRef.update({ state: !currentState });
     } catch (e) {

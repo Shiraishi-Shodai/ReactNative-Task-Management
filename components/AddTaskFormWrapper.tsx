@@ -40,20 +40,14 @@ const AddTaskFormWrapper = () => {
     const task_id = String(uuid.v4());
     const { name, location, detail } = values;
 
-    console.log(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      time.getHours(),
-      time.getMinutes()
-    );
     // サーバーに送信する時間はUTC+0に統一する
     const start_date = new Date(
       date.getFullYear(),
       date.getMonth(),
       date.getDate(),
       time.getHours(),
-      time.getMinutes()
+      time.getMinutes(),
+      new Date().getSeconds() // データを昇順に並び替えるために現在の秒数を取得
     ).getTime();
 
     const task: Task = new Task(

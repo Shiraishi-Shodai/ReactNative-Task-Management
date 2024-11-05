@@ -44,8 +44,9 @@ const RenderHiddenItem = ({
 
   // deleteが押されたときに実行する関数
   const deleteRow = async (rowMap: RowMap<Task>, rowKey: string) => {
+    const { id, start_date } = rowMap[rowKey].props.item!;
     closeRow(rowMap, rowKey);
-    await user.removeTask(rowKey); // rowKeyのタスクを削除
+    await user.removeTask(id, start_date); // rowKeyのタスクを削除
     await fetchTasks(); // 今日のタスクを取得しなおす
   };
 
