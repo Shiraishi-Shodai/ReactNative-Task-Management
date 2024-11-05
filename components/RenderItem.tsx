@@ -23,8 +23,8 @@ const RenderItem = ({ item }: RenderItemProps) => {
           style={{ paddingLeft: 20 }}
         >
           <Text
+            adjustsFontSizeToFit
             style={{
-              fontSize: 40,
               color: "black",
             }}
           >
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "black",
     borderBottomWidth: 1,
     justifyContent: "center",
-    height: 100,
+    height: 70,
   },
   completedRowFront: {
     backgroundColor: "gray",

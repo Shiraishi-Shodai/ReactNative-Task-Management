@@ -3,7 +3,7 @@ import React from "react";
 import { Text, View } from "react-native";
 
 function Explore() {
-  return <LogOutButton />;
+  return <Text>Hello Explore</Text>;
 }
 
 export default Explore;

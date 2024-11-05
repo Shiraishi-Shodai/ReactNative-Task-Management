@@ -154,15 +154,18 @@ const styles = StyleSheet.create({
   },
   taskNameText: {
     fontFamily: "Noto-Snas-JP",
-    fontSize: 40,
+    fontSize: 30,
+    textAlign: "left",
   },
   locationText: {
     fontFamily: "Noto-Snas-JP",
-    fontSize: 30,
+    fontSize: 25,
+    textAlign: "left",
   },
   detailText: {
     height: 250,
     fontSize: 20,
+    textAlign: "left",
   },
 });
 
