@@ -1,10 +1,21 @@
 import UserIcon from "@/components/UserIcon";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useContext } from "react";
+import { StyleSheet, Switch, Text, View } from "react-native";
+import ThemeContext from "@react-navigation/native/src/theming/ThemeContext";
+import { useTheme } from "@react-navigation/native";
 
 function Explore() {
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  const isDarkMode = theme === "dark";
+  const currentTheme = useTheme().colors;
+
   return (
     <View style={styles.container}>
+      <Switch
+        value={isDarkMode}
+        onValueChange={toggleTheme} // トグル関数を呼び出す
+      />
+      <Text style={{ color: currentTheme.text }}>Hello World</Text>
       <View style={styles.iconContainer}>
         <UserIcon style={userIconStyles} />
       </View>

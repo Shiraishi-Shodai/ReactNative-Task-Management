@@ -4,6 +4,7 @@ import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useTheme } from "@react-navigation/native";
 
 interface StartDateProps {
   date: Date;
@@ -25,6 +26,7 @@ const StartDate = ({
 
   const [showDate, setShowDate] = useState(false);
   const [showTime, setShowTime] = useState(false);
+  const currentTheme = useTheme().colors;
 
   const onDateChange = useCallback(
     (e: DateTimePickerEvent, selectedDate: Date | undefined) => {
@@ -58,7 +60,10 @@ const StartDate = ({
     <View style={styles.container}>
       <View style={styles.selectButtonsView}>
         <TouchableOpacity style={[styles.selectButtons]} onPress={onShowDate}>
-          <Text testID="dataId" style={styles.selectText}>
+          <Text
+            testID="dataId"
+            style={[styles.selectText, { color: currentTheme.text }]}
+          >
             {date.toLocaleDateString("ja-JP", {
               timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
             })}
@@ -66,7 +71,10 @@ const StartDate = ({
         </TouchableOpacity>
 
         <TouchableOpacity style={[styles.selectButtons]} onPress={onShowTime}>
-          <Text testID="timeId" style={styles.selectText}>
+          <Text
+            testID="timeId"
+            style={[styles.selectText, { color: currentTheme.text }]}
+          >
             {time.toLocaleTimeString("ja-JP", timeOptions)}
           </Text>
         </TouchableOpacity>

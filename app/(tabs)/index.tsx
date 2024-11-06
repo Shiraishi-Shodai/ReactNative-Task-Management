@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import TaskList from "@/components/TaskList";
 import "@/lib/firebase"; // firebaseをindex.tsxで初期化

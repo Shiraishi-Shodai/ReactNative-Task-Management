@@ -7,6 +7,7 @@ import StartDate from "./StartDate";
 import { FormikActions, taskFormValues } from "@/types";
 import { ObjectSchema } from "yup";
 import TaskFormButton from "./TaskFromButton";
+import { useTheme } from "@react-navigation/native";
 
 type OnSubmit = (values: taskFormValues, formikActions: FormikActions) => void;
 type changeDateTime = () => void;
@@ -35,6 +36,7 @@ const TaskForm = ({
   const [disabled, setDisabled] = useState<boolean>(false);
   // このコンポーネントを表示する度に、disabledをfalseに設定する
   useEffect(useCallback(() => setDisabled(false), []));
+  const currentTheme = useTheme().colors;
 
   return (
     <Formik
@@ -53,7 +55,13 @@ const TaskForm = ({
         errors,
         touched,
       }) => (
-        <View style={styles.formContainer}>
+        <View
+          style={[
+            styles.formContainer,
+            { backgroundColor: currentTheme.formBackground },
+            { borderColor: currentTheme.border },
+          ]}
+        >
           <ReusableTextInput
             placeholder="Task Name"
             value={values.name}
@@ -129,8 +137,6 @@ const TaskForm = ({
 
 const styles = StyleSheet.create({
   formContainer: {
-    backgroundColor: "rgba(0, 0, 0, 0.1)",
-    borderColor: "#151718",
     borderWidth: 1,
     borderRadius: 10,
     width: "95%",
@@ -146,11 +152,9 @@ const styles = StyleSheet.create({
 
   taskNameView: {
     borderBottomWidth: 1, // 下のボーダーのみ表示
-    borderBottomColor: "black",
   },
   locationDetailView: {
     borderWidth: 1, // 下のボーダーのみ表示
-    borderColor: "black",
   },
   taskNameText: {
     fontFamily: "Noto-Snas-JP",

@@ -10,6 +10,7 @@ import {
   TextStyle,
   ViewStyle,
 } from "react-native";
+import { useTheme } from "@react-navigation/native";
 
 interface ReusableTextInputProps {
   placeholder: string;
@@ -35,9 +36,11 @@ const ReusableTextInput = ({
   numberOfLines,
   textAlignVertical,
 }: ReusableTextInputProps) => {
+  const currentTheme = useTheme().colors;
+
   return (
     <View style={styles.container}>
-      <View style={[style.fieldView]}>
+      <View style={[style.fieldView, { borderColor: currentTheme.border }]}>
         {multiline ? (
           <TextInput
             placeholder={placeholder}
@@ -47,7 +50,8 @@ const ReusableTextInput = ({
             multiline={multiline}
             numberOfLines={numberOfLines}
             textAlignVertical={textAlignVertical}
-            style={[style.fieldText]}
+            placeholderTextColor={currentTheme.text}
+            style={[style.fieldText, { color: currentTheme.text }]}
           />
         ) : (
           <TextInput
@@ -55,7 +59,8 @@ const ReusableTextInput = ({
             value={value}
             onChangeText={handleChange}
             onBlur={handleBlur}
-            style={[style.fieldText]}
+            placeholderTextColor={currentTheme.text}
+            style={[style.fieldText, { color: currentTheme.text }]}
           />
         )}
       </View>
