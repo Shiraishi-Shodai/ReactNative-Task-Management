@@ -44,7 +44,10 @@ const Login = () => {
       //FirebaseにGoogle認証情報を使ってログインします。この際、Firebaseユーザーオブジェクト (userCredential.user) を取得できます。
       await auth().signInWithCredential(googleCredential);
     } catch (e: any) {
-      console.log(e.code, e.message);
+      if (e.message == "NETWORK_ERROR") {
+        console.log(e.code, e.message);
+      }
+      console.error(e.code, e.message);
     }
   }
 

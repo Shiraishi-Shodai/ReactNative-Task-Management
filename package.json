@@ -12,7 +12,19 @@
     "lint": "expo lint"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "collectCoverage": true,
+    "setupFilesAfterEnv": [
+      "./jest.setup.ts"
+    ],
+    "collectCoverageFrom": [
+      "**/*.{ts,tsx,js,jsx}",
+      "!**/coverage/**",
+      "!**/node_modules/**",
+      "!**/babel.config.js",
+      "!**/expo-env.d.ts",
+      "!**/.expo/**"
+    ]
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
