@@ -1,3 +1,19 @@
+jest.mock("expo-router", () => ({
+  Redirect: jest.fn((args) => {
+    console.log(`与えられた引数`);
+    console.table(args);
+    return null;
+  }),
+  // Stack: {
+  //   Navigator: jest
+  //     .fn()
+  //     .mockImplementation(({ children }: { children: React.ReactNode }) => (
+  //       <>{children}</>
+  //     )),
+  //   Screen: jest.fn(),
+  // },
+}));
+
 jest.mock("@react-native-firebase/database", () => {
   return {
     __esModule: true,
@@ -15,13 +31,12 @@ jest.mock("@react-native-firebase/database", () => {
 });
 
 jest.mock("@react-native-firebase/auth", () => {
-  return {
-    auth: jest.fn(() => ({
-      signInWithCredential: jest.fn(),
-      onAuthStateChanged: jest.fn(),
-      currentUser: null,
-    })),
-  };
+  return () => ({
+    signInWithCredential: jest.fn(),
+    onAuthStateChanged: jest.fn(),
+    currentUser: null,
+    signOut: jest.fn(),
+  });
 });
 
 // NativeEventEmitterをモック化
@@ -35,8 +50,15 @@ jest.mock("react-native/Libraries/EventEmitter/NativeEventEmitter", () => {
 jest.mock("@react-native-google-signin/google-signin", () => ({
   GoogleSignin: {
     configure: jest.fn(),
-    signIn: jest.fn(() => Promise.resolve({ idToken: "test-id-token" })),
+    signIn: jest.fn(() =>
+      Promise.resolve({ idToken: "d0C3QscFO9PNrO3jneMaRyafY0Z2" })
+    ),
+    signOut: jest.fn(),
     isSignedIn: jest.fn(() => Promise.resolve(false)),
-    getCurrentUser: jest.fn(() => null),
+    getCurrentUser: jest.fn().mockReturnValue({
+      idToken: "d0C3QscFO9PNrO3jneMaRyafY0Z2",
+    }),
+    revokeAccess: jest.fn(), // revokeAccessをモック関数として追加
+    clearCachedAccessToken: jest.fn(),
   },
 }));

@@ -15,6 +15,7 @@ const LogOutButton = ({ setIsVisible }: LogOutButtonProps) => {
 
       if (oldUser.idToken) {
         await GoogleSignin.clearCachedAccessToken(oldUser.idToken);
+        await GoogleSignin.revokeAccess();
       }
 
       setIsVisible(false);

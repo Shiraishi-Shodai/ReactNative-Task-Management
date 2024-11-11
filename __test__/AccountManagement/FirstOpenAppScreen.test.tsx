@@ -26,12 +26,12 @@ const TestProvider = () => {
   );
 };
 
-describe("Users who have never logged in before launch the application.", () => {
-  test("Should redirect to login screen", () => {
-    render(<TestProvider />);
+test("ログイン画面が表示されるべき", () => {
+  render(<TestProvider />);
 
-    expect(Redirect).toHaveBeenCalled();
-    expect(Redirect).toHaveBeenCalledTimes(1);
-    expect(Redirect.mock.calls[0][0]).toStrictEqual({ href: "/login" });
-  });
+  expect(Redirect).toHaveBeenCalled();
+  expect(Redirect).toHaveBeenCalledTimes(1);
+  expect(Redirect.mock.calls[0][0]).toStrictEqual({ href: "/login" });
 });
+
+test("", () => {});
