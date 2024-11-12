@@ -35,7 +35,7 @@ const TestProvider = () => {
 //   idToken: "d0C3QscFO9PNrO3jneMaRyafY0Z2",
 // });
 
-describe("ログアウト後にログイン画面が表示される", () => {
+describe("#Test2:", () => {
   test("ログアウトボタンを押すと、Context APIで管理しているuserがnullになる", async () => {
     const { getByText } = render(<TestProvider />);
 

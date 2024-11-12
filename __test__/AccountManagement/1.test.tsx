@@ -26,12 +26,12 @@ const TestProvider = () => {
   );
 };
 
-test("ログイン画面が表示されるべき", () => {
-  render(<TestProvider />);
+describe("#Test1:", () => {
+  test("ログイン画面が表示されるべき", () => {
+    render(<TestProvider />);
 
-  expect(Redirect).toHaveBeenCalled();
-  expect(Redirect).toHaveBeenCalledTimes(1);
-  expect(Redirect.mock.calls[0][0]).toStrictEqual({ href: "/login" });
+    expect(Redirect).toHaveBeenCalled();
+    expect(Redirect).toHaveBeenCalledTimes(1);
+    expect(Redirect.mock.calls[0][0]).toStrictEqual({ href: "/login" });
+  });
 });
-
-test("", () => {});
