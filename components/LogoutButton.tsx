@@ -2,11 +2,13 @@ import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import auth from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { useTranslation } from "react-i18next";
 
 interface LogOutButtonProps {
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const LogOutButton = ({ setIsVisible }: LogOutButtonProps) => {
+  const { t } = useTranslation();
   const signOut = async () => {
     try {
       const oldUser = GoogleSignin.getCurrentUser();
@@ -28,7 +30,7 @@ const LogOutButton = ({ setIsVisible }: LogOutButtonProps) => {
 
   return (
     <Pressable style={styles.button} onPress={signOut}>
-      <Text style={styles.buttonText}>Log Out</Text>
+      <Text style={styles.buttonText}>{t("logout")}</Text>
     </Pressable>
   );
 };

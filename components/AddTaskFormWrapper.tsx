@@ -9,10 +9,12 @@ import { FormikActions, taskFormValues } from "@/types";
 import { AuthContext } from "./AuthProvider";
 import { User } from "@/classies/User";
 import { toZonedTime } from "date-fns-tz";
+import { useTranslation } from "react-i18next";
 
 const AddTaskFormWrapper = () => {
   const router = useRouter();
   const { user }: { user: User } = useContext(AuthContext) as { user: User };
+  const { t } = useTranslation();
 
   // dateとtimeの更新
   const changeDateTime = () => {
@@ -77,7 +79,7 @@ const AddTaskFormWrapper = () => {
         setDate={setDate}
         time={time}
         setTime={setTime}
-        buttonText="Add a task"
+        buttonText={t("taskForm.addButtonText")}
       />
     </View>
   );

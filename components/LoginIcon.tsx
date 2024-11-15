@@ -35,7 +35,6 @@ function LoginIcon() {
           style={styles.modalContainer}
         >
           <View style={styles.modalContent}>
-            <Text>Hello from Modal</Text>
             <LogOutButton setIsVisible={setIsVisible} />
           </View>
         </Pressable>

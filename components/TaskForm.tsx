@@ -8,6 +8,7 @@ import { FormikActions, taskFormValues } from "@/types";
 import { ObjectSchema } from "yup";
 import TaskFormButton from "./TaskFromButton";
 import { useTheme } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 type OnSubmit = (values: taskFormValues, formikActions: FormikActions) => void;
 type changeDateTime = () => void;
@@ -37,6 +38,7 @@ const TaskForm = ({
   // このコンポーネントを表示する度に、disabledをfalseに設定する
   useEffect(useCallback(() => setDisabled(false), []));
   const currentTheme = useTheme().colors;
+  const { t } = useTranslation();
 
   return (
     <Formik
@@ -63,7 +65,7 @@ const TaskForm = ({
           ]}
         >
           <ReusableTextInput
-            placeholder="Task Name"
+            placeholder={t("taskForm.taskName")}
             value={values.name}
             handleChange={handleChange("name")}
             handleBlur={handleBlur("name")}
@@ -81,7 +83,7 @@ const TaskForm = ({
             setTime={setTime}
           />
           <ReusableTextInput
-            placeholder="Location"
+            placeholder={t("taskForm.location")}
             value={values.location}
             handleChange={handleChange("location")}
             handleBlur={handleBlur("location")}
@@ -93,7 +95,7 @@ const TaskForm = ({
             }}
           />
           <ReusableTextInput
-            placeholder="Detail"
+            placeholder={t("taskForm.detail")}
             value={values.detail}
             handleChange={handleChange("detail")}
             handleBlur={handleBlur("detail")}
@@ -125,7 +127,7 @@ const TaskForm = ({
                 resetForm();
                 changeDateTime();
               }}
-              name="Reset Form"
+              name={t("taskForm.resetButtonText")}
               disabled={disabled}
             />
           </View>

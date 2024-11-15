@@ -1,8 +1,13 @@
+import { useFocusEffect } from "expo-router";
+
 jest.mock("expo-router", () => ({
   Redirect: jest.fn((args) => {
     console.log(`与えられた引数`);
     console.table(args);
     return null;
+  }),
+  useFocusEffect: jest.fn().mockImplementation((callback) => {
+    callback();
   }),
   // Stack: {
   //   Navigator: jest

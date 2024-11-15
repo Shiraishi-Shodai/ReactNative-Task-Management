@@ -1,0 +1,25 @@
+{
+  "tabs": {
+    "home": "ホーム",
+    "addTask": "タスク追加",
+    "profile": "プロフィール"
+  },
+  "screens": {
+    "editTask": "タスク編集"
+  },
+  "taskForm": {
+    "taskName": "タスク名",
+    "location": "実行場所",
+    "detail": "詳細",
+    "resetButtonText": "リセット",
+    "addButtonText": "タスクを追加",
+    "editButtonText": "タスクを編集"
+  },
+  "taskState": {
+    "complete": "完了",
+    "uncompleted": "未完了",
+    "delete": "削除"
+  },
+  "logout": "ログアウト",
+  "change-language": "言語を変更"
+}

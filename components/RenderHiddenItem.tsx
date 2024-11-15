@@ -10,6 +10,7 @@ import {
 import { RowMap } from "react-native-swipe-list-view";
 import { AuthContext } from "./AuthProvider";
 import { User } from "@/classies/User";
+import { useTranslation } from "react-i18next";
 interface RenderHiddenItemProps {
   data: ListRenderItemInfo<Task>;
   rowMap: RowMap<Task>;
@@ -22,6 +23,8 @@ const RenderHiddenItem = ({
   fetchTasks,
 }: RenderHiddenItemProps) => {
   const { user }: { user: User } = useContext(AuthContext) as { user: User };
+
+  const { t } = useTranslation();
   // complete・uncompletedが押されたとき実行する関数
   const closeRow = async (rowMap: RowMap<Task>, rowKey: string) => {
     const { id, user_id, name, location, detail, state, start_date } =
@@ -58,14 +61,16 @@ const RenderHiddenItem = ({
         onPress={() => closeRow(rowMap, data.item.id)}
       >
         <Text style={styles.backTextWhite}>
-          {data.item.state ? "uncompleted" : "complete"}
+          {data.item.state
+            ? t("taskState.uncompleted")
+            : t("taskState.complete")}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
         onPress={() => deleteRow(rowMap, data.item.id)}
       >
-        <Text style={styles.backTextWhite}>Delete</Text>
+        <Text style={styles.backTextWhite}>{t("taskState.delete")}</Text>
       </TouchableOpacity>
     </View>
   );

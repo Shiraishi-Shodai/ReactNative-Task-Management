@@ -5,6 +5,7 @@ import { Task } from "@/classies/Task";
 import TaskForm from "@/components/TaskForm";
 import { FormikActions, taskFormValues } from "@/types";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 interface EditTaskFormWrapperProps {
   currentTask: Task;
@@ -23,6 +24,8 @@ const EditTaskFormWrapper = ({ currentTask }: EditTaskFormWrapperProps) => {
   const now = new Date(currentTask.start_date);
   const [date, setDate] = useState(now);
   const [time, setTime] = useState(now);
+
+  const { t } = useTranslation();
 
   // タスクを追加する関数
   const handleSubmit = async (
@@ -60,7 +63,7 @@ const EditTaskFormWrapper = ({ currentTask }: EditTaskFormWrapperProps) => {
         setDate={setDate}
         time={time}
         setTime={setTime}
-        buttonText="Edit a task"
+        buttonText={t("taskForm.editButtonText")}
       />
     </View>
   );

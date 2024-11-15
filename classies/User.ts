@@ -65,7 +65,6 @@ export class User {
       }
 
       const todayTasksNum = snapshot.val();
-      console.log(todayTasksNum);
       const todayTaskIds = Object.keys(todayTasksNum);
       // todayTaskIdsを使って、該当するタスク一覧を取得する
       const todayTasks: Task[] = [];
@@ -77,7 +76,6 @@ export class User {
 
       // 非同期処理を一度に実行
       const snapshots = await Promise.all(promises);
-      console.log(snapshots[0].val());
       // 取得したデータからタスクインスタンスを生成し、todayTasks配列に追加
       for (let i = 0; i < todayTaskIds.length; i++) {
         const id = todayTaskIds[i];
@@ -106,7 +104,6 @@ export class User {
   // 新しいタスクを追加
   public addTask = async (task: Task) => {
     const d = new Date(task.start_date);
-    console.log(task.start_date);
     try {
       const updateObject = {
         [`tasks/${task.id}/`]: {
