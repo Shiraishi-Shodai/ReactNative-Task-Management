@@ -1,7 +1,19 @@
 {
-  "task": {
+  "users": {
+    "user1": {
+      "displayName": "user1",
+      "photoURL": "https://~.jpg",
+      "email": "sample1@gmail.com"
+    },
+    "user2": {
+      "displayName": "user2",
+      "photoURL": "https://~.jpg",
+      "email": "sample2@gmail.com"
+    }
+  },
+  "tasks": {
     "task1": {
-      "person_id": "peson1",
+      "user_id": "user1",
       "name": "study",
       "location": "my home",
       "detail": "",
@@ -9,20 +21,44 @@
       "start_date": 1729981900000
     },
     "task2": {
-      "person_id": "peson1",
-      "name": "study",
-      "location": "my home",
+      "user_id": "user1",
+      "name": "exercise",
+      "location": "gym",
       "detail": "",
       "state": false,
-      "start_date": 1798371900000
+      "start_date": 1729985500000
+    }
+  },
+  "user_tasks": {
+    "user1": {
+      "2024": {
+        "10": {
+          "30": {
+            "task1": true,
+            "task2": true
+          }
+        }
+      }
     },
-    "task3": {
-      "person_id": "peson1",
-      "name": "take picture",
-      "location": "the park",
-      "detail": "",
-      "state": false,
-      "start_date": 1720371900000
+    "user1": {
+      "2024": {
+        "10": {
+          "30": {
+            "task1": true,
+            "task2": true
+          }
+        }
+      }
+    },
+    "user1": {
+      "2024": {
+        "10": {
+          "31": {
+            "task1": true,
+            "task2": true
+          }
+        }
+      }
     }
   }
 }

@@ -1,5 +1,5 @@
 import { Task } from "@/classies/Task";
-import React from "react";
+import React, { useContext } from "react";
 import {
   ListRenderItemInfo,
   StyleSheet,
@@ -8,7 +8,9 @@ import {
   View,
 } from "react-native";
 import { RowMap } from "react-native-swipe-list-view";
-import { removeTask } from "@/lib/PersonDAO";
+import { AuthContext } from "./AuthProvider";
+import { User } from "@/classies/User";
+import { useTranslation } from "react-i18next";
 interface RenderHiddenItemProps {
   data: ListRenderItemInfo<Task>;
   rowMap: RowMap<Task>;
@@ -20,13 +22,16 @@ const RenderHiddenItem = ({
   rowMap,
   fetchTasks,
 }: RenderHiddenItemProps) => {
+  const { user }: { user: User } = useContext(AuthContext) as { user: User };
+
+  const { t } = useTranslation();
   // complete・uncompletedが押されたとき実行する関数
   const closeRow = async (rowMap: RowMap<Task>, rowKey: string) => {
-    const { id, person_id, name, location, detail, state, start_date } =
+    const { id, user_id, name, location, detail, state, start_date } =
       rowMap[rowKey].props.item!;
     const task: Task = new Task(
       id,
-      person_id,
+      user_id,
       name,
       location,
       detail,
@@ -41,10 +46,11 @@ const RenderHiddenItem = ({
   };
 
   // deleteが押されたときに実行する関数
-  const deleteRow = (rowMap: RowMap<Task>, rowKey: string) => {
+  const deleteRow = async (rowMap: RowMap<Task>, rowKey: string) => {
+    const { id, start_date } = rowMap[rowKey].props.item!;
     closeRow(rowMap, rowKey);
-    removeTask(rowKey); // rowKeyのタスクを削除
-    fetchTasks(); // 今日のタスクを取得しなおす
+    await user.removeTask(id, start_date); // rowKeyのタスクを削除
+    await fetchTasks(); // 今日のタスクを取得しなおす
   };
 
   return (
@@ -55,14 +61,16 @@ const RenderHiddenItem = ({
         onPress={() => closeRow(rowMap, data.item.id)}
       >
         <Text style={styles.backTextWhite}>
-          {data.item.state ? "uncompleted" : "complete"}
+          {data.item.state
+            ? t("taskState.uncompleted")
+            : t("taskState.complete")}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
         onPress={() => deleteRow(rowMap, data.item.id)}
       >
-        <Text style={styles.backTextWhite}>Delete</Text>
+        <Text style={styles.backTextWhite}>{t("taskState.delete")}</Text>
       </TouchableOpacity>
     </View>
   );

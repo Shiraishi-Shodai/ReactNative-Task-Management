@@ -1,7 +1,9 @@
 import { Stack } from "expo-router";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export default function StackLayout() {
+  const { t } = useTranslation();
   return (
     <Stack
       screenOptions={{
@@ -11,7 +13,7 @@ export default function StackLayout() {
       <Stack.Screen
         name="editTask"
         options={{
-          headerTitle: "Edit Task Scree",
+          headerTitle: t("screens.editTask"),
           headerStyle: {
             backgroundColor: "#888888",
           },

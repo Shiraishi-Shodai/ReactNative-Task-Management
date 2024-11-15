@@ -1,15 +1,20 @@
-import React, { useCallback, useState } from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import React, { useCallback, useContext, useState } from "react";
+import { View, StyleSheet } from "react-native";
 import { taskSchema } from "@/lib/form_yup";
 import { Task } from "@/classies/Task";
 import uuid from "react-native-uuid";
 import { useFocusEffect, useRouter } from "expo-router";
-import { addTask } from "@/lib/PersonDAO";
 import TaskForm from "@/components/TaskForm";
 import { FormikActions, taskFormValues } from "@/types";
+import { AuthContext } from "./AuthProvider";
+import { User } from "@/classies/User";
+import { toZonedTime } from "date-fns-tz";
+import { useTranslation } from "react-i18next";
 
 const AddTaskFormWrapper = () => {
   const router = useRouter();
+  const { user }: { user: User } = useContext(AuthContext) as { user: User };
+  const { t } = useTranslation();
 
   // dateとtimeの更新
   const changeDateTime = () => {
@@ -18,7 +23,6 @@ const AddTaskFormWrapper = () => {
     setTime(now);
   };
 
-  // 編集時は保存済みのタイムスタンプからDateインスタンスを生成
   const now = new Date();
   const [date, setDate] = useState(now);
   const [time, setTime] = useState(now);
@@ -36,34 +40,32 @@ const AddTaskFormWrapper = () => {
     formikActions: FormikActions
   ) => {
     const task_id = String(uuid.v4());
-    const person_id = "person1"; // FIXME: ログインユーザーのIDに置き換える
     const { name, location, detail } = values;
+
+    // サーバーに送信する時間はUTC+0に統一する
     const start_date = new Date(
       date.getFullYear(),
       date.getMonth(),
       date.getDate(),
       time.getHours(),
-      time.getMinutes()
+      time.getMinutes(),
+      new Date().getSeconds() // データを昇順に並び替えるために現在の秒数を取得
     ).getTime();
 
     const task: Task = new Task(
       task_id,
-      person_id,
+      user.id,
       name,
-      location as string,
-      detail as string,
+      location,
+      detail,
       start_date
     );
-    await addTask(task);
+    await user.addTask(task);
     changeDateTime();
     formikActions.setSubmitting(false);
     formikActions.resetForm();
-    Alert.alert("Add a taskl", "Return to Home.", [
-      {
-        text: "OK",
-        onPress: () => router.navigate("/(tabs)/"), // ホームタブに戻る
-      },
-    ]);
+
+    router.navigate("/(tabs)/"); // ホームタブに戻る
   };
 
   return (
@@ -77,7 +79,7 @@ const AddTaskFormWrapper = () => {
         setDate={setDate}
         time={time}
         setTime={setTime}
-        buttonText="Add a task"
+        buttonText={t("taskForm.addButtonText")}
       />
     </View>
   );

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { taskSchema } from "@/lib/form_yup";
 import { Task } from "@/classies/Task";
-import { edtiTask } from "@/lib/PersonDAO";
 import TaskForm from "@/components/TaskForm";
 import { FormikActions, taskFormValues } from "@/types";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 interface EditTaskFormWrapperProps {
   currentTask: Task;
@@ -25,6 +25,8 @@ const EditTaskFormWrapper = ({ currentTask }: EditTaskFormWrapperProps) => {
   const [date, setDate] = useState(now);
   const [time, setTime] = useState(now);
 
+  const { t } = useTranslation();
+
   // タスクを追加する関数
   const handleSubmit = async (
     values: taskFormValues,
@@ -39,23 +41,12 @@ const EditTaskFormWrapper = ({ currentTask }: EditTaskFormWrapperProps) => {
       time.getMinutes()
     ).getTime();
 
-    const task: Task = new Task(
-      currentTask.id,
-      currentTask.person_id,
-      name,
-      location as string,
-      detail as string,
-      start_date
-    );
-    await edtiTask(task);
+    await currentTask.edtiTask(name, start_date, location, detail);
+
     formikActions.setSubmitting(false);
     formikActions.resetForm();
-    Alert.alert("Edited a taskl", "Return to Home.", [
-      {
-        text: "OK",
-        onPress: () => router.navigate("/(tabs)/"), // ホームタブに戻る
-      },
-    ]);
+
+    router.navigate("/(tabs)/"); // ホームタブに戻る
   };
   return (
     <View style={styles.container}>
@@ -72,7 +63,7 @@ const EditTaskFormWrapper = ({ currentTask }: EditTaskFormWrapperProps) => {
         setDate={setDate}
         time={time}
         setTime={setTime}
-        buttonText="Edit a task"
+        buttonText={t("taskForm.editButtonText")}
       />
     </View>
   );

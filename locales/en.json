@@ -1,0 +1,25 @@
+{
+  "tabs": {
+    "home": "Home",
+    "addTask": "Add Task",
+    "profile": "Profile"
+  },
+  "screens": {
+    "editTask": "editTask"
+  },
+  "taskForm": {
+    "taskName": "Task Name",
+    "location": "Location",
+    "detail": "Detail",
+    "resetButtonText": "Reset Form",
+    "addButtonText": "Add a task",
+    "editButtonText": "Edit a task"
+  },
+  "logout": "Log Out",
+  "taskState": {
+    "complete": "Complete",
+    "uncompleted": "Uncompleted",
+    "delete": "Delete"
+  },
+  "change-language": "Change langugage"
+}

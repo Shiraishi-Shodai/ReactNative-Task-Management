@@ -1,16 +1,14 @@
 import React, { useContext } from "react";
-import { Image, ImageStyle, StyleProp, View, ViewStyle } from "react-native";
+import { Image, ImageStyle, StyleProp, View } from "react-native";
 import { StyleSheet } from "react-native";
 import { AuthContext } from "./AuthProvider";
-import { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import { User } from "@/classies/User";
 interface UserIconProps {
   style: { iconSize: StyleProp<ImageStyle> };
 }
 // Googleアカウントのアイコンを表示
 const UserIcon = ({ style }: UserIconProps) => {
-  const { user }: { user: FirebaseAuthTypes.User } = useContext(
-    AuthContext
-  ) as { user: FirebaseAuthTypes.User };
+  const { user }: { user: User } = useContext(AuthContext) as { user: User };
   return (
     <View style={styles.iconContainer}>
       <Image
