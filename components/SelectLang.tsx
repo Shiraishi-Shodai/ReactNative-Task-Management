@@ -38,7 +38,6 @@ function SelectLang() {
         </View>
       </Modal>
 
-      <Text>{t("welcome")}</Text>
       <Pressable
         onPress={() => setIsVisible(true)}
         style={{ backgroundColor: "red", height: "30%" }}

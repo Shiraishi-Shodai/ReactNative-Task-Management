@@ -11,14 +11,19 @@ export const languageResources = {
 };
 
 const getDefaultLng = async () => {
+  let defaultLng: string = "en";
   try {
-    const defaultLng = await AsyncStorage.getItem("i18nextLng");
+    const i18nextLng = await AsyncStorage.getItem("i18nextLng");
+    defaultLng = i18nextLng ?? defaultLng;
+  } catch (e: any) {
+    console.log(e.code, e.message);
+  } finally {
     await i18next
       .use(AsyncStoragePlugin())
       .use(initReactI18next)
       .init({
         compatibilityJSON: "v3",
-        lng: defaultLng || "en",
+        lng: defaultLng,
         fallbackLng: "en",
         resources: languageResources,
         react: {
@@ -30,8 +35,6 @@ const getDefaultLng = async () => {
           },
         },
       });
-  } catch (e: any) {
-    console.error(e.code, e.message);
   }
 };
 
