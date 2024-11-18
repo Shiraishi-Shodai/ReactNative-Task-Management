@@ -3,12 +3,14 @@ import { FlatList, Modal, Pressable, View, Text } from "react-native";
 import i18next, { languageResources } from "@/services/i18next";
 import languageList from "@/services/languageList.json";
 import { useTranslation } from "react-i18next";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function SelectLang() {
   const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
-  const changeLng = (lng: string) => {
-    i18next.changeLanguage(lng);
+  const changeLng = async (lng: string) => {
+    await i18next.changeLanguage(lng);
+    await AsyncStorage.setItem("i18nextLng", lng);
     setIsVisible(false);
   };
 
