@@ -4,7 +4,7 @@
     "slug": "taskman",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/adaptive-icon.png",
     "scheme": "task-management-app",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -27,6 +27,7 @@
     },
     "plugins": [
       "@react-native-firebase/app",
+      "react-native-background-fetch",
       "expo-router",
       [
         "expo-font",
@@ -38,14 +39,26 @@
             "SpaceMono": "./assets/fonts/SpaceMono-Regular.ttf"
           }
         }
-      ]
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/notification-icon.png",
+          "color": "#ffffff",
+          "defaultChannel": "default",
+          "sounds": [
+            "./assets/audio/task_remind.mp3",
+            "./assets/audio/task_not_set.mp3"
+          ],
+          "enableBackgroundRemoteNotifications": false
+        }
+      ],
+      "react-native-background-fetch"
     ],
     "experiments": {
       "typedRoutes": true
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "extra": {
       "eas": {
         "projectId": "5763f89d-5fe6-47f9-923d-b48dbab91741"

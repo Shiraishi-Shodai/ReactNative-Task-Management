@@ -1,40 +1,34 @@
-# Task Man
+# 1 システムの概要
 
-This is task management application
-This Android application was created with Duoring as a motif
+毎日、IT に関する小さなタスクを設定し、達成することでコツコツと知識や技術を身に着け、無理せずエンジニアとして成長できるシステムを作る。
 
-## 1. Overview
+## 1.1 背景
 
-This application aims to help you set and accomplish small IT-related tasks every day, so that you can steadily acquire knowledge and skills and grow as an engineer without overworking yourself!
+専門学校 1 年生の時は、毎日勉強し自分の成長を感じられて楽しかったが 最近は勉強時間も減り、伸び悩んでいると感じているため、この状況を改善するシステムを自分で作ってみたいと考えた
 
-## 2. Back ground
+## 1.2 この課題のゴール
 
-When I was a first-year student at a vocational school, I enjoyed studying every day and feeling that I was growing, but recently I have been spending less and less time studying, and I feel that I am not growing enough, so I wanted to create my own system to improve this situation.
+このシステムを使うことで日々、エンジニアとして成長を実感できるようになること
+要件定義から動作テストまで最後までやりきる。
 
-## 3. Requirement
+# 2 要件
 
-- You can set tasks that you want to accomplish.
-- Fields to be entered when setting tasks.
+- 今日達成したいタスクを設定できる。(今日以外の別日に実行予定のタスクは設定が不可能)
+- タスク設定時に入力する項目
+- タスク名
+- タスクの詳細
+- 時間
+- 実行場所
+- 完了ボタンを押すことでタスクの完了とする(未完了に戻すことも出来る)
+- 通知は　 ON・OFF を設定できる
+- タスクの数分前に通知を送信する(何分前かは自分で指定できる)
+- AM ７：００の時点でタスクを未設定の時はその主を報告する通知を送信。
+- 時間は各地域の時間を使用
+- 設定画面で過去 1 週間で完了した記録を折れ線データで表示する
+- ダークモードの設定
+- アプリ内使用言語を選択できる(英語・日本語)
 
-  - Task name
-  - Task detail
-  - Task start time
-  - Task execution location
+# 3 この課題で達成したいこと
 
-- Pressing the Done button marks the task as completed (it can also be reset to Unfinished).
-- **Number of days with at least one task completed consecutively displayed on the phone's home screen**
-- Sends notifications (sentences designed by AI to encourage task completion) at 9:00, 13:00, 18:00, and 21:00 when a set task is not completed.
-- When a task is not set as of 7:00 AM, a notification is sent every 2 hours reporting its principal.
-  Clock uses the default time zone of the Android device.
-
-### Permission
-
-[OAuth2.0](https://auth0.com/jp/intro-to-iam/what-is-oauth-2)
-[JWT](https://developer.mamezou-tech.com/blogs/2022/12/08/jwt-auth/#jws%E3%81%AE%E6%A4%9C%E8%A8%BC)
-
-**key store の発行**
-keytool -genkey -v -keystore debug.keystore -alias androiddebugkey -storepass android -keypass android -keyalg RSA -validity 10000
-
-## 4. execution environment
-
-Android OS only now
+- Google Play に公開
+- オブジェクト指向で開発
