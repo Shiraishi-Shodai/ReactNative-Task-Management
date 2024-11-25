@@ -83,53 +83,41 @@ export const usePushNotification = (): PushNotificationState => {
     return token;
   };
 
-  // useEffect(() => {
-  //   console.log("実行！");
-  //   registerForPushNotificationsAsync().then(
-  //     (token) => token && setExpoPushToken(token)
-  //   );
+  useEffect(() => {
+    console.log("通知の設定を初期化します");
+    registerForPushNotificationsAsync().then(
+      (token) => token && setExpoPushToken(token)
+    );
 
-  //   if (Platform.OS === "android") {
-  //     // チャンネルを取得
-  //     Notifications.getNotificationChannelsAsync().then((value) =>
-  //       setChannels(value ?? [])
-  //     );
-  //   }
+    if (Platform.OS === "android") {
+      // チャンネルを取得
+      Notifications.getNotificationChannelsAsync().then((value) =>
+        setChannels(value ?? [])
+      );
+    }
 
-  //   // 通知を受信したときの処理
-  //   notificationListener.current =
-  //     Notifications.addNotificationReceivedListener((notification) =>
-  //       setNotification(notification)
-  //     );
+    // 通知を受信したときの処理
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) =>
+        setNotification(notification)
+      );
 
-  //   // 通知をタップしたときの処理
-  //   responseListener.current =
-  //     Notifications.addNotificationResponseReceivedListener((response) =>
-  //       console.log(response)
-  //     );
+    // 通知をタップしたときの処理
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) =>
+        console.log(response)
+      );
 
-  //   //   コンポーネントがアンマウントされるとき、リスナーを解除
-  //   return () => {
-  //     notificationListener.current &&
-  //       Notifications.removeNotificationSubscription(
-  //         notificationListener.current
-  //       );
-  //     responseListener.current &&
-  //       Notifications.removeNotificationSubscription(responseListener.current);
-  //   };
-  // }, []);
+    //   コンポーネントがアンマウントされるとき、リスナーを解除
+    return () => {
+      notificationListener.current &&
+        Notifications.removeNotificationSubscription(
+          notificationListener.current
+        );
+      responseListener.current &&
+        Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
 
   return { expoPushToken, notification };
-
-  const scheduleNotificationAsync = async () => {
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        body: "test",
-        sound: "task_remind",
-      },
-      trigger: {
-        seconds: 1,
-      },
-    });
-  };
 };

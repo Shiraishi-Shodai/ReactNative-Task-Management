@@ -2,6 +2,7 @@
   <uses-permission android:name="android.permission.INTERNET"/>
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+  <uses-permission android:minSdkVersion="34" android:name="android.permission.USE_EXACT_ALARM" />
   <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
   <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
   <uses-permission android:name="android.permission.VIBRATE"/>
@@ -40,5 +41,11 @@
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>
+
+   <service android:name="com.transistorsoft.rnbackgroundfetch.HeadlessTask"
+           android:permission="android.permission.BIND_JOB_SERVICE"
+           android:exported="true"/>
+    <receiver android:name="com.transistorsoft.rnbackgroundfetch.FetchReceiver" android:exported="true"/>
+
   </application>
 </manifest>

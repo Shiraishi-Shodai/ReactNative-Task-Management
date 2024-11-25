@@ -4,30 +4,28 @@ import TaskList from "@/components/TaskList";
 import "@/lib/firebase"; // firebaseをindex.tsxで初期化
 import { useEffect, useState } from "react";
 import TaskDatePicker from "@/components/TaskDatePicker";
-import BackgroundFetch from "react-native-background-fetch";
-import * as Notifications from "expo-notifications";
-import * as Device from "expo-device";
+
+import { usePushNotification } from "@/lib/notification";
+import "@/lib/background";
+import {
+  initializeBackgroundFetch,
+  scheduleBackgroundTasks,
+  startBackgroundFetch,
+} from "@/lib/background";
 
 const HomeScreen = () => {
   const [pickDate, setPickDate] = useState<Date>(new Date());
+  const { expoPushToken, notification } = usePushNotification();
 
   useEffect(() => {
-    const init = async () => {};
-  });
+    const setUpBackgroundFetch = async () => {
+      await initializeBackgroundFetch();
+      await scheduleBackgroundTasks();
+      await startBackgroundFetch();
+    };
 
-  const doBackgroundTask = async () => {
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        body: "test",
-        sound: "task_remind",
-      },
-      trigger: {
-        seconds: 1,
-      },
-    });
-    // バックグラウンドで実行するタスク
-    console.log("バックグラウンドタスクが実行されました");
-  };
+    setUpBackgroundFetch();
+  }, []);
 
   return (
     <View style={styles.container}>
