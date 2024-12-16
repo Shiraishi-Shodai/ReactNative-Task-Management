@@ -116,7 +116,7 @@ export class User {
         },
         [`user_tasks/${this.id}/${d.getFullYear()}/${
           d.getMonth() + 1
-        }/${d.getDate()}/${task.id}/`]: true,
+        }/${d.getDate()}/${task.id}/`]: false,
       };
 
       await database().ref("/").update(updateObject);
@@ -155,7 +155,7 @@ export class User {
       const userRef = database().ref(`users/${this.id}`);
       const snapshot = await userRef.once("value");
       const res = snapshot.val();
-      console.log(`検索結果: ${snapshot.exists()}`);
+      // console.log(`検索結果: ${snapshot.exists()}`);
       return res;
     } catch (e) {
       console.error(e);
@@ -170,9 +170,11 @@ export class User {
         photoURL: this.photoURL,
         email: this.email,
       });
-      console.log("ユーザーを登録しました");
+      // console.log("ユーザーを登録しました");
     } catch (e) {
       console.log(e);
     }
   };
+
+  // public getTasksCompletedLastWeekByDay = async (): map => {};
 }

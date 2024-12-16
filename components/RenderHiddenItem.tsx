@@ -38,7 +38,7 @@ const RenderHiddenItem = ({
       start_date,
       state
     );
-    await task.toggleState();
+    await task.toggleState(user.id);
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }

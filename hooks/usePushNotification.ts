@@ -5,11 +5,11 @@ import { useEffect, useRef, useState } from "react";
 import Constants from "expo-constants";
 
 export interface PushNotificationState {
-  expoPushToken?: string;
+  FCMDeviceToken?: string;
   notification?: Notifications.Notification;
 }
 export const usePushNotification = (): PushNotificationState => {
-  const [expoPushToken, setExpoPushToken] = useState<string>("");
+  const [FCMDeviceToken, setFCMDeviceToken] = useState<string>("");
   const [channels, setChannels] = useState<Notifications.NotificationChannel[]>(
     []
   );
@@ -66,7 +66,14 @@ export const usePushNotification = (): PushNotificationState => {
 
         if (!projectId) throw Error("projectId not found");
 
-        token = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
+        // token = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
+        // console.log(`プッシュ通知トークン ${token}`);
+
+        // FCM対応のトークンを取得
+        const deviceToken = (await Notifications.getDevicePushTokenAsync())
+          .data;
+        setFCMDeviceToken(deviceToken);
+        // console.log(`デバイストークン: ${deviceToken}`);
       } catch (e: any) {
         if (e.message === "projectId not found") {
           console.log("プロジェクトidが見つかりませんでした");
@@ -84,16 +91,17 @@ export const usePushNotification = (): PushNotificationState => {
   };
 
   useEffect(() => {
-    console.log("通知の設定を初期化します");
+    // console.log("通知の設定を初期化します");
     registerForPushNotificationsAsync().then(
-      (token) => token && setExpoPushToken(token)
+      (token) => token && setFCMDeviceToken(token)
     );
 
     if (Platform.OS === "android") {
       // チャンネルを取得
-      Notifications.getNotificationChannelsAsync().then((value) =>
-        setChannels(value ?? [])
-      );
+      Notifications.getNotificationChannelsAsync().then((value) => {
+        // console.log(`チャンネルId: ${value}`);
+        setChannels(value ?? []);
+      });
     }
 
     // 通知を受信したときの処理
@@ -119,5 +127,5 @@ export const usePushNotification = (): PushNotificationState => {
     };
   }, []);
 
-  return { expoPushToken, notification };
+  return { FCMDeviceToken, notification };
 };

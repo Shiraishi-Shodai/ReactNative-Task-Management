@@ -28,7 +28,7 @@ function TaskList({ pickDate }: TaskListProps) {
   );
 
   const onRowDidOpen = (rowKey: string) => {
-    console.log("This row opened", rowKey);
+    // console.log("This row opened", rowKey);
   };
 
   // 行のレイアウトを指定(前側)
