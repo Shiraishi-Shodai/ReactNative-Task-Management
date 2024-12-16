@@ -4,10 +4,15 @@ import { useTheme } from "@react-navigation/native";
 import SelectLang from "../../components/SelectLang";
 import { useTranslation } from "react-i18next";
 import ToggleTheme from "@/components/ToggleTheme";
+import { User } from "@/classies/User";
+import { AuthContext } from "@/components/AuthProvider";
 
 function Explore() {
   const currentTheme = useTheme().colors;
   const { t } = useTranslation();
+  const { user } = useContext(AuthContext);
+  const weeklyMap: Promise<Map<Date, number>> =
+    user?.getTasksCompletedLastWeekByDay();
 
   return (
     <View style={styles.container}>

@@ -1,6 +1,9 @@
 import { toZonedTime } from "date-fns-tz";
 import { Task } from "./Task";
-import database, { firebase } from "@react-native-firebase/database";
+import database, {
+  DataSnapshot,
+  firebase,
+} from "@react-native-firebase/database";
 
 export class User {
   private _id: string;
@@ -176,5 +179,53 @@ export class User {
     }
   };
 
-  // public getTasksCompletedLastWeekByDay = async (): map => {};
+  public getWeeklyInitialMap = (): Map<Date, number> => {
+    // 今日から1週間前までの日付を取得
+    const weeklyDates: Date[] = [...Array(7)].map(
+      (_, i) => new Date(Date.now() - (6 - i) * 86400000)
+    );
+
+    // Mapを取得した日付で初期化。numberは全て0
+    const map = new Map<Date, number>();
+    for (let date of weeklyDates) {
+      map.set(date, 0);
+    }
+    return map;
+  };
+
+  public getTasksCompletedLastWeekByDay = async (): Promise<
+    Map<Date, number>
+  > => {
+    const weeklyMap: Map<Date, number> = this.getWeeklyInitialMap();
+
+    // user_taskノードから2で取得した日付に一致する{タスクid: true or false}オブジェクトを日ごとに取得する
+    try {
+      const year = new Date().getFullYear();
+      const month = new Date().getMonth() + 1;
+
+      const promises = [];
+      for (let d of [...weeklyMap.keys()]) {
+        promises.push(
+          await database()
+            .ref(`user_tasks/${this.id}/${year}/${month}/${d.getDate()}`)
+            .once("value")
+        );
+      }
+
+      const snapshots: DataSnapshot[] = await Promise.all(promises);
+      // trueのもののみカウントし、mapを更新
+      for (let i = 0; i < [...weeklyMap].length; i++) {
+        if (!snapshots[i].exists()) continue;
+        const taskNum = Object.values(snapshots[i].val()).filter(
+          (state) => state == true
+        ).length;
+
+        weeklyMap.set([...weeklyMap][i][0], taskNum);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+
+    return weeklyMap;
+  };
 }
