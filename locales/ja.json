@@ -21,5 +21,6 @@
     "delete": "削除"
   },
   "logout": "ログアウト",
-  "change-language": "言語を変更"
+  "change-language": "言語を変更",
+  "graph-title": "過去一週間で達成したタスク数"
 }

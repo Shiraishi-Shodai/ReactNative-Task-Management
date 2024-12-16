@@ -179,25 +179,9 @@ export class User {
     }
   };
 
-  public getWeeklyInitialMap = (): Map<Date, number> => {
-    // 今日から1週間前までの日付を取得
-    const weeklyDates: Date[] = [...Array(7)].map(
-      (_, i) => new Date(Date.now() - (6 - i) * 86400000)
-    );
-
-    // Mapを取得した日付で初期化。numberは全て0
-    const map = new Map<Date, number>();
-    for (let date of weeklyDates) {
-      map.set(date, 0);
-    }
-    return map;
-  };
-
-  public getTasksCompletedLastWeekByDay = async (): Promise<
-    Map<Date, number>
-  > => {
-    const weeklyMap: Map<Date, number> = this.getWeeklyInitialMap();
-
+  public getTasksCompletedLastWeekByDay = async (
+    weeklyMap: Map<Date, number>
+  ): Promise<Map<Date, number>> => {
     // user_taskノードから2で取得した日付に一致する{タスクid: true or false}オブジェクトを日ごとに取得する
     try {
       const year = new Date().getFullYear();
