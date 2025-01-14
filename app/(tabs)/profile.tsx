@@ -34,7 +34,7 @@ function Explore() {
         className="w-11/12"
       >
         <ToggleTheme />
-        {/* <SelectLang /> */}
+        <SelectLang />
       </View>
 
       {/* <LineGraph

@@ -21,7 +21,10 @@ function SelectLang() {
   const languageData: LanguageInterface = languageList;
 
   return (
-    <View style={{ flex: 0.5 }}>
+    <Pressable
+      onPress={() => setIsVisible(true)}
+      style={{ flex: 0.5, backgroundColor: "blue" }}
+    >
       <Modal visible={isVisible} onRequestClose={() => setIsVisible(false)}>
         <View>
           <FlatList
@@ -38,13 +41,8 @@ function SelectLang() {
         </View>
       </Modal>
 
-      <Pressable
-        onPress={() => setIsVisible(true)}
-        style={{ backgroundColor: "red", height: "30%" }}
-      >
-        <Text>{t("change-language")}</Text>
-      </Pressable>
-    </View>
+      <Text>{t("change-language")}</Text>
+    </Pressable>
   );
 }
 
