@@ -13,7 +13,7 @@ function ToggleTheme() {
   return (
     <Pressable
       style={{
-        backgroundColor: "red", //currentTheme.background,
+        backgroundColor: "green", //currentTheme.background,
         borderColor: currentTheme.border,
         borderBottomWidth: 1,
         flexDirection: "row",
