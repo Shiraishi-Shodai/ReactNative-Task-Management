@@ -22,5 +22,7 @@
     "delete": "Delete"
   },
   "change-language": "Change langugage",
-  "graph-title": "Number of tasks accomplished in the past week"
+  "graph-title": "Number of tasks accomplished in the past week",
+  "theme": "Theme",
+  "tasks": "tasks"
 }

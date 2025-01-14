@@ -24,6 +24,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: true,
         headerTitleAlign: "center",
+        tabBarHideOnKeyboard: true,
       }}
     >
       <Tabs.Screen
@@ -34,7 +35,7 @@ export default function TabLayout() {
           headerRight: () => <LoginIcon />, // 右端にアイコンを表示
           headerRightContainerStyle: {
             paddingRight: 10,
-            // paddingBottom: 10,
+            paddingBottom: 10,
           },
           headerShown: true,
           headerStyle: { backgroundColor: "#888888" },
@@ -53,7 +54,6 @@ export default function TabLayout() {
           title: t("tabs.addTask"),
           headerShown: true,
           headerStyle: { backgroundColor: "#888888" },
-          // tabBarStyle: { display: "none" }, // このタブを選択されたとき、下部のタブバーを非表示にする
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "add-circle" : "add-circle-outline"}

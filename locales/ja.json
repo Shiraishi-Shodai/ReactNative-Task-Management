@@ -22,5 +22,7 @@
   },
   "logout": "ログアウト",
   "change-language": "言語を変更",
-  "graph-title": "過去一週間で達成したタスク数"
+  "graph-title": "過去一週間で達成したタスク数",
+  "theme": "テーマ",
+  "tasks": "個"
 }

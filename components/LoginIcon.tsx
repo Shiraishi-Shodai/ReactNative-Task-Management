@@ -18,9 +18,9 @@ function LoginIcon() {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   return (
-    <View>
+    <>
       <Pressable onPress={() => setIsVisible(true)}>
-        <UserIcon style={userIconstyles} />
+        <UserIcon iconSize={styles.iconSize} />
       </Pressable>
       <Modal
         visible={isVisible}
@@ -39,7 +39,7 @@ function LoginIcon() {
           </View>
         </Pressable>
       </Modal>
-    </View>
+    </>
   );
 }
 
@@ -56,13 +56,10 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     padding: 20,
   },
-});
-
-const userIconstyles = StyleSheet.create({
   iconSize: {
     width: 45,
     height: 45,
-    borderRadius: 200,
+    borderRadius: 22.5,
   },
 });
 export default LoginIcon;

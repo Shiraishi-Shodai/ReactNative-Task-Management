@@ -21,7 +21,7 @@ function SelectLang() {
   const languageData: LanguageInterface = languageList;
 
   return (
-    <View>
+    <View style={{ flex: 0.5 }}>
       <Modal visible={isVisible} onRequestClose={() => setIsVisible(false)}>
         <View>
           <FlatList

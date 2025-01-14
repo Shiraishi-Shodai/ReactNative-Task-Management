@@ -48,19 +48,27 @@ const ReusableTextInput = ({
             onChangeText={handleChange}
             onBlur={handleBlur}
             multiline={multiline}
+            ellipsizeMode="tail"
             numberOfLines={numberOfLines}
             textAlignVertical={textAlignVertical}
             placeholderTextColor={currentTheme.text}
-            style={[style.fieldText, { color: currentTheme.text }]}
+            style={[
+              style.fieldText,
+              { color: currentTheme.text, textAlign: "left" },
+            ]}
           />
         ) : (
           <TextInput
+            scrollEnabled={false}
             placeholder={placeholder}
             value={value}
             onChangeText={handleChange}
             onBlur={handleBlur}
             placeholderTextColor={currentTheme.text}
-            style={[style.fieldText, { color: currentTheme.text }]}
+            style={[
+              style.fieldText,
+              { color: currentTheme.text, textAlign: "left" },
+            ]}
           />
         )}
       </View>

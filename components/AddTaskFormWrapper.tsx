@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, KeyboardAvoidingView } from "react-native";
 import { taskSchema } from "@/lib/form_yup";
 import { Task } from "@/classies/Task";
 import uuid from "react-native-uuid";
@@ -70,17 +70,19 @@ const AddTaskFormWrapper = () => {
 
   return (
     <View style={styles.container}>
-      <TaskForm
-        initialValues={{ name: "", location: "", detail: "" }}
-        validationSchema={taskSchema}
-        onSubmit={handleSubmit}
-        changeDateTime={changeDateTime}
-        date={date}
-        setDate={setDate}
-        time={time}
-        setTime={setTime}
-        buttonText={t("taskForm.addButtonText")}
-      />
+      <KeyboardAvoidingView style={styles.keyboardAvoidingView}>
+        <TaskForm
+          initialValues={{ name: "", location: "", detail: "" }}
+          validationSchema={taskSchema}
+          onSubmit={handleSubmit}
+          changeDateTime={changeDateTime}
+          date={date}
+          setDate={setDate}
+          time={time}
+          setTime={setTime}
+          buttonText={t("taskForm.addButtonText")}
+        />
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -88,7 +90,11 @@ const AddTaskFormWrapper = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
     justifyContent: "center",
+  },
+  keyboardAvoidingView: {
+    width: "100%",
     alignItems: "center",
   },
 });
