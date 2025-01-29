@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import SelectLang from "../../components/SelectLang";
 import { useTranslation } from "react-i18next";
-import ToggleTheme from "@/components/ToggleTheme";
 import { User } from "@/classies/User";
 import { AuthContext } from "@/components/AuthProvider";
 import LineGraph from "@/components/LineGraph";
 import LoginIcon from "@/components/LoginIcon";
 import UserIcon from "@/components/UserIcon";
+import ThemeSelect from "@/components/ThemeSelect";
+import LanguageSelect from "@/components/LanguageSelect";
 
 function Explore() {
   const currentTheme = useTheme().colors;
@@ -28,13 +28,13 @@ function Explore() {
             borderRadius: 10,
             backgroundColor: currentTheme.background,
             borderColor: currentTheme.border,
-            borderWidth: 1,
+            borderWidth: 2,
           },
         ]}
         className="w-11/12"
       >
-        <ToggleTheme />
-        <SelectLang />
+        <ThemeSelect />
+        <LanguageSelect />
       </View>
 
       {/* <LineGraph
