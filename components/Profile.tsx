@@ -6,13 +6,13 @@ function Profile() {
   return (
     <View>
       <View>
-        <UserIcon style={userIconStyles} />
+        <UserIcon iconSize={styles.iconSize} />
       </View>
     </View>
   );
 }
 
-const userIconStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   iconSize: {
     height: 50,
     width: 50,

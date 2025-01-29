@@ -1,16 +1,9 @@
 import React, { useContext } from "react";
-import {
-  Image,
-  ImageStyle,
-  Pressable,
-  StyleProp,
-  View,
-  ViewStyle,
-} from "react-native";
+import { Image, ImageStyle, StyleProp } from "react-native";
 import { AuthContext } from "./AuthProvider";
 import { User } from "@/classies/User";
 interface UserIconProps {
-  iconSize: StyleProp<ImageStyle>;
+  iconSize: ImageStyle;
 }
 // Googleアカウントのアイコンを表示
 const UserIcon = ({ iconSize }: UserIconProps) => {
