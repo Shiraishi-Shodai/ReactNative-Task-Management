@@ -1,6 +1,14 @@
 // TaskForm.tsx
 import React, { useCallback, useEffect, useState } from "react";
-import { View, Pressable, Text, StyleSheet } from "react-native";
+import {
+  View,
+  Pressable,
+  Text,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
+} from "react-native";
 import { Formik } from "formik";
 import ReusableTextInput from "./ReusableTextInput";
 import StartDate from "./StartDate";
@@ -40,6 +48,10 @@ const TaskForm = ({
   const currentTheme = useTheme().colors;
   const { t } = useTranslation();
 
+  const dismissKeyboard = () => {
+    Keyboard.dismiss(); // キーボードを閉じる
+  };
+
   return (
     <Formik
       initialValues={initialValues}
@@ -57,81 +69,83 @@ const TaskForm = ({
         errors,
         touched,
       }) => (
-        <View
-          style={[
-            styles.formContainer,
-            { backgroundColor: currentTheme.formBackground },
-            { borderColor: currentTheme.border },
-          ]}
-        >
-          <ReusableTextInput
-            placeholder={t("taskForm.taskName")}
-            value={values.name}
-            handleChange={handleChange("name")}
-            handleBlur={handleBlur("name")}
-            error={errors.name}
-            touched={touched.name}
-            style={{
-              fieldView: styles.taskNameView,
-              fieldText: styles.taskNameText,
-            }}
-          />
-          <StartDate
-            date={date}
-            setDate={setDate}
-            time={time}
-            setTime={setTime}
-          />
-          <ReusableTextInput
-            placeholder={t("taskForm.location")}
-            value={values.location}
-            handleChange={handleChange("location")}
-            handleBlur={handleBlur("location")}
-            error={errors.location}
-            touched={touched.location}
-            style={{
-              fieldView: styles.locationDetailView,
-              fieldText: styles.locationText,
-            }}
-          />
-          <ReusableTextInput
-            placeholder={t("taskForm.detail")}
-            value={values.detail}
-            handleChange={handleChange("detail")}
-            handleBlur={handleBlur("detail")}
-            error={errors.detail}
-            touched={touched.detail}
-            multiline={true}
-            numberOfLines={20}
-            textAlignVertical="top"
-            style={{
-              fieldView: styles.locationDetailView,
-              fieldText: styles.detailText,
-            }}
-          />
-          <View style={styles.buttonContainer}>
-            <TaskFormButton
-              bgcolor="#fff"
-              onPress={() => {
-                setDisabled(true);
-                handleSubmit();
+        <TouchableWithoutFeedback onPress={dismissKeyboard}>
+          <View
+            style={[
+              styles.formContainer,
+              { backgroundColor: currentTheme.formBackground },
+              { borderColor: currentTheme.border },
+            ]}
+          >
+            <ReusableTextInput
+              placeholder={t("taskForm.taskName")}
+              value={values.name}
+              handleChange={handleChange("name")}
+              handleBlur={handleBlur("name")}
+              error={errors.name}
+              touched={touched.name}
+              style={{
+                fieldView: styles.taskNameView,
+                fieldText: styles.taskNameText,
               }}
-              name={buttonText}
-              disabled={disabled}
             />
+            <StartDate
+              date={date}
+              setDate={setDate}
+              time={time}
+              setTime={setTime}
+            />
+            <ReusableTextInput
+              placeholder={t("taskForm.location")}
+              value={values.location}
+              handleChange={handleChange("location")}
+              handleBlur={handleBlur("location")}
+              error={errors.location}
+              touched={touched.location}
+              style={{
+                fieldView: styles.locationDetailView,
+                fieldText: styles.locationText,
+              }}
+            />
+            <ReusableTextInput
+              placeholder={t("taskForm.detail")}
+              value={values.detail}
+              handleChange={handleChange("detail")}
+              handleBlur={handleBlur("detail")}
+              error={errors.detail}
+              touched={touched.detail}
+              multiline={true}
+              numberOfLines={10}
+              textAlignVertical="top"
+              style={{
+                fieldView: styles.locationDetailView,
+                fieldText: styles.detailText,
+              }}
+            />
+            <View style={styles.buttonContainer}>
+              <TaskFormButton
+                bgcolor="#fff"
+                onPress={() => {
+                  setDisabled(true);
+                  handleSubmit();
+                }}
+                name={buttonText}
+                disabled={disabled}
+              />
 
-            <TaskFormButton
-              bgcolor="#fff"
-              onPress={() => {
-                setDisabled(true);
-                resetForm();
-                changeDateTime();
-              }}
-              name={t("taskForm.resetButtonText")}
-              disabled={disabled}
-            />
+              <TaskFormButton
+                bgcolor="#fff"
+                onPress={() => {
+                  setDisabled(true);
+                  resetForm();
+                  changeDateTime();
+                }}
+                name={t("taskForm.resetButtonText")}
+                disabled={disabled}
+              />
+            </View>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       )}
     </Formik>
   );
@@ -143,9 +157,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: "95%",
     paddingHorizontal: 10,
-    paddingTop: 10,
-    paddingBottom: 30,
-    justifyContent: "flex-start",
+    paddingVertical: 20,
   },
   buttonContainer: {
     flexDirection: "row",
@@ -160,16 +172,16 @@ const styles = StyleSheet.create({
   },
   taskNameText: {
     fontFamily: "Noto-Snas-JP",
-    fontSize: 30,
+    fontSize: 20,
     textAlign: "left",
   },
   locationText: {
     fontFamily: "Noto-Snas-JP",
-    fontSize: 25,
+    fontSize: 20,
     textAlign: "left",
   },
   detailText: {
-    height: 250,
+    height: 100,
     fontSize: 20,
     textAlign: "left",
   },

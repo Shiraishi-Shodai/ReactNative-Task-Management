@@ -1,6 +1,9 @@
 import { toZonedTime } from "date-fns-tz";
 import { Task } from "./Task";
-import database, { firebase } from "@react-native-firebase/database";
+import database, {
+  DataSnapshot,
+  firebase,
+} from "@react-native-firebase/database";
 
 export class User {
   private _id: string;
@@ -116,7 +119,7 @@ export class User {
         },
         [`user_tasks/${this.id}/${d.getFullYear()}/${
           d.getMonth() + 1
-        }/${d.getDate()}/${task.id}/`]: true,
+        }/${d.getDate()}/${task.id}/`]: false,
       };
 
       await database().ref("/").update(updateObject);
@@ -155,7 +158,7 @@ export class User {
       const userRef = database().ref(`users/${this.id}`);
       const snapshot = await userRef.once("value");
       const res = snapshot.val();
-      console.log(`検索結果: ${snapshot.exists()}`);
+      // console.log(`検索結果: ${snapshot.exists()}`);
       return res;
     } catch (e) {
       console.error(e);
@@ -170,9 +173,43 @@ export class User {
         photoURL: this.photoURL,
         email: this.email,
       });
-      console.log("ユーザーを登録しました");
+      // console.log("ユーザーを登録しました");
     } catch (e) {
       console.log(e);
     }
+  };
+
+  public getTasksCompletedLastWeekByDay = async (
+    weeklyMap: Map<Date, number>
+  ): Promise<Map<Date, number>> => {
+    // user_taskノードから2で取得した日付に一致する{タスクid: true or false}オブジェクトを日ごとに取得する
+    try {
+      const year = new Date().getFullYear();
+      const month = new Date().getMonth() + 1;
+
+      const promises = [];
+      for (let d of [...weeklyMap.keys()]) {
+        promises.push(
+          await database()
+            .ref(`user_tasks/${this.id}/${year}/${month}/${d.getDate()}`)
+            .once("value")
+        );
+      }
+
+      const snapshots: DataSnapshot[] = await Promise.all(promises);
+      // trueのもののみカウントし、mapを更新
+      for (let i = 0; i < [...weeklyMap].length; i++) {
+        if (!snapshots[i].exists()) continue;
+        const taskNum = Object.values(snapshots[i].val()).filter(
+          (state) => state == true
+        ).length;
+
+        weeklyMap.set([...weeklyMap][i][0], taskNum);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+
+    return weeklyMap;
   };
 }

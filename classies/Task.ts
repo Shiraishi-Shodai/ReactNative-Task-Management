@@ -100,16 +100,24 @@ export class Task {
   public sendRemind(): void {}
 
   // TODO: タスクの完了・未完了
-  public toggleState = async (): Promise<void> => {
+  public toggleState = async (user_id: string): Promise<void> => {
     try {
-      const taskRef = database().ref(`tasks/${this._id}`);
-      const snapshot = await taskRef.once("value");
-      if (!snapshot.exists()) {
-        console.log("タスクが見つかりませんでした");
-        throw new Error("task not found");
-      }
-      const currentState: boolean = snapshot.val().state;
-      await taskRef.update({ state: !currentState });
+      const start_date: Date = new Date(this.start_date);
+      const updateObject = {
+        [`tasks/${this.id}`]: {
+          user_id: user_id,
+          name: this.name,
+          location: this.location,
+          detail: this.detail,
+          state: !this.state,
+          start_date: this.start_date,
+        },
+        [`user_tasks/${user_id}/${start_date.getFullYear()}/${
+          start_date.getMonth() + 1
+        }/${start_date.getDate()}/${this.id}`]: !this.state,
+      };
+
+      await database().ref("/").update(updateObject);
     } catch (e) {
       console.log(`データ更新エラー : ${e}`);
     }

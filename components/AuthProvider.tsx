@@ -3,6 +3,7 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { User } from "@/classies/User";
 import { useRouter } from "expo-router";
+import { usePushNotification } from "@/hooks/usePushNotification";
 
 // ユーザーとセット関数を管理するための型を定義
 export interface AuthContextType {
@@ -26,6 +27,7 @@ interface AuthProviderProps {
 function AuthProvider({ children }: AuthProviderProps) {
   // 初期値はnullを明示的に設定
   const [user, setUser] = useState<User | null>(null);
+  const { FCMDeviceToken, notification } = usePushNotification();
   const router = useRouter();
 
   // アプリ起動時にGoogleSigninに必要な設定を読み込む
@@ -54,7 +56,12 @@ function AuthProvider({ children }: AuthProviderProps) {
       setUser(appUser);
 
       const isExist: any = await appUser.isAlreadyExist();
-      if (isExist == null) await appUser.subscribe();
+      if (isExist == null) {
+        // console.log("初回ログイン");
+        await appUser.subscribe();
+      } else {
+        // console.log("2回目以降ログイン");
+      }
 
       //   ホーム画面に移動
       router.navigate("/(tabs)/");

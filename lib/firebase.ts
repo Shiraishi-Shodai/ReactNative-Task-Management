@@ -21,5 +21,3 @@ import { FirebaseApp } from "@react-native-firebase/database";
 (!firebase.apps.length
   ? firebase.initializeApp(firebaseConfig)
   : firebase.app()) as FirebaseApp;
-
-console.log("firebaseを初期化");

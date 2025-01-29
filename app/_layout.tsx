@@ -12,12 +12,14 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import AuthProvider from "@/components/AuthProvider";
+import "../global.css";
+import "../services/i18next";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme(); // 現在のユーザーが使用しているテーマ
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     "Noto-Sans-JP": require("@/assets/fonts/NotoSansJP-Regular.ttf"),
@@ -34,15 +36,11 @@ export default function RootLayout() {
   }
 
   return (
-    // <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-    <ThemeProvider>
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <AuthProvider>
         <GestureHandlerRootView>
           <Stack
             screenOptions={{
-              headerStyle: {
-                // backgroundColor: "gray",
-              },
               headerShown: false,
             }}
           >
