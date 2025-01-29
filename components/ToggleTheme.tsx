@@ -8,8 +8,9 @@ function ToggleTheme() {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { t } = useTranslation();
   const currentTheme = useTheme().colors;
+  console.log(theme);
 
-  const isDarkMode = theme === "dark";
+  const isDarkMode = theme.dark;
   return (
     <Pressable
       style={{

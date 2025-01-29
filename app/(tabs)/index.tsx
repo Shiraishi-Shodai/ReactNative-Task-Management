@@ -9,7 +9,6 @@ import { usePushNotification } from "@/hooks/usePushNotification";
 const HomeScreen = () => {
   const [pickDate, setPickDate] = useState<Date>(new Date());
   // const { FCMDeviceToken, notification } = usePushNotification();
-
   return (
     <View style={styles.container}>
       <TaskDatePicker pickDate={pickDate} setDate={setPickDate} />
