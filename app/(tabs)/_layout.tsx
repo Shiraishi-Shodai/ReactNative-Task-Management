@@ -6,11 +6,13 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import LoginIcon from "@/components/LoginIcon";
 import { AuthContext } from "@/components/AuthProvider";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "@react-navigation/native";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
+  const currentTheme = useTheme();
 
   // ユーザーがログイン中でなければ、ログイン画面にリダイレクト
   if (user == null) {
@@ -38,7 +40,7 @@ export default function TabLayout() {
             paddingBottom: 10,
           },
           headerShown: true,
-          headerStyle: { backgroundColor: "#888888" },
+          headerStyle: { backgroundColor: currentTheme.colors.primary },
           tabBarStyle: { display: "flex" },
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
@@ -53,7 +55,7 @@ export default function TabLayout() {
         options={{
           title: t("tabs.addTask"),
           headerShown: true,
-          headerStyle: { backgroundColor: "#888888" },
+          headerStyle: { backgroundColor: currentTheme.colors.primary },
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "add-circle" : "add-circle-outline"}
@@ -68,7 +70,7 @@ export default function TabLayout() {
         options={{
           title: t("tabs.profile"),
           headerShown: true,
-          headerStyle: { backgroundColor: "#888888" },
+          headerStyle: { backgroundColor: currentTheme.colors.primary },
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "document-text" : "document-text-outline"}

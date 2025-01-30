@@ -1,8 +1,4 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
+import { ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -14,6 +10,8 @@ import AuthProvider from "@/components/AuthProvider";
 import "../global.css";
 import "../services/i18next";
 import { PaperProvider } from "react-native-paper";
+import DarkTheme from "@/themes/DarkTheme";
+import LightTheme from "@/themes/LightTheme";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -37,7 +35,7 @@ export default function RootLayout() {
 
   return (
     <PaperProvider>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : LightTheme}>
         <AuthProvider>
           <GestureHandlerRootView>
             <Stack
