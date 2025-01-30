@@ -1,3 +1,4 @@
+import { useTheme } from "@react-navigation/native";
 import React from "react";
 import {
   Pressable,
@@ -5,23 +6,32 @@ import {
   GestureResponderEvent,
   Text,
 } from "react-native";
+import { Button } from "react-native-paper";
 
 interface TaskFormProps {
   name: string;
-  bgcolor: string;
   onPress: (event: GestureResponderEvent) => void;
   disabled: boolean;
 }
 
-const TaskForm = ({ bgcolor, onPress, name, disabled }: TaskFormProps) => {
+const TaskForm = ({ onPress, name, disabled }: TaskFormProps) => {
+  const currentTheme = useTheme();
   return (
-    <Pressable
-      style={[{ backgroundColor: bgcolor }, styles.addResetView]}
+    <Button
+      style={[
+        {
+          backgroundColor: currentTheme.colors.background,
+          borderColor: currentTheme.colors.border,
+        },
+        styles.addResetView,
+      ]}
       onPress={onPress}
       disabled={disabled}
+      labelStyle={styles.addResetText}
+      textColor={currentTheme.colors.text}
     >
-      <Text style={styles.addResetText}>{name}</Text>
-    </Pressable>
+      {name}
+    </Button>
   );
 };
 
@@ -29,7 +39,8 @@ export default TaskForm;
 
 const styles = StyleSheet.create({
   addResetView: {
-    paddingHorizontal: 10,
+    padding: 5,
+    borderWidth: 3,
   },
   addResetText: {
     fontFamily: "Noto-Sans-JP",
