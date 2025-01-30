@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import ThemeLangPressable from "./ThemeLangPressable";
-import { FlatList, Modal, Pressable, Text, View } from "react-native";
+import {
+  FlatList,
+  Modal,
+  Pressable,
+  Text,
+  View,
+  StyleSheet,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 import i18next, { languageResources } from "@/services/i18next";
 import languageList from "@/services/languageList.json";
@@ -22,15 +29,23 @@ const LanguageSelect = () => {
   const languageData: LanguageInterface = languageList;
   return (
     <>
-      <ThemeLangPressable name="language" />
-      <Modal visible={isVisible} onRequestClose={() => setIsVisible(false)}>
-        <View>
+      <ThemeLangPressable
+        name="language"
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+      />
+      <Modal
+        visible={isVisible}
+        onRequestClose={() => setIsVisible(false)}
+        style={styles.modalContainer}
+      >
+        <View style={{ backgroundColor: "green" }}>
           <FlatList
             data={Object.keys(languageResources)}
             renderItem={({ item }: { item: string }) => (
               <Pressable
                 onPress={() => changeLng(item)}
-                style={{ backgroundColor: "blue" }}
+                // style={{ backgroundColor: "blue" }}
               >
                 <Text>{languageData[item].nativeName}</Text>
               </Pressable>
@@ -43,3 +58,10 @@ const LanguageSelect = () => {
 };
 
 export default LanguageSelect;
+
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "red",
+  },
+});

@@ -6,13 +6,21 @@ import { Pressable, StyleSheet, Switch, Text, View } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import AntDesign from "@expo/vector-icons/AntDesign";
+
+import languageList from "@/services/languageList.json";
 
 interface ThemeLangPressableProps {
   name: string;
-  onPress?: () => void;
+  isVisible?: boolean;
+  setIsVisible?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function ThemeLangPressable({ name, onPress }: ThemeLangPressableProps) {
+function ThemeLangPressable({
+  name,
+  isVisible,
+  setIsVisible,
+}: ThemeLangPressableProps) {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { t } = useTranslation();
   const currentTheme = useTheme().colors;
@@ -27,7 +35,7 @@ function ThemeLangPressable({ name, onPress }: ThemeLangPressableProps) {
           borderColor: currentTheme.border,
         },
       ]}
-      onPress={onPress || undefined}
+      onPress={name === "language" ? () => setIsVisible!(true) : undefined} // isVisibleが存在するとき、言語選択モーダルを表示するためにstateを更新する
     >
       <View style={styles.iconText}>
         <View>
@@ -73,7 +81,8 @@ function ThemeLangPressable({ name, onPress }: ThemeLangPressableProps) {
           />
         ) : (
           <View>
-            <Text>言語設定</Text>
+            {/* 右矢印設定アイコン */}
+            <AntDesign name="right" size={32} color={"#DDDDDD"} />
           </View>
         )}
       </View>
