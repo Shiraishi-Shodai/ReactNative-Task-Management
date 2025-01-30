@@ -1,3 +1,4 @@
+import { Theme } from "@/types";
 import { useTheme } from "@react-navigation/native";
 import React from "react";
 import {
@@ -15,12 +16,11 @@ interface TaskFormProps {
 }
 
 const TaskForm = ({ onPress, name, disabled }: TaskFormProps) => {
-  const currentTheme = useTheme();
+  const currentTheme: Theme = useTheme() as Theme;
   return (
     <Button
       style={[
         {
-          backgroundColor: currentTheme.colors.background,
           borderColor: currentTheme.colors.border,
         },
         styles.addResetView,
@@ -29,6 +29,8 @@ const TaskForm = ({ onPress, name, disabled }: TaskFormProps) => {
       disabled={disabled}
       labelStyle={styles.addResetText}
       textColor={currentTheme.colors.text}
+      buttonColor={currentTheme.colors.buttonColor}
+      rippleColor={currentTheme.colors.rippleColor}
     >
       {name}
     </Button>
@@ -39,7 +41,6 @@ export default TaskForm;
 
 const styles = StyleSheet.create({
   addResetView: {
-    padding: 5,
     borderWidth: 3,
   },
   addResetText: {

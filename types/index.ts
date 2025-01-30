@@ -21,5 +21,6 @@ export type Theme = {
     success: string;
     buttonColor: string;
     rippleColor: string;
+    renderItemColor: string;
   };
 };

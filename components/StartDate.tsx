@@ -5,6 +5,8 @@ import DateTimePicker, {
 } from "@react-native-community/datetimepicker";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useTheme } from "@react-navigation/native";
+import { Button } from "react-native-paper";
+import { Theme } from "@/types";
 
 interface StartDateProps {
   date: Date;
@@ -26,7 +28,7 @@ const StartDate = ({
 
   const [showDate, setShowDate] = useState(false);
   const [showTime, setShowTime] = useState(false);
-  const currentTheme = useTheme().colors;
+  const currentTheme: Theme = useTheme() as Theme;
 
   const onDateChange = useCallback(
     (e: DateTimePickerEvent, selectedDate: Date | undefined) => {
@@ -59,25 +61,39 @@ const StartDate = ({
   return (
     <View style={styles.container}>
       <View style={styles.selectButtonsView}>
-        <TouchableOpacity style={[styles.selectButtons]} onPress={onShowDate}>
+        <Button
+          style={[
+            styles.selectButtons,
+            { borderColor: currentTheme.colors.border },
+          ]}
+          onPress={onShowDate}
+          rippleColor={currentTheme.colors.rippleColor}
+        >
           <Text
             testID="dataId"
-            style={[styles.selectText, { color: currentTheme.text }]}
+            style={[styles.selectText, { color: currentTheme.colors.text }]}
           >
             {date.toLocaleDateString("ja-JP", {
               timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
             })}
           </Text>
-        </TouchableOpacity>
+        </Button>
 
-        <TouchableOpacity style={[styles.selectButtons]} onPress={onShowTime}>
+        <Button
+          style={[
+            styles.selectButtons,
+            { borderColor: currentTheme.colors.border },
+          ]}
+          onPress={onShowTime}
+          rippleColor={currentTheme.colors.rippleColor}
+        >
           <Text
             testID="timeId"
-            style={[styles.selectText, { color: currentTheme.text }]}
+            style={[styles.selectText, { color: currentTheme.colors.text }]}
           >
             {time.toLocaleTimeString("ja-JP", timeOptions)}
           </Text>
-        </TouchableOpacity>
+        </Button>
       </View>
 
       {showDate && (
@@ -113,11 +129,12 @@ const styles = StyleSheet.create({
   },
   selectButtonsView: {
     flexDirection: "row",
-    width: "60%",
+    width: "80%",
     justifyContent: "space-around",
   },
   selectButtons: {
-    paddingHorizontal: 5,
+    borderWidth: 1,
+    borderRadius: 0,
   },
   selectButtonsHover: {
     backgroundColor: "silver",

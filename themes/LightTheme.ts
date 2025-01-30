@@ -13,6 +13,7 @@ const LightTheme: Theme = {
     success: "rgb(50, 205, 50)", // 緑（成功時の色）
     buttonColor: "rgb(211, 230, 41)", // 明るい黄緑（メインカラー）
     rippleColor: "rgba(150, 200, 30, 0.5)", // 透過感のある緑系（押した時に心地よいフィードバック）
+    renderItemColor: "#F5F5F5",
   },
 };
 

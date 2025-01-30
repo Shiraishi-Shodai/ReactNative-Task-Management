@@ -5,6 +5,7 @@ import DateTimePicker, {
 import { useTheme } from "@react-navigation/native";
 import React, { useCallback, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Button } from "react-native-paper";
 
 interface TaskDatePickerProps {
   pickDate: Date;
@@ -29,12 +30,12 @@ const TaskDatePicker = ({ pickDate, setDate }: TaskDatePickerProps) => {
   };
 
   return (
-    <TouchableOpacity
+    <Button
+      buttonColor={currentTheme.colors.buttonColor}
+      rippleColor={currentTheme.colors.rippleColor}
       onPress={onShowDate}
-      style={[
-        styles.container,
-        { backgroundColor: currentTheme.colors.buttonColor },
-      ]}
+      style={styles.container}
+      textColor={currentTheme.colors.text}
     >
       <Text style={styles.pickDateText}>
         {pickDate.toLocaleDateString("ja-JP", {
@@ -51,7 +52,7 @@ const TaskDatePicker = ({ pickDate, setDate }: TaskDatePickerProps) => {
           locale="ja-JP"
         />
       )}
-    </TouchableOpacity>
+    </Button>
   );
 };
 

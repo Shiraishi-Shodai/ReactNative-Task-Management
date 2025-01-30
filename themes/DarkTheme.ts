@@ -13,6 +13,7 @@ const DarkTheme: Theme = {
     success: "rgb(40, 180, 40)", // 落ち着いた緑
     buttonColor: "rgb(178, 208, 30)", // ライトモードより少し落ち着いた黄緑
     rippleColor: "rgba(255, 204, 0, 0.4)", // 暗い背景で映える黄色系
+    renderItemColor: "#333333",
   },
 };
 

@@ -5,13 +5,14 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { useTranslation } from "react-i18next";
 import { Button } from "react-native-paper";
 import { useTheme } from "@react-navigation/native";
+import { Theme } from "@/types";
 
 interface LogOutButtonProps {
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const LogOutButton = ({ setIsVisible }: LogOutButtonProps) => {
   const { t } = useTranslation();
-  const currentTheme = useTheme();
+  const currentTheme: Theme = useTheme() as Theme;
   const signOut = async () => {
     try {
       const oldUser = GoogleSignin.getCurrentUser();
@@ -33,18 +34,17 @@ const LogOutButton = ({ setIsVisible }: LogOutButtonProps) => {
 
   return (
     <Button
-      icon={"camera"}
+      icon={"exit-run"}
+      rippleColor={currentTheme.colors.rippleColor}
       style={{
-        // paddingHorizontal: "20%",
         borderColor: currentTheme.colors.border,
         borderWidth: 3,
       }}
       onPress={signOut}
       mode="contained"
       dark={currentTheme.dark}
-      buttonColor={currentTheme.colors.background}
+      buttonColor={currentTheme.colors.buttonColor}
       textColor={currentTheme.colors.text}
-      rippleColor={"#DDDDDD"}
       uppercase={true}
     >
       {/* <Text style={styles.buttonText}>{t("logout")}</Text> */}
