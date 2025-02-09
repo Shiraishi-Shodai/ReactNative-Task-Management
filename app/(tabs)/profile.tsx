@@ -37,12 +37,14 @@ function Explore() {
         <LanguageSelect />
       </View>
 
-      {/* <LineGraph
-        user={user}
-        currentTheme={currentTheme}
-        width={width}
-        height={height}
-      /> */}
+      <View style={{ top: "5%" }}>
+        <LineGraph
+          user={user}
+          currentTheme={currentTheme}
+          width={width}
+          height={height}
+        />
+      </View>
     </View>
   );
 }
@@ -52,7 +54,7 @@ export default Explore;
 const styles = StyleSheet.create({
   optionsView: {
     height: "20%",
-    top: "5%",
+    top: "2%",
     overflow: "hidden",
   },
   iconView: {
