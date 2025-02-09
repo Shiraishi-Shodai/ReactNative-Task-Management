@@ -36,18 +36,15 @@ const LogOutButton = ({ setIsVisible }: LogOutButtonProps) => {
     <Button
       icon={"exit-run"}
       rippleColor={currentTheme.colors.rippleColor}
-      style={{
-        borderColor: currentTheme.colors.border,
-        borderWidth: 3,
-      }}
       onPress={signOut}
       mode="contained"
       dark={currentTheme.dark}
       buttonColor={currentTheme.colors.buttonColor}
       textColor={currentTheme.colors.text}
       uppercase={true}
+      labelStyle={{ fontSize: 20 }}
+      contentStyle={{ paddingVertical: 10 }}
     >
-      {/* <Text style={styles.buttonText}>{t("logout")}</Text> */}
       {t("logout")}
     </Button>
   );

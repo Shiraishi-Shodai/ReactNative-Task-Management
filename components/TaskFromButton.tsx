@@ -19,12 +19,6 @@ const TaskForm = ({ onPress, name, disabled }: TaskFormProps) => {
   const currentTheme: Theme = useTheme() as Theme;
   return (
     <Button
-      style={[
-        {
-          borderColor: currentTheme.colors.border,
-        },
-        styles.addResetView,
-      ]}
       onPress={onPress}
       disabled={disabled}
       labelStyle={styles.addResetText}
@@ -40,9 +34,6 @@ const TaskForm = ({ onPress, name, disabled }: TaskFormProps) => {
 export default TaskForm;
 
 const styles = StyleSheet.create({
-  addResetView: {
-    borderWidth: 3,
-  },
   addResetText: {
     fontFamily: "Noto-Sans-JP",
     fontSize: 20,
