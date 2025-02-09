@@ -1,9 +1,11 @@
 import { Stack } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "react-native-paper";
 
 export default function StackLayout() {
   const { t } = useTranslation();
+  const theme = useTheme();
   return (
     <Stack
       screenOptions={{
@@ -15,7 +17,7 @@ export default function StackLayout() {
         options={{
           headerTitle: t("screens.editTask"),
           headerStyle: {
-            backgroundColor: "#888888",
+            backgroundColor: theme.colors.backdrop,
           },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
