@@ -73,7 +73,7 @@ const TaskForm = ({
           <View
             style={[
               styles.formContainer,
-              { backgroundColor: currentTheme.formBackground },
+              { backgroundColor: currentTheme.background },
               { borderColor: currentTheme.border },
             ]}
           >
@@ -124,7 +124,6 @@ const TaskForm = ({
             />
             <View style={styles.buttonContainer}>
               <TaskFormButton
-                bgcolor="#fff"
                 onPress={() => {
                   setDisabled(true);
                   handleSubmit();
@@ -134,7 +133,6 @@ const TaskForm = ({
               />
 
               <TaskFormButton
-                bgcolor="#fff"
                 onPress={() => {
                   setDisabled(true);
                   resetForm();
@@ -153,7 +151,7 @@ const TaskForm = ({
 
 const styles = StyleSheet.create({
   formContainer: {
-    borderWidth: 1,
+    borderWidth: 3,
     borderRadius: 10,
     width: "95%",
     paddingHorizontal: 10,

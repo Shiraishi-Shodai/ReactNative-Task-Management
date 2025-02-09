@@ -13,6 +13,7 @@ export const languageResources = {
 const getDefaultLng = async () => {
   let defaultLng: string = "en";
   try {
+    // AsyncStorageから現在使用している言語のキーを取得(LanguageList.jsonのキー)
     const i18nextLng = await AsyncStorage.getItem("i18nextLng");
     defaultLng = i18nextLng ?? defaultLng;
   } catch (e: any) {

@@ -3,12 +3,16 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import auth from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { useTranslation } from "react-i18next";
+import { Button } from "react-native-paper";
+import { useTheme } from "@react-navigation/native";
+import { Theme } from "@/types";
 
 interface LogOutButtonProps {
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const LogOutButton = ({ setIsVisible }: LogOutButtonProps) => {
   const { t } = useTranslation();
+  const currentTheme: Theme = useTheme() as Theme;
   const signOut = async () => {
     try {
       const oldUser = GoogleSignin.getCurrentUser();
@@ -29,24 +33,24 @@ const LogOutButton = ({ setIsVisible }: LogOutButtonProps) => {
   };
 
   return (
-    <Pressable style={styles.button} onPress={signOut}>
-      <Text style={styles.buttonText}>{t("logout")}</Text>
-    </Pressable>
+    <Button
+      icon={"exit-run"}
+      rippleColor={currentTheme.colors.rippleColor}
+      style={{
+        borderColor: currentTheme.colors.border,
+        borderWidth: 3,
+      }}
+      onPress={signOut}
+      mode="contained"
+      dark={currentTheme.dark}
+      buttonColor={currentTheme.colors.buttonColor}
+      textColor={currentTheme.colors.text}
+      uppercase={true}
+    >
+      {/* <Text style={styles.buttonText}>{t("logout")}</Text> */}
+      {t("logout")}
+    </Button>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: "#0c0d0e",
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 20,
-  },
-});
 
 export default LogOutButton;

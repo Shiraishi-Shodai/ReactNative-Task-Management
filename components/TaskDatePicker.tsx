@@ -1,14 +1,18 @@
+import { Theme } from "@/types";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
+import { useTheme } from "@react-navigation/native";
 import React, { useCallback, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Button } from "react-native-paper";
 
 interface TaskDatePickerProps {
   pickDate: Date;
   setDate: React.Dispatch<React.SetStateAction<Date>>;
 }
 const TaskDatePicker = ({ pickDate, setDate }: TaskDatePickerProps) => {
+  const currentTheme: Theme = useTheme() as Theme;
   const [showDate, setShowDate] = useState<boolean>(false);
 
   const onDateChange = useCallback(
@@ -26,7 +30,13 @@ const TaskDatePicker = ({ pickDate, setDate }: TaskDatePickerProps) => {
   };
 
   return (
-    <TouchableOpacity onPress={onShowDate} style={styles.container}>
+    <Button
+      buttonColor={currentTheme.colors.buttonColor}
+      rippleColor={currentTheme.colors.rippleColor}
+      onPress={onShowDate}
+      style={styles.container}
+      textColor={currentTheme.colors.text}
+    >
       <Text style={styles.pickDateText}>
         {pickDate.toLocaleDateString("ja-JP", {
           timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -42,7 +52,7 @@ const TaskDatePicker = ({ pickDate, setDate }: TaskDatePickerProps) => {
           locale="ja-JP"
         />
       )}
-    </TouchableOpacity>
+    </Button>
   );
 };
 
@@ -50,9 +60,6 @@ const styles = StyleSheet.create({
   container: {
     marginTop: "10%",
     marginBottom: "5%",
-    backgroundColor: "#AAAAAA",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
     borderRadius: 20,
   },
   pickDateText: {
