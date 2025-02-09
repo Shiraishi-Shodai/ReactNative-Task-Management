@@ -60,8 +60,6 @@ const styles = StyleSheet.create({
   container: {
     marginTop: "10%",
     marginBottom: "5%",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
     borderRadius: 20,
   },
   pickDateText: {
